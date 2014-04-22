@@ -1,0 +1,11 @@
+{
+    "name": "DziennikLogin/DziennikLoginWebNew",
+    "description": "New version of DziennikLoginWeb written with laravel",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Marcin Ławniczak",
+            "email": "marcin@lawniczak.me"
+        }
+    ]
+}
