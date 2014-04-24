@@ -11,7 +11,20 @@
 |
 */
 
+// Routing - strona główna
 Route::get('/', function()
 {
-	return View::make('index');
+	return View::make('layouts/index');
+});
+
+// Routing - rejestracja
+Route::get('/register', array('as' => 'register'), function()
+{
+    return 'rejestracja';
+});
+
+// Routing - logowanie
+Route::get('/login', array('as' => 'login'), function()
+{
+    return 'logowanie';
 });
