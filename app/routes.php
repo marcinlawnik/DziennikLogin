@@ -17,14 +17,14 @@ Route::get('/', function()
 	return View::make('layouts/index');
 });
 
-// Routing - rejestracja
-Route::get('/register', array('as' => 'register'), function()
-{
-    return 'rejestracja';
-});
+// Routing - strony użytkownika
+Route::controller('users', 'UsersController');
 
-// Routing - logowanie
-Route::get('/login', array('as' => 'login'), function()
+// Routing - alias do logowania
+Route::get('login', array('as' => 'login', function()
 {
-    return 'logowanie';
-});
+    return Redirect::to('users/login');
+}));
+
+// Roiting - przypomnienie hasła
+Route::controller('password', 'RemindersController');

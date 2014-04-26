@@ -1,12 +1,27 @@
-@extends('layouts.main')
-
-@section('styles')
-body {
-padding-top: 20px;
-padding-bottom: 40px;
-}
-@stop
-@section('content')
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>DziennikLogin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    {{ stylesheet_link_tag() }}
+    {{ javascript_include_tag() }}
+    <style type="text/css">
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    @if(Session::has('message'))
+    <p class="alert">{{ Session::get('message') }}</p>
+    @endif
+</div>
 <div class="container-narrow">
 
     <div class="masthead">
@@ -17,30 +32,11 @@ padding-bottom: 40px;
         <h1>Nie masz czasu na sprawdzanie ocen?</h1>
         <p class="lead">DziennikLogin ułatwi Ci życie!<br> Wyśle do Ciebie mailem oceny w ciągu 5 minut od wpisania.<br> Rozpocznij teraz.</p>
         <br>
-        {{ HTML::linkRoute('register', 'Dołącz do nas', array(), array('class' => 'btn btn-success btn-lg')) }}
+        {{ HTML::linkAction('UsersController@getRegister', 'Dołącz do nas', array(), array('class' => 'btn btn-success btn-lg')) }}
         <small class="or">lub</small>
-        {{ HTML::linkRoute('login', 'Zaloguj się', array(), array('class' => 'btn btn-lg btn-primary')) }}
+        {{ HTML::linkAction('UsersController@getLogin', 'Zaloguj się', array(), array('class' => 'btn btn-lg btn-primary')) }}
     </div>
-
-    -<div class="marketing row">
-        <div class="col-sm-6 col-md-6">
-            <h4>Łatwość!</h4>
-            <p>Lorem ipsum</p>
-
-            <h4>Szybkość!</h4>
-            <p>Lorem ipsum</p>
-
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            <h4>Oszczędność czasu!</h4>
-            <p>Lorem ipsum</p>
-
-            <h4>Zawsze jesteś na bieżąco!</h4>
-            <p>Lorem ipsum</p>
-
-        </div>
-    </div>
-
+    @include('includes.footer')
 </div>
-@stop
+</body>
+</html>

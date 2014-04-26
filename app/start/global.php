@@ -53,12 +53,30 @@ App::error(function(Exception $exception, $code)
 
 /*
 |--------------------------------------------------------------------------
+| 404 Not Found Handler
+|--------------------------------------------------------------------------
+|
+| Here we are handling 404 errors. Currently redirecting to index.
+| TODO:Crete a custom 404 error page
+|
+*/
+
+App::missing(function($exception)
+{
+    // return Response::view('errors.missing', array(), 404);
+    return Redirect::to('/');
+});
+/*
+|--------------------------------------------------------------------------
 | Maintenance Mode Handler
 |--------------------------------------------------------------------------
 |
 | The "down" Artisan command gives you the ability to put an application
 | into maintenance mode. Here, you will define what is displayed back
 | to the user if maintenance mode is in effect for the application.
+|
+| NOTE: If the Closure passed to the down method returns NULL,
+|       maintenance mode will be ignored for that request.
 |
 */
 

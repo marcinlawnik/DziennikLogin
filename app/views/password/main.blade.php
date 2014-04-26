@@ -11,15 +11,25 @@
     {{ javascript_include_tag() }}
     <style type="text/css">
         body {
-            padding-top: 20px;
-            padding-bottom: 40px;
+            padding-top: 40px;
         }
-        @yield('styles', '')
+
+        .form-signup, .form-signin {
+            width: 400px;
+            margin: 0 auto;
+        }
     </style>
 </head>
-
 <body>
-@yield('content')
-@include('includes.footer')
+    <div class="container-narrow">
+        @if(Session::has('message'))
+        <p class="alert">{{ Session::get('message') }}</p>
+        @endif
+        @if(Session::has('error'))
+        <p class="alert">{{ Session::get('error') }}</p>
+        @endif
+
+        @yield('content')
+</div>
 </body>
 </html>
