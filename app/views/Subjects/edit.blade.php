@@ -1,0 +1,1 @@
+/home/marcin/phpStormProjects/DziennikLoginWebNew/app/views/Subjects/edit.blade.php

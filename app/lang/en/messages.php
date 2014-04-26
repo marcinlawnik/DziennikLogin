@@ -12,5 +12,6 @@ return array(
     */
 
     "example" => "Example content.",
+    "gradenotfound" => "Grade not found.",
 
 );

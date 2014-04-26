@@ -6,7 +6,8 @@
 		"laravel/framework": "4.1.*",
         "twitter/bootstrap": "*",
         "codesleeve/asset-pipeline": "dev-master",
-        "way/generators": "2.*"
+        "way/generators": "2.*",
+        "laravelbook/ardent": "dev-master"
     },
 	"autoload": {
 		"classmap": [

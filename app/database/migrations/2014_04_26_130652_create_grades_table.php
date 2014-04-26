@@ -16,14 +16,13 @@ class CreateGradesTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('subject_id');
-			$table->float('grade_value');
-			$table->tinyInteger('grade_weight');
-			$table->string('grade_group', 160);
-			$table->string('grade_title', 160);
-			$table->date('grade_date');
-			$table->string('grade_abbreviation', 3);
-			$table->tinyInteger('grade_trimester');
-			$table->dateTime('grade_download_date');
+			$table->float('value');
+			$table->tinyInteger('weight');
+			$table->string('group', 160);
+			$table->string('title', 160);
+			$table->date('date');
+			$table->string('abbreviation', 3);
+			$table->tinyInteger('trimester');
 			$table->timestamps();
 		});
 	}

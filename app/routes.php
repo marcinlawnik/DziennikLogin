@@ -28,3 +28,7 @@ Route::get('login', array('as' => 'login', function()
 
 // Roiting - przypomnienie hasła
 Route::controller('password', 'RemindersController');
+
+Route::controller('grades', 'GradesController');
+
+Route::resource('subjects', 'SubjectsController');
