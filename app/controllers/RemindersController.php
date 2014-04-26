@@ -37,6 +37,7 @@ class RemindersController extends Controller {
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::REMINDER_SENT:
+                Log::info(Lang::get('log.remindersent'), array('context' => Input::only('email')));
 				return Redirect::back()->with('message', Lang::get($response));
 		}
 	}
@@ -77,9 +78,11 @@ class RemindersController extends Controller {
 			case Password::INVALID_PASSWORD:
 			case Password::INVALID_TOKEN:
 			case Password::INVALID_USER:
+                Log::info(Lang::get('log.resetfailed'), array('context' => Input::only('email'),Lang::get($response)));
 				return Redirect::back()->with('error', Lang::get($response));
 
 			case Password::PASSWORD_RESET:
+                Log::info(Lang::get('log.resetsuccessful'), array('context' => Input::only('email')));
 				return Redirect::to('users/login')->with('message', Lang::get('reminders.successful'));
 		}
 	}
