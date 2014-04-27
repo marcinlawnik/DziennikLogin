@@ -3,6 +3,7 @@
 composer.phar
 .env.*.php
 .env.php
+!.env.example.php
 .DS_Store
 Thumbs.db
 /.idea

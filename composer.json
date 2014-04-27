@@ -7,7 +7,8 @@
         "twitter/bootstrap": "*",
         "codesleeve/asset-pipeline": "dev-master",
         "way/generators": "2.*",
-        "laravelbook/ardent": "dev-master"
+        "jyggen/curl": "v3.0.1",
+        "yangqi/htmldom": "dev-master"
     },
 	"autoload": {
 		"classmap": [
@@ -16,7 +17,8 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+            "app/jobs"
 		]
 	},
 	"scripts": {

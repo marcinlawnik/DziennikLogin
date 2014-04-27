@@ -26,9 +26,18 @@ Route::get('login', array('as' => 'login', function()
     return Redirect::to('users/login');
 }));
 
-// Roiting - przypomnienie hasła
+// Routing - przypomnienie hasła
 Route::controller('password', 'RemindersController');
 
-Route::controller('grades', 'GradesController');
+// Routing - zabezpieczone logowaniem
+Route::group(array('before' => 'auth'), function()
+{
+    Route::controller('grades', 'GradesController');
 
-Route::resource('subjects', 'SubjectsController');
+    Route::resource('subjects', 'SubjectsController');
+
+    Route::get('firejob', function()
+    {
+        Queue::push('ExecuteGradesProcessJob', array('user_id' => Auth::user()->id));
+    });
+});
