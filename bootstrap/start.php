@@ -27,7 +27,7 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(array(
 
 	'local' => array('Pornografia'),
-    'production' => array('mlawnik'),
+    'working' => array('mlawnik'),
 
 ));
 
