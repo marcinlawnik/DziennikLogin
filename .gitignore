@@ -7,3 +7,4 @@ composer.phar
 .DS_Store
 Thumbs.db
 /.idea
+/app/config/local/*.php
