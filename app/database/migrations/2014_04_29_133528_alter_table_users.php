@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTableGradePageStatus extends Migration {
+class AlterTableUsers extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,9 @@ class AlterTableGradePageStatus extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('grade_table_status', function(Blueprint $table)
+        Schema::table('users', function(Blueprint $table)
         {
+            $table->string('grade_table_hash', 64)->unique()->after('registerpassword');
             $table->boolean('is_changed')->after('grade_table_hash');
         });
 	}
@@ -25,9 +26,9 @@ class AlterTableGradePageStatus extends Migration {
 	 */
 	public function down()
 	{
-        Schema::table('grade_table_status', function(Blueprint $table)
+        Schema::table('users', function(Blueprint $table)
         {
-            $table->dropColumn('is_changed');
+            $table->dropColumn('grade_table_hash','is_changed');
         });
 	}
 
