@@ -1,4 +1,3 @@
-
     <div class="container">
         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <div class="panel panel-primary" >
@@ -16,7 +15,7 @@
                     <div style="padding-top:30px" class="panel-body" >
                         {{ Form::open(array('url'=>'users/signin', 'class'=>'form-horizontal')) }}
                             <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user">Login</i></span>
                                         {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}
                                     </div>
                             <div style="margin-bottom: 25px" class="input-group">
