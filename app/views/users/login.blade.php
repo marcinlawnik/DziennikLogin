@@ -3,7 +3,7 @@
             <div class="panel panel-primary" >
                     <div class="panel-heading">
                         <div class="panel-title">Zaloguj się</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="password_reset.php" style="color:#FFF;"></a></div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="password_reset.php" style="color:#FFF;"></a>resetuj hasło</div>
                     </div>
    
 @if(Session::has('message'))
@@ -15,7 +15,7 @@
                     <div style="padding-top:30px" class="panel-body" >
                         {{ Form::open(array('url'=>'users/signin', 'class'=>'form-horizontal')) }}
                             <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user">Login</i></span>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                         {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}
                                     </div>
                             <div style="margin-bottom: 25px" class="input-group">
