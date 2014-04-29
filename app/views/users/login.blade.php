@@ -3,7 +3,8 @@
             <div class="panel panel-primary" >
                     <div class="panel-heading">
                         <div class="panel-title">Zaloguj się</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="password_reset.php" style="color:#FFF;"></a>resetuj hasło</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px">{{ HTML::linkAction('RemindersController@getRemind', 'Przypomnij hasło', array(), array('class' => 'btn btn-primary')) }}</div>
+                    
                     </div>
    
 @if(Session::has('message'))
