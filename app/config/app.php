@@ -123,6 +123,8 @@ return array(
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         //Generator provider
         'Way\Generators\GeneratorsServiceProvider',
+        // SimpleHtmlDom provider
+        'Yangqi\Htmldom\HtmldomServiceProvider',
 
 	),
 
@@ -170,6 +172,8 @@ return array(
 		'File'            => 'Illuminate\Support\Facades\File',
 		'Form'            => 'Illuminate\Support\Facades\Form',
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
+        //SimpleHtmlDom alias
+        'Htmldom'         => 'Yangqi\Htmldom\Htmldom',
 		'HTML'            => 'Illuminate\Support\Facades\HTML',
 		'Input'           => 'Illuminate\Support\Facades\Input',
 		'Lang'            => 'Illuminate\Support\Facades\Lang',

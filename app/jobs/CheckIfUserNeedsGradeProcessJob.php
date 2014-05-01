@@ -4,16 +4,16 @@ class CheckIfUserNeedsGradeProcessJob extends GradeProcessJob
 {
     //This currently does nothing
     public function fire($job, $data){
-        Log::info('Job started', array('time' => microtime(true)));
+        Log::info('Job started_CheckIfUserNeedsGradeProcess', array('time' => microtime(true)));
         $request = $this->createRequest();
         $this->doLogin($request, $data['user_id']);
         $table = $this->getGradePage($request);
         Log::info($table);
-        Log::info(Hash::make($table));
+        Log::info(md5($table));
         $this->doLogout($request);
         $user = User::find($data['user_id']);
-        if($user->grade_table_hash != Hash::make($table)){
-            $user->grade_table_hash = Hash::make($table);
+        if($user->grade_table_hash != md5($table)){
+            $user->grade_table_hash = md5($table);
             $user->is_changed = 1;
             $user->save();
             Log::info('User grade page status updated');

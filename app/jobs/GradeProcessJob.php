@@ -110,9 +110,16 @@ class GradeProcessJob
         $request->setOption(CURLOPT_REFERER, 'https://92.55.225.11/dbviewer/login.php');
         $request->execute();
         if($request->isSuccessful()){
-            Log::info('Grade table request successful'. $request->getRawResponse(), array('context' => ''));
+            $response = $request->getResponse();
+            //Strip http header - 12 lines -http://stackoverflow.com/questions/758488/php-delete-first-four-lines-from-the-top-in-content-stored-in-a-variable
+            $response = implode("\n", array_slice(explode("\n", $response), 12));
             //transcode to utf8 because register uses ancient iso
-            return mb_convert_encoding($request->getResponse(), "UTF-8", "UTF-8,ISO-8859-2");
+            $response = mb_convert_encoding($response, "UTF-8", "UTF-8,ISO-8859-2");
+            $parser = new Htmldom($response);
+            $response = $parser->find('table', 4);
+            $response_final = $parser->save;
+            Log::info('Grade table request successful'. $response_final, array('context' => ''));
+            return $response_final;
         } else {
             Log::error('Grade table request failed', array('context' => $request->getErrorMessage));
         }
