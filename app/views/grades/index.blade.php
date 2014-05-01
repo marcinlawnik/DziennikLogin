@@ -11,6 +11,7 @@
     <td>{{ $value->subject_id }}</td>
     <td>{{ $value->value }}</td>
     <td>{{ $value->weight }}</td>
+    <td>{{ $value->group }} </td>
 
     <!-- we will also add show, edit, and delete buttons -->
     <td>
