@@ -21,12 +21,6 @@
     </style>
 </head>
 <body>
-<div class="container-narrow">
-    @if(Session::has('message'))
-    <p class="alert">{{ Session::get('message') }}</p>
-    @endif
-
-    {{ $content }}
-</div>
+{{ $content }}
 </body>
 </html>

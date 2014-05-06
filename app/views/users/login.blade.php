@@ -5,13 +5,7 @@
                         <div style="float:right; font-size: 80%; position: relative; top:-10px">{{ HTML::linkAction('RemindersController@getRemind', 'Przypomnij hasło', array(), array('class' => '', 'style' => 'color:#000;')) }}</div>
                     
                     </div>
-   
-@if(Session::has('message'))
-<p class="alert alert-danger col-sm-12">{{ Session::get('message') }}</p>
-@endif
-@if(Session::has('error'))
-<p class="alert alert-success col-sm-12">{{ Session::get('error') }}</p>
-@endif
+                    @include('includes.messages')
                     <div style="padding-top:30px" class="panel-body" >
                         {{ Form::open(array('url'=>'users/signin', 'class'=>'form-horizontal')) }}
                             <div style="margin-bottom: 25px" class="input-group">
