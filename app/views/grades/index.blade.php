@@ -43,3 +43,10 @@ $("#table_grades").tablesorter();
 }
 );
 </script>
+<table border="5">
+<tr>
+
+    <td>{{ $value->value }}</td>
+    <td>{{ $value->weight }}</td>
+</tr>
+</table>
