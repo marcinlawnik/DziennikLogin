@@ -10,7 +10,7 @@
 
 <thead>
 <tr>
-<th>ID</th><th>id przedmiotu</th><th>wartość</th><th>waga</th><th>grupa</th>
+<th>ID</th><th>id przedmiotu</th><th>wartość</th><th>waga</th><th>skrót</th><th>grupa</th><th>data</th>
 </tr>
 </thead>
 
@@ -21,7 +21,10 @@
     <td>{{ $value->subject_id}}</td>
     <td>{{ $value->value }}</td>
     <td>{{ $value->weight }}</td>
+    <td>{{ $value->abbreviation }}</td>
     <td>{{ $value->group }} </td>
+    <td>{{ $value->date }} </td>
+    
     
     <!-- we will also add show, edit, and delete buttons -->
     <td>
