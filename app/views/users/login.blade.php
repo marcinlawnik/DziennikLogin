@@ -21,9 +21,9 @@
                                 <div style="margin-top:10px" class="form-group">
                                     <div class="col-sm-2 controls">
                                     {{ Form::submit('Login', array('class'=>'btn btn-primary'))}}
+                                    {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-primary')) }}
                                     </div>
                                 <div class="col-sm-10 controls">
-                            {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-primary')) }}
                             </div>
                                 </div>
                             </form>
