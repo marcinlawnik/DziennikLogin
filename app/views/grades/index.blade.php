@@ -1,3 +1,4 @@
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 @if(Session::has('message'))
 <p class="alert">{{ Session::get('message') }}</p>
 @endif
