@@ -10,11 +10,11 @@
                         {{ Form::open(array('url'=>'users/signin', 'class'=>'form-horizontal')) }}
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Adres email')) }}
+                                        {{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'Adres email')) }}
                                     </div>
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        {{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'hasło')) }}
+                                        {{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'hasło')) }}
                                     </div>
                             <div class="input-group">
                                     </div>
