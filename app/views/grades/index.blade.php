@@ -10,7 +10,7 @@
 
 <thead>
 <tr>
-<th>ID</th><th>id przedmiotu</th><th>wartość</th><th>waga</th><th>skrót</th><th>grupa</th><th>data</th>
+<th>ID</th><th>id przedmiotu</th><th>wartość</th><th style="text-align:center;">waga</th><th>skrót</th><th>grupa</th><th>data</th>
 </tr>
 </thead>
 
