@@ -4,7 +4,7 @@
 @if(Session::has('error'))
 <p class="alert">{{ Session::get('error') }}</p>
 @endif
-
+<table border='5'>
 @foreach($grades as $key => $value)
 <tr>
     <td>{{ $value->id }}</td>
@@ -22,3 +22,4 @@
     </td>
 </tr>
 @endforeach
+</table>
