@@ -4,15 +4,22 @@
 @if(Session::has('error'))
 <p class="alert">{{ Session::get('error') }}</p>
 @endif
-<table border='5'>
+<table id="table_grades" border="5">
+
+<thead>
+<tr>
+<th>id przedmiotu</th><th>wartość</th><th>waga</th><th>grupa</th>
+</tr>
+</thead>
+
+<tbody>
 @foreach($grades as $key => $value)
 <tr>
-    <td>{{ $value->id }}</td>
-    <td>{{ $value->subject_name}}</td>
+    <td>{{ $value->subject_id}}</td>
     <td>{{ $value->value }}</td>
     <td>{{ $value->weight }}</td>
     <td>{{ $value->group }} </td>
-
+    //<td>{{ $value->id }}</td>
     <!-- we will also add show, edit, and delete buttons -->
     <td>
 
@@ -22,4 +29,11 @@
     </td>
 </tr>
 @endforeach
+</tbody>
 </table>
+<script type="text/javascript"> $(document).ready(function()
+{
+$("#table_grades").tablesorter();
+}
+);
+</script>
