@@ -8,7 +8,7 @@
 @foreach($grades as $key => $value)
 <tr>
     <td>{{ $value->id }}</td>
-    <td>{{ $value->subject_id }}</td>
+    <td>{{ $value->subject}}</td>
     <td>{{ $value->value }}</td>
     <td>{{ $value->weight }}</td>
     <td>{{ $value->group }} </td>
