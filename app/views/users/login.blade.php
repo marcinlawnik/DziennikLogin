@@ -2,7 +2,7 @@
             <div class="panel panel-primary" >
                     <div class="panel-heading">
                         <div class="panel-title">Zaloguj się</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px">{{ HTML::linkAction('RemindersController@getRemind', 'Przypomnij hasło', array(), array('class' => '', 'style' => 'color:#000;')) }}</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px">{{ HTML::linkAction('RemindersController@getRemind', 'Przypomnij hasło', array(), array('class' => '', 'style' => 'color:#FFF;')) }}</div>
                     
                     </div>
                     @include('includes.messages')
