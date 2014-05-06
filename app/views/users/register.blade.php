@@ -1,5 +1,5 @@
 <div class="masthead">
-    <h3 class="text-muted" style=""><img src="logo_small.png" style="margin-right: 20px;"> DziennikLogin</h3>
+    <h3 class="text-muted" style="">{{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('style' => 'margin-right: 20px;')) }} DziennikLogin</h3>
 </div>
 <div class="container-fluid">
 
