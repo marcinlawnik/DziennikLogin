@@ -64,7 +64,6 @@
                         <!-- Password -->
                         <label for="registerPasswordConfirm" class="control-label">Potwierdź Hasło do Dziennika</label>
                         <div>
-                            <input class="form-control" type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" placeholder="" class="input-xlarge">
                                 {{ Form::password('registerpassword_confirmation', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
                             <p class="help-block">Proszę potwierdź hasło do logowania w Dzienniku Elektronicznym szkoły.</p>
                         </div>
@@ -73,7 +72,7 @@
                     <div class="form-group">
                         <!-- Button -->
                         <div>
-                                {{ Form::submit('Register', array('class'=>'btn btn-success'))}}
+                                {{ Form::submit('Zarejestruj się', array('class'=>'btn btn-success'))}}
 
                             <a href="http://dl.lawniczak.me" class="btn btn-primary">Powrót</a>
                         </div>
