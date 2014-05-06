@@ -8,18 +8,19 @@
 
 <thead>
 <tr>
-<th>id przedmiotu</th><th>wartość</th><th>waga</th><th>grupa</th>
+<th>ID</th><th>id przedmiotu</th><th>wartość</th><th>waga</th><th>grupa</th>
 </tr>
 </thead>
 
 <tbody>
 @foreach($grades as $key => $value)
 <tr>
+    <td>{{ $value->id }}</td>
     <td>{{ $value->subject_id}}</td>
     <td>{{ $value->value }}</td>
     <td>{{ $value->weight }}</td>
     <td>{{ $value->group }} </td>
-    //<td>{{ $value->id }}</td>
+    
     <!-- we will also add show, edit, and delete buttons -->
     <td>
 
