@@ -10,7 +10,7 @@ class GradesController extends \BaseController {
         if(!empty($grades)){
             return View::make('grades.index')->withGrades($grades);
         } else {
-            return View::make('grades.index')->withGrades('')->with('message', 'Brak ocen!');
+            return View::make('grades.index')->with('message', 'Brak ocen!')->withGrades('');
         }
     }
 

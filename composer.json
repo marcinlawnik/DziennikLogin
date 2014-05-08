@@ -8,7 +8,8 @@
         "codesleeve/asset-pipeline": "dev-master",
         "way/generators": "2.*",
         "jyggen/curl": "v3.0.1",
-        "yangqi/htmldom": "dev-master"
+        "yangqi/htmldom": "dev-master",
+		"barryvdh/laravel-ide-helper": "1.*"
     },
 	"autoload": {
 		"classmap": [
@@ -28,6 +29,7 @@
         ],
 		"post-install-cmd": [
 			"php artisan clear-compiled",
+            "php artisan ide-helper:generate",
 			"php artisan optimize",
             "php artisan up"
 		],
@@ -36,6 +38,7 @@
         ],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+            "php artisan ide-helper:generate",
 			"php artisan optimize",
             "php artisan up"
 		],

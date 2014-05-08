@@ -120,11 +120,14 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+        //Asset provider
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         //Generator provider
         'Way\Generators\GeneratorsServiceProvider',
-        // SimpleHtmlDom provider
+        //SimpleHtmlDom provider
         'Yangqi\Htmldom\HtmldomServiceProvider',
+        //Ide-Helper provider
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
 	),
 

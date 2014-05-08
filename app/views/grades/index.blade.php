@@ -43,6 +43,6 @@
     </tr>
 </table>
 @else
-<p>Wiadomość jakaś!</p>
+<p>Wiadomość jakaś, że nie ma ocen!</p>
 @endif
 
