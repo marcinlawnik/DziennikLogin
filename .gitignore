@@ -8,3 +8,4 @@ composer.phar
 Thumbs.db
 /.idea
 /app/config/local/*.php
+_ide_helper.php
