@@ -26,6 +26,12 @@ Route::get('login', array('as' => 'login', function()
     return Redirect::to('users/login');
 }));
 
+// Routing - alias do wylogowania
+Route::get('logout', array('as' => 'login', function()
+{
+    return Redirect::to('users/logout');
+}));
+
 // Routing - przypomnienie hasła
 Route::controller('password', 'RemindersController');
 
