@@ -14,7 +14,7 @@ class AlterTableUsers extends Migration {
 	{
         Schema::table('users', function(Blueprint $table)
         {
-            $table->string('grade_table_hash', 64)->unique()->after('registerpassword');
+            $table->string('grade_table_hash', 64)->after('registerpassword');
             $table->boolean('is_changed')->after('grade_table_hash');
         });
 	}
