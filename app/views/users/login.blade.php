@@ -20,7 +20,7 @@
                                     </div>
                                 <div style="margin-top:10px" class="form-group">
                                     <div class="col-sm-12 controls">
-                                    {{ Form::submit('Login', array('class'=>'btn btn-success'))}} {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-primary')) }}
+                                    {{ Form::submit('Login', array('class'=>'btn btn-primary'))}} {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-success')) }}
                                     </div>
                                 </div>
                         {{ Form::close() }}
