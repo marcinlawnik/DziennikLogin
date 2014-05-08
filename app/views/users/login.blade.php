@@ -14,17 +14,16 @@
                                     </div>
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        {{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'hasło')) }}
+                                        {{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Hasło')) }}
                                     </div>
                             <div class="input-group">
                                     </div>
                                 <div style="margin-top:10px" class="form-group">
                                     <div class="col-sm-12 controls">
-                                    {{ Form::submit('Login', array('class'=>'btn btn-primary'))}} {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-primary')) }}
+                                    {{ Form::submit('Login', array('class'=>'btn btn-success'))}} {{ HTML::linkAction('UsersController@getRegister', 'Zarejestruj się', array(), array('class' => 'btn btn-primary')) }}
                                     </div>
                                 </div>
-                            </form>
-
-                        </div>
+                        {{ Form::close() }}
                     </div>
-        </div>
+            </div>
+       </div>
