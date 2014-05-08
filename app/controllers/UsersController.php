@@ -54,7 +54,13 @@ class UsersController extends BaseController {
     }
 
     public function getLogout() {
-        Auth::logout();
-        return Redirect::to('users/login')->with('message', 'Your are now logged out!');
+        if(Auth::check()){
+            Auth::logout();
+            return Redirect::to('users/login')->with('message', 'Wylogowano poprawnie!');
+        } else {
+            return Redirect::to('users/login');
+        }
+
+
     }
 }
