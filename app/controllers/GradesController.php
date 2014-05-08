@@ -7,7 +7,11 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user
         $grades = User::find(Auth::user()->id)->grades;
-        return View::make('grades.index')->withGrades($grades);
+        if(!empty($grades)){
+            return View::make('grades.index')->withGrades($grades);
+        } else {
+            return View::make('grades.index')->withGrades('')->with('message', 'Brak ocen!');
+        }
     }
 
     public function getShow($id)
