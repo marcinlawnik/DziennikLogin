@@ -27,7 +27,7 @@ Route::get('login', array('as' => 'login', function()
 }));
 
 // Routing - alias do wylogowania
-Route::get('logout', array('as' => 'login', function()
+Route::get('logout', array('as' => 'logout', function()
 {
     return Redirect::to('users/logout');
 }));
@@ -40,7 +40,9 @@ Route::group(array('before' => 'auth'), function()
 {
     Route::controller('grades', 'GradesController');
 
-    Route::resource('subjects', 'SubjectsController');
+    Route::controller('subjects', 'SubjectsController');
+
+    Route::controller('dashboard', 'DashboardController');
 
     Route::get('firejob', function()
     {

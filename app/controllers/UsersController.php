@@ -6,7 +6,6 @@ class UsersController extends BaseController {
 
     public function __construct() {
         $this->beforeFilter('csrf', array('on'=>'post'));
-        $this->beforeFilter('auth', array('only'=>array('getDashboard')));
     }
 
     public function getRegister() {
@@ -33,7 +32,7 @@ class UsersController extends BaseController {
     public function getLogin() {
         if (Auth::check()){
             $this->layout = null;
-            return Redirect::to('users/dashboard')->with('message', 'Już jesteś zalogowany!');
+            return Redirect::action('DashboardController@getIndex')->with('message', 'Już jesteś zalogowany!');
         } else {
             $this->layout->content = View::make('users.login');
         }
@@ -41,16 +40,12 @@ class UsersController extends BaseController {
 
     public function postSignin() {
         if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
-            return Redirect::action('UsersController@getDashboard')->with('message', 'You are now logged in!');
+            return Redirect::action('DashboardController@getIndex')->with('message', 'Zalogowano!');
         } else {
             return Redirect::to('users/login')
-                ->with('message', 'Your username/password combination was incorrect')
+                ->with('error', 'Email i/lub hasło niepoprawne!')
                 ->withInput();
         }
-    }
-
-    public function getDashboard() {
-        $this->layout->content = View::make('users.dashboard');
     }
 
     public function getLogout() {
@@ -60,7 +55,6 @@ class UsersController extends BaseController {
         } else {
             return Redirect::to('users/login');
         }
-
 
     }
 }
