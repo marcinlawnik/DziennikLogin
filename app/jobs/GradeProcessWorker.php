@@ -1,6 +1,6 @@
 <?php
 
-class GradeProcessJob
+class GradeProcessWorker
 {
     /**
      * Takes User object as a parameter and returns POST string used to log into register
@@ -96,10 +96,9 @@ class GradeProcessJob
     }
 
     /**
-     * Requests grade table for specific user.
+     * Requests grade page for specific user.
      * Returns grade page on success, false otherwise
      *
-     * TODO: make it return table instead of whole page
      *
      * @param $request
      * @return string
@@ -111,17 +110,33 @@ class GradeProcessJob
         $request->execute();
         if($request->isSuccessful()){
             $response = $request->getResponse();
+            //Log::info($response);
             //Strip http header - 12 lines -http://stackoverflow.com/questions/758488/php-delete-first-four-lines-from-the-top-in-content-stored-in-a-variable
             $response = implode("\n", array_slice(explode("\n", $response), 12));
+            //Log::info($response);
             //transcode to utf8 because register uses ancient iso
             $response = mb_convert_encoding($response, "UTF-8", "UTF-8,ISO-8859-2");
-            $parser = new Htmldom($response);
-            $response = $parser->find('table', 4);
-            $response_final = $parser->save;
-            Log::info('Grade table request successful'. $response_final, array('context' => ''));
-            return $response_final;
+            Log::info('Grade page request successful'/*, array('table_content' => $response_final) */);
+            return $response;
         } else {
-            Log::error('Grade table request failed', array('context' => $request->getErrorMessage));
+            Log::error('Grade page request failed', array('error' => $request->getErrorMessage));
         }
+
+    }
+
+    /**
+     * Returns table with grades for user
+     *
+     * @param $request
+     * @return string
+     */
+    public function getGradeTable($request) {
+        $gradePage = $this->getGradePage($request);
+        ////Log::info($response);
+        $parser = new Htmldom($gradePage);
+        $response = $parser->find('table', 4)->outertext;
+        //Below does not affect performance. It seems the memory leak was fixed in some php version
+        //$parser->clear();
+        return $response;
     }
 }
