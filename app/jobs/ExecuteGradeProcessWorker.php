@@ -9,11 +9,26 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
     public $subjectsArray;
 
+    public $currentSubject;
+
     private function createGradePageDom($request){
         $this->gradePageDom = new Htmldom($this->getGradePage($request));
     }
 
+    /**
+     * Returns all cells from grades table for user
+     *
+     * @return object
+     */
+    public function getGradeCells() {
+
+        $response = $this->gradePageDom->find('table', 4)->find('tr td');
+        return $response;
+
+    }
+
     private function setCurrentTrimester() {
+
         //trimester:
         $gradeTrimester = $this->gradePageDom->find('b', 1)->plaintext;
         if (strstr($gradeTrimester,'III ')){
@@ -26,6 +41,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
             $this->currentTrimester = 9; //Something is not right ;)
             Log::error('Trimester detection failed, setting trimester as 9');
         }
+
     }
 
     private function createSubjectsArray(){
@@ -47,9 +63,56 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
     }
 
-    private function processGradePage(){
+    private function processSubjectCell($cell){
 
-        //now nothing
+        $this->currentSubject = trim(str_replace('&nbsp;', '', $cell->plaintext));
+        Log::info('Processing new subject',
+            array(
+                'name' => $this->currentSubject,
+                'id_from_database' => Subject::where('name', '=', $this->currentSubject)->first()->id
+            ));
+
+    }
+
+    private function processGradeCell($cell){
+
+        Log::info('processing new grade cell');
+
+    }
+
+    private function processAverageCell($cell){
+
+        //do nothing, we don't yet have an use for it
+
+        Log::info('processing new average cell');
+
+    }
+
+    private function processGradePage($cells){
+
+        foreach ($cells as $cell) {
+
+            //switch depending on the type of the cell: subject name, average or grade cell
+            //in that order, or else average is detected as grade
+            if (!isset($cell->class) && !isset($cell->onmouseover) && $cell->plaintext != '') {
+
+                //subject name: has text inside and no attributes
+                //echo 'subject name:' . ' ' . $cell->plaintext;
+                $this->processSubjectCell($cell);
+
+            } elseif ($cell->class == 'cell-style-srednia') {
+
+                //average: class: cell-style-srednia
+                //echo'srednia:' . ' ' . $cell->plaintext;
+                $this->processAverageCell($cell);
+
+            } elseif (strcspn($cell->plaintext, '0123456789') != strlen($cell->plaintext)) {
+
+                //grade: has number inside and isnt empty
+                $this->processGradeCell($cell);
+
+            }
+        }
 
     }
     //this simply fires
@@ -63,7 +126,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         $this->doLogout($request);
         $this->setCurrentTrimester();
         $this->subjectsArray = $this->createSubjectsArray();
-        $this->processGradePage();
+        $this->processGradePage($this->getGradeCells());
         Log::info('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);
         $job->delete();
