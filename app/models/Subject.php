@@ -10,7 +10,7 @@ class Subject extends Eloquent {
         return $this->hasMany('Grade');
     }
     
-    public function calculateAverage() {
+    public static function calculateAverage() {
         $grades = Grade::all()->where('user_id', '=', Auth::user()->id);
         
         $sumaOcen=0;
