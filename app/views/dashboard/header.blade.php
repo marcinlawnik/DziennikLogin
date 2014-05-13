@@ -82,7 +82,7 @@
             <li><a href="edit.php" >Edycja</a></li>
 
         </ul>
-                    <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj <span class="glyphicon glyphicon-off"></span>') }}</li>
+                    <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj') }}<span class="glyphicon glyphicon-off"></span></li>
         </ul>
         </ul>
     </div><!-- /.navbar-collapse -->
