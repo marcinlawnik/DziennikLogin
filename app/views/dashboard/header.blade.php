@@ -80,7 +80,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nazwa użytkownika<b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
             <li><a href="edit.php" >Edycja</a></li>
-            <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj') }}<span class="glyphicon glyphicon-off"></span></a></li>
+            <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj <span class="glyphicon glyphicon-off"></span>') }}</li>
 
         </ul>
         </ul>
