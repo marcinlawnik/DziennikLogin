@@ -35,13 +35,7 @@
         }
     );
 </script>
-<table border="5">
-    <tr>
-
-        <td>{{ $value->value }}</td>
-        <td>{{ $value->weight }}</td>
-    </tr>
-</table>
+<p>{{ $average }}</p>
 @else
 <p>Wiadomość jakaś, że nie ma ocen!</p>
 @endif
