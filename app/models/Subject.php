@@ -11,19 +11,21 @@ class Subject extends Eloquent {
     }
     
     public static function calculateAverage() {
-        $grades = Grade::where('user_id', '=', Auth::user()->id);
-        
+        $grades = Grade::where('user_id', '=', Auth::user()->id)->get();
+
         $sumaOcen=0;
         $sumaWag=0;
 
-         foreach($grades as $grade) {
-             var_dump($grade);
-             $sumaOcen += $grade->value * $grade->weight;
-             $sumaWag += $grade->weight;
-         }
-         if($sumaWag != 0) {
-         return $sumaOcen/$sumaWag;
-         }
+        foreach($grades as $grade) {
+            $sumaOcen += $grade->value * $grade->weight;
+            $sumaWag += $grade->weight;
+        }
+        if($sumaWag != 0) {
+            return $sumaOcen/$sumaWag;
+        } else {
+            return 'ERROR';
+            Log::error('Liczenie średniej nie powiodło się');
+        }
          
     }
 
