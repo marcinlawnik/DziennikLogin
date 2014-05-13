@@ -11,7 +11,7 @@ class Subject extends Eloquent {
     }
     
     public static function calculateAverage() {
-        $grades = Grade::all()->where('user_id', '=', Auth::user()->id);
+        $grades = User::where('user_id', '=', Auth::user()->id);
         
         $sumaOcen=0;
         $sumaWag=0;
