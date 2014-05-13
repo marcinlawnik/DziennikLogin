@@ -17,6 +17,7 @@ class Subject extends Eloquent {
         $sumaWag=0;
 
          foreach($grades as $grade) {
+             var_dump($grade);
              $sumaOcen += $grade->value * $grade->weight;
              $sumaWag += $grade->weight;
          }
