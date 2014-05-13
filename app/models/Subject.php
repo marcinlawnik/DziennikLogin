@@ -20,8 +20,9 @@ class Subject extends Eloquent {
              $sumaOcen += $grade->value * $grade->weight;
              $sumaWag += $grade->weight;
          }
-         
+         if($sumaWag != 0) {
          return $sumaOcen/$sumaWag;
+         }
          
     }
 
