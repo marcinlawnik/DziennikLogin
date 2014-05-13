@@ -82,7 +82,6 @@
             <li><a href="edit.php" >Edycja</a></li>
 
         </ul>
-        <ul class="nav navbar-nav navbar-right">
                     <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj <span class="glyphicon glyphicon-off"></span>') }}</li>
         </ul>
         </ul>
