@@ -80,9 +80,8 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nazwa użytkownika<b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
             <li><a href="edit.php" >Edycja</a></li>
-
         </ul>
-                    <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj') }}<span class="glyphicon glyphicon-off"></span></li>
+                    <li><a href="{{ URL::to('/logout') }}"><span class="glyphicon glyphicon-off"></span></a></li>
         </ul>
         </ul>
     </div><!-- /.navbar-collapse -->
