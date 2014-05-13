@@ -9,7 +9,9 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
     public $subjectsArray;
 
-    public $currentSubject;
+    public $currentSubjectName;
+
+    public $currentSubjectId;
 
     private function createGradePageDom($request){
         $this->gradePageDom = new Htmldom($this->getGradePage($request));
@@ -31,6 +33,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         //trimester:
         $gradeTrimester = $this->gradePageDom->find('b', 1)->plaintext;
+
         if (strstr($gradeTrimester,'III ')){
             $this->currentTrimester = 3;
         }elseif(strstr($gradeTrimester,'II ')){
@@ -41,6 +44,8 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
             $this->currentTrimester = 9; //Something is not right ;)
             Log::error('Trimester detection failed, setting trimester as 9');
         }
+
+        Log::info('Obtaining current trimester', array('trimester' => $this->currentTrimester));
 
     }
 
@@ -65,18 +70,79 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
     private function processSubjectCell($cell){
 
-        $this->currentSubject = trim(str_replace('&nbsp;', '', $cell->plaintext));
-        Log::info('Processing new subject',
-            array(
-                'name' => $this->currentSubject,
-                'id_from_database' => Subject::where('name', '=', $this->currentSubject)->first()->id
-            ));
+        $this->currentSubjectName = trim(str_replace('&nbsp;', '', $cell->plaintext));
+        if(in_array($this->currentSubjectName, $this->subjectsArray)){
+
+            $this->currentSubjectId = Subject::where('name', '=', $this->currentSubjectName)->first()->id;
+
+            Log::info('Processing subject',
+                array(
+                    'name' => $this->currentSubjectName,
+                    'id_from_database' => $this->currentSubjectId,
+                ));
+
+
+        } else {
+
+            Log::info('Creating new subject');
+
+            $subject = Subject::create(array('name' => $this->currentSubjectName));
+
+            $this->currentSubjectId = $subject->id;
+
+            $this->createSubjectsArray();
+
+            Log::info('Processing NEW subject',
+                array(
+                    'name' => $this->currentSubjectName,
+                    'id_from_database' => $this->currentSubjectId,
+                ));
+
+        }
 
     }
 
     private function processGradeCell($cell){
 
-        Log::info('processing new grade cell');
+        //get all the needed values
+        $gradeAbbrev = strtoupper(trim(substr($cell->plaintext, 0, 3))); //grade abbreviation (the text from cell)
+        $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT); //grade numerical value (the number from cell)
+        //See if it has +, add a 0,5 then
+        //TODO: fix if some teacher puts plus in description
+        if (strpos($cell->plaintext, '+') !== FALSE) {
+            $gradeValue = $gradeValue[0] + 0.5;
+        }
+        //now we need to dive into the onmouseover attribute
+        $onMouseOverDom = new Htmldom();
+        $onMouseOverDom->load($cell->onmouseover);
+        $gradeDate = date('Y-m-d', strtotime($onMouseOverDom->find('td', '1')->plaintext)); //date of grade
+        @$gradeTitle = $onMouseOverDom->find('i', '1')->plaintext; //title of grade
+        if (is_null($gradeTitle)) {
+            $gradeTitle = 'BRAK OPISU OCENY'; //dirty hack around those lazy teachers that don't set the title
+        }
+        $gradeGroup = $onMouseOverDom->find('p', '1')->plaintext; //group of grade
+        $gradeWeight = trim($onMouseOverDom->find('td', '3')->plaintext); //weight of grade
+        //free up resources
+        $onMouseOverDom->clear();
+        unset($onMouseOverDom);
+        if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {//check if gradeWeight is really a number, if not, then its 1
+            $gradeWeight = '1';
+        } else {
+            $gradeWeight = round($gradeWeight);
+        }
+
+        Log::info('processing new grade cell',
+            array(
+                'subject' => $this->currentSubjectName,
+                'abbrev' => $gradeAbbrev,
+                'value' => $gradeValue,
+                'date' => $gradeDate,
+                'title' => $gradeTitle,
+                'weight' => $gradeWeight,
+                'group' => $gradeGroup,
+            ));
+
+
 
     }
 
@@ -84,7 +150,9 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         //do nothing, we don't yet have an use for it
 
-        Log::info('processing new average cell');
+        $average = trim($cell->plaintext);
+
+        Log::info('processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
 
     }
 
