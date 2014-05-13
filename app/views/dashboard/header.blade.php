@@ -37,6 +37,7 @@
     </style>
     {{ stylesheet_link_tag() }}
     {{ javascript_include_tag() }}
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 </head>
 <body>
 
