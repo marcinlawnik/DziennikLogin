@@ -81,7 +81,6 @@
                 <ul class="dropdown-menu"></li>
             <li><a href="edit.php" >Edycja</a></li>
         </ul>
-        <li>Łobrazek</li>
         <li>{{ HTML::linkAction('UsersController@getLogout', 'Wyloguj') }}<span class="glyphicon glyphicon-off"></span></a></li>
         </ul>
     </div><!-- /.navbar-collapse -->
