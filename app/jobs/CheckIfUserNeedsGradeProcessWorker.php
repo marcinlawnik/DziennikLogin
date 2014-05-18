@@ -14,11 +14,13 @@ class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
         $this->doLogout($request);
         $user = User::find($data['user_id']);
         if($user->grade_table_hash != md5($table)){
-            Log::info('User grade page status updated', array('old_hash' => $user->grade_table_hash,'hash' => md5($table)));
+            Log::info('User grade page status updated', array('old_hash' => $user->grade_table_hash, 'hash' => md5($table)));
             $user->grade_table_hash = md5($table);
             $user->is_changed = 1;
             $user->save();
-            //TODO: push a new job to queue to process table
+            //Push a new job to queue to process table
+            Log::info('Pushing ExecuteGradeProcessWorker to stack for user.');
+            Queue::push('ExecuteGradeProcessWorker', array('user_id' => $user->id));
         } else {
             //No need to do anything as the table has not changed
             Log::info('User grade page status not changed', array('hash' => md5($table)));

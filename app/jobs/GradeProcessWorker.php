@@ -2,6 +2,9 @@
 
 class GradeProcessWorker
 {
+
+    public $currentUserObject;
+
     /**
      * Takes User object as a parameter and returns POST string used to log into register
      *
@@ -46,18 +49,18 @@ class GradeProcessWorker
      */
     public function doLogin($request, $user_id){
         //Find the user
-        $user = User::find($user_id);
-        if($user == ''){
-            Log::error('User not found.', array('context' => $user_id));
+        $this->currentUserObject = User::find($user_id);
+        if($this->currentUserObject == ''){
+            Log::error('User not found.', array('user_id' => $user_id));
             return false;
         } else {
-            Log::info('User found.', array('context' => $user_id));
+            Log::info('User found.', array('user_id' => $user_id));
         }
 
         //We will be supplying post data
         $request->setOption(CURLOPT_POST, 1);
         //The actual post data
-        $request->setOption(CURLOPT_POSTFIELDS, $this->getPostData($user));
+        $request->setOption(CURLOPT_POSTFIELDS, $this->getPostData($this->currentUserObject));
         //Aaaand - execute!
         $request->execute();
         //If it twerks then it works ;)
@@ -67,7 +70,7 @@ class GradeProcessWorker
             //Log::info($request->getRawResponse());
             return true;
         } else {
-            Log::error('Request to login failed', array('context' => $request->getErrorMessage()));
+            Log::error('Request to login failed', array('error' => $request->getErrorMessage()));
             return false;
         }
 
@@ -90,7 +93,7 @@ class GradeProcessWorker
             Log::info('Logout successful.');
             return true;
         } else {
-            Log::error('Logout failed.', array('context' => $request->getErrorMessage()));
+            Log::error('Logout failed.', array('error' => $request->getErrorMessage()));
             return false;
         }
     }

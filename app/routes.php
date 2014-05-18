@@ -46,6 +46,6 @@ Route::group(array('before' => 'auth'), function()
 
     Route::get('firejob', function()
     {
-        Queue::push('ExecuteGradeProcessWorker', array('user_id' => Auth::user()->id));
+        Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id));
     });
 });

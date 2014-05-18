@@ -36,11 +36,11 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         if (strstr($gradeTrimester,'III ')){
             $this->currentTrimester = 3;
-        }elseif(strstr($gradeTrimester,'II ')){
+        } elseif(strstr($gradeTrimester,'II ')) {
             $this->currentTrimester = 2;
-        }elseif(strstr($gradeTrimester,'I ')){
+        } elseif(strstr($gradeTrimester,'I ')) {
             $this->currentTrimester = 1;
-        }else{
+        } else {
             $this->currentTrimester = 9; //Something is not right ;)
             Log::error('Trimester detection failed, setting trimester as 9');
         }
@@ -53,18 +53,18 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         //2. Powinieneś najpierw spróbować pobrać za jednym zamachem wszystkie ID przedmiotów na podstawie ich nazw.
         //Dopiero w następnym kroku utworzyć nowe rekordy w bazie dla nieistniejących jeszcze przedmiotów.
-
         //get all subjects from db
-        $subjects = Subject::all();
+        $subjects = Subject::get();
 
         //Create table suitable for us
-        foreach($subjects as $subject){
-            $subjectsArray[$subject->id] = $subject->name;
+        if(!$subjects->isEmpty()){
+            foreach($subjects as $subject){
+                $this->subjectsArray[$subject->id] = $subject->name;
+            }
+        } else {
+            $this->subjectsArray = array();
         }
-
-        Log::info('Obtained subjects array', array('subjectsArray' => $subjectsArray));
-
-        return $subjectsArray;
+        Log::info('Obtained subjects array', array('subjectsArray' => $this->subjectsArray));
 
     }
 
@@ -105,7 +105,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
     private function processGradeCell($cell){
 
         //get all the needed values
-        $gradeAbbrev = strtoupper(trim(substr($cell->plaintext, 0, 3))); //grade abbreviation (the text from cell)
+        $gradeAbbreviation = strtoupper(trim(substr($cell->plaintext, 0, 3))); //grade abbreviation (the text from cell)
         $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT); //grade numerical value (the number from cell)
         //See if it has +, add a 0,5 then
         //TODO: fix if some teacher puts plus in description
@@ -131,18 +131,50 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
             $gradeWeight = round($gradeWeight);
         }
 
-        Log::info('processing new grade cell',
-            array(
-                'subject' => $this->currentSubjectName,
-                'abbrev' => $gradeAbbrev,
+        $grade = Grade::where('user_id', '=', $this->currentUserObject->id)
+            ->where('subject_id', '=', $this->currentSubjectId)
+            ->where('abbreviation', '=', $gradeAbbreviation)
+            ->where('value', '=', $gradeValue)
+            ->where('date', '=', $gradeDate)
+            ->where('title' ,'=', $gradeTitle)
+            ->where('weight', '=', $gradeWeight)
+            ->where('group', '=', $gradeGroup)
+            ->get();
+
+        if($grade->isEmpty()){
+            //Grade not in database
+            //Insert
+            $grade = Grade::create(array(
+                'user_id' => $this->currentUserObject->id,
+                'subject_id' => $this->currentSubjectId,
+                'abbreviation' => $gradeAbbreviation,
                 'value' => $gradeValue,
                 'date' => $gradeDate,
                 'title' => $gradeTitle,
                 'weight' => $gradeWeight,
                 'group' => $gradeGroup,
             ));
+            //Add status information
 
+            EmailSendStatus::firstOrCreate(array(
+                'grade_id' => $grade->id,
+                'status' => False,
+            ));
 
+            Log::info('inserting grade cell',
+                array(
+                    'subject' => $this->currentSubjectName,
+                    'abbreviation' => $gradeAbbreviation,
+                    'value' => $gradeValue,
+                    'date' => $gradeDate,
+                    'title' => $gradeTitle,
+                    'weight' => $gradeWeight,
+                    'group' => $gradeGroup,
+                ));
+        } else {
+            //Grade already inserted
+            Log::info('Already inserted grade');
+        }
 
     }
 
@@ -152,7 +184,12 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         $average = trim($cell->plaintext);
 
-        Log::info('processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
+        if($average >= 1.00){
+            Log::info('processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
+        } else {
+            Log::info('processing empty average cell', array('subject' => $this->currentSubjectName));
+        }
+
 
     }
 
@@ -188,13 +225,18 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         $start_time = microtime(true);
         Log::info('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
+        //Below is self-descriptive
         $request = $this->createRequest();
         $this->doLogin($request, $data['user_id']);
         $this->createGradePageDom($request);
         $this->doLogout($request);
         $this->setCurrentTrimester();
-        $this->subjectsArray = $this->createSubjectsArray();
+        $this->createSubjectsArray();
         $this->processGradePage($this->getGradeCells());
+        //Mark job as done
+        $this->currentUserObject->is_changed = 0;
+        $this->currentUserObject->save();
+        //Some logs
         Log::info('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);
         $job->delete();
