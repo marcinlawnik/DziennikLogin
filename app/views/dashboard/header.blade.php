@@ -51,7 +51,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <img height="70%" width="70%" src="http://beta.lawniczak.me/logo_small.png" style="margin:0.25em;"></img>
+        {{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('height' => '70%', 'width' => '70%')) }}
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -86,3 +86,5 @@
         </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
+
+@include('includes.messages')
