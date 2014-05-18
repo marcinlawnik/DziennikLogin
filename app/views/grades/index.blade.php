@@ -35,7 +35,7 @@
         }
     );
 </script>
-<p>{{ $average }}</p>
+<p>Średnia: {{ $average }}</p>
 @else
 <p>Wiadomość jakaś, że nie ma ocen!</p>
 @endif
