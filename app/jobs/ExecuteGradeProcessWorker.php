@@ -139,6 +139,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
             ->where('title' ,'=', $gradeTitle)
             ->where('weight', '=', $gradeWeight)
             ->where('group', '=', $gradeGroup)
+            ->where('trimester', '=', $this->currentTrimester)
             ->get();
 
         if($grade->isEmpty()){
@@ -153,10 +154,12 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
                 'title' => $gradeTitle,
                 'weight' => $gradeWeight,
                 'group' => $gradeGroup,
+                'trimester' => $this->currentTrimester,
             ));
             //Add status information
 
             EmailSendStatus::firstOrCreate(array(
+                'user_id' =>$this->currentUserObject->id,
                 'grade_id' => $grade->id,
                 'status' => False,
             ));
@@ -170,6 +173,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
                     'title' => $gradeTitle,
                     'weight' => $gradeWeight,
                     'group' => $gradeGroup,
+                    'trimester' => $this->currentTrimester,
                 ));
         } else {
             //Grade already inserted

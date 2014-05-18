@@ -14,6 +14,7 @@ class AddEmailSentStatusTable extends Migration {
 	{
         Schema::create('email_send_statuses', function(Blueprint $table) {
             $table->integer('grade_id');
+            $table->integer('user_id');
             $table->boolean('status');
             $table->timestamps();
         });
