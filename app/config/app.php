@@ -128,6 +128,8 @@ return array(
         'Yangqi\Htmldom\HtmldomServiceProvider',
         //Ide-Helper provider
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+        //Migrations form database structure generator
+        'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
 
 	),
 

@@ -9,7 +9,8 @@
         "way/generators": "2.*",
         "jyggen/curl": "v3.0.1",
         "yangqi/htmldom": "dev-master",
-		"barryvdh/laravel-ide-helper": "1.*"
+		"barryvdh/laravel-ide-helper": "1.*",
+        "xethron/migrations-generator": "dev-master"
     },
 	"autoload": {
 		"classmap": [

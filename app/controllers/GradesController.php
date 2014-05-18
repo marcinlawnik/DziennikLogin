@@ -8,7 +8,7 @@ class GradesController extends \BaseController {
         // Show all grades belonging to user
         $grades = User::find(Auth::user()->id)->grades;
         if(!empty($grades)){
-            $average=Subject::calculateAverage();
+            $average = Subject::calculateAverage();
             return View::make('grades.index')->withGrades($grades)->withAverage($average);
         } else {
             return View::make('grades.index')->with('message', 'Brak ocen!')->withGrades('');
