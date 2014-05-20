@@ -18,7 +18,7 @@ class GradesController extends \BaseController {
         if(!empty($grades)){
             
             foreach($subjects as $subject) {
-                $averages[]=Subject::calculateAverage($subject);
+                $averages[Subject::find($subject)->name]=Subject::calculateAverage($subject);
             }
             
             return View::make('grades.index')->withGrades($grades)->withAverages($averages);
