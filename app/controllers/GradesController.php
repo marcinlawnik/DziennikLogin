@@ -7,7 +7,14 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user
         $grades = User::find(Auth::user()->id)->grades;
-        $subjects = User::find(Auth::user()->id)->grades()->subject_id;
+        
+        $subjects = array();
+        foreach($grades as $grade) {
+            if(!in_array($grade->subject_id, $subjects)) {
+                $subjects[]=$grade->subject_id;
+            }
+        }
+        
         if(!empty($grades)){
             
             foreach($subjects as $subject) {
