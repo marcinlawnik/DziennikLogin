@@ -7,9 +7,14 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user
         $grades = User::find(Auth::user()->id)->grades;
+        $subjects = User::find(Auth::user()->id)->grades()->subject_id;
         if(!empty($grades)){
-            $average = Subject::calculateAverage();
-            return View::make('grades.index')->withGrades($grades)->withAverage($average);
+            
+            foreach($subjects as $subject) {
+                $averages[]=Subject::calculateAverage($subject);
+            }
+            
+            return View::make('grades.index')->withGrades($grades)->withAverages($averages);
         } else {
             return View::make('grades.index')->with('message', 'Brak ocen!')->withGrades('');
         }
