@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9c9171aeb78851f815df31d39d091549",
+    "hash": "b1893e404f3a0c38b451d6fc237393c7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1285,16 +1285,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.1.28",
+            "version": "v4.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4"
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
-                "reference": "301a6a5293f15c8c17f5278ed6197f3cbaccadd4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
+                "reference": "7481b32fbfc6cdf17be193cdf79ebbf9288cb599",
                 "shasum": ""
             },
             "require": {
@@ -1321,7 +1321,7 @@
                 "symfony/http-kernel": "2.4.*",
                 "symfony/process": "2.4.*",
                 "symfony/routing": "2.4.*",
-                "symfony/security": "2.4.*",
+                "symfony/security-core": "2.4.*",
                 "symfony/translation": "2.4.*"
             },
             "replace": {
@@ -1389,7 +1389,7 @@
                     "name": "Taylor Otwell",
                     "email": "taylorotwell@gmail.com",
                     "homepage": "https://github.com/taylorotwell",
-                    "role": "Developer"
+                    "role": "Creator of Laravel"
                 }
             ],
             "description": "The Laravel Framework.",
@@ -1397,7 +1397,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-04-17 17:16:42"
+            "time": "2014-05-20 13:22:03"
         },
         {
             "name": "leafo/lessphp",
@@ -2064,16 +2064,16 @@
         },
         {
             "name": "stack/builder",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stackphp/builder.git",
-                "reference": "49ab90450d7f959943f3659a4bcb5965530117c2"
+                "reference": "b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stackphp/builder/zipball/49ab90450d7f959943f3659a4bcb5965530117c2",
-                "reference": "49ab90450d7f959943f3659a4bcb5965530117c2",
+                "url": "https://api.github.com/repos/stackphp/builder/zipball/b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7",
+                "reference": "b4af43e7b7f3f7fac919ff475b29f7c5dc7b23b7",
                 "shasum": ""
             },
             "require": {
@@ -2110,7 +2110,7 @@
             "keywords": [
                 "stack"
             ],
-            "time": "2013-10-25 14:04:45"
+            "time": "2014-01-28 19:42:24"
         },
         {
             "name": "swiftmailer/swiftmailer",
