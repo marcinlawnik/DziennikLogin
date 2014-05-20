@@ -35,8 +35,8 @@
         }
     );
 </script>
-@foreach($averages as $average) 
-<p>{{$average}}: {{ $average }}</p>
+@foreach($averages as $name => $average) 
+<p>{{$name}}: {{ $average }}</p>
 @endforeach
 @else
 <p>Wiadomość jakaś, że nie ma ocen!</p>
