@@ -35,7 +35,9 @@
         }
     );
 </script>
+@foreach($averages as $average) 
 <p>Średnia: {{ $average }}</p>
+@endforeach
 @else
 <p>Wiadomość jakaś, że nie ma ocen!</p>
 @endif
