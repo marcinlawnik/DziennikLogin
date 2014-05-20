@@ -16,6 +16,8 @@ class EmailSendGradesWorker extends SendGradesWorker
 
         Log::info(View::make('emails.grades',$data)->render());
 
+        Log::info('user:email '.$this->userObject->email);
+
         Mail::send('emails.grades', $data, function($message)
         {
             $message->to($this->userObject->email)->subject('Oceny z DziennikLogin - '. date('Y - m - d H:i'));

@@ -27,7 +27,7 @@
 	"scripts": {
         "pre-install-cmd": [
             "php artisan down",
-            "git pull"
+            "git pull origin master"
         ],
 		"post-install-cmd": [
 			"php artisan clear-compiled",
