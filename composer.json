@@ -10,7 +10,8 @@
         "jyggen/curl": "v3.0.1",
         "yangqi/htmldom": "dev-master",
 		"barryvdh/laravel-ide-helper": "1.*",
-        "xethron/migrations-generator": "dev-master"
+        "xethron/migrations-generator": "dev-master",
+        "schickling/backup": "dev-master"
     },
 	"autoload": {
 		"classmap": [
