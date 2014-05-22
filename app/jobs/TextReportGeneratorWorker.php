@@ -3,15 +3,29 @@
 class TextReportGeneratorWorker extends ReportGeneratorWorker
 {
 
-    public function getNotSentGrades(){
+    public function getNotSentGradesIds(){
 
         $statuses = EmailSendStatus::where('user_id', '=', $this->currentUser->id)->where('status', '=', 0)->get();
+
+        $grades_ids = array();
 
         foreach($statuses as $status){
             $grades_ids[] = $status->grade_id;
         }
 
-        return Grade::whereIn('id', $grades_ids)->get();
+        return $grades_ids;
+
+    }
+
+    public function getNotSentGrades(){
+
+        $ids = $this->getNotSentGradesIds();
+
+        if(!empty($ids)){
+            return Grade::whereIn('id', $ids)->get();
+        } else {
+            return false;
+        }
 
     }
 
