@@ -47,11 +47,13 @@ Route::group(array('before' => 'auth'), function()
     Route::get('firejob', function()
     {
         Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id));
+        return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
     });
 
     Route::get('fireemail', function()
     {
         Queue::push('EmailSendGradesWorker', array('user_id' => Auth::user()->id));
+        return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
     });
 
 });

@@ -240,6 +240,11 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         //Mark job as done
         $this->currentUserObject->is_changed = 0;
         $this->currentUserObject->save();
+        //Push new email job for user
+        //TODO: Options to get email whenever they want
+        Log::info('Pushing email send job for user', array('user_id' => $data['user_id']));
+        $time = Carbon::now()->addMinutes(5);
+        Queue::later($time, 'EmailSendGradesWorker', array('user_id' => $data['user_id']));
         //Some logs
         Log::info('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);
