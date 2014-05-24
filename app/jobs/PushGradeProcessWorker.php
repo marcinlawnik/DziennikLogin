@@ -8,7 +8,7 @@ class PushGradeProcessWorker
         $users = User::whereIn('id', $data['id'])->get();
 
         foreach($users as $user){
-            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id));
+            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
         }
 
         $job->delete();
