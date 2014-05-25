@@ -12,7 +12,8 @@
 		"barryvdh/laravel-ide-helper": "1.*",
         "xethron/migrations-generator": "dev-master",
         "schickling/backup": "dev-master",
-		"pda/pheanstalk": "dev-master"
+		"pda/pheanstalk": "dev-master",
+        "kmd/logviewer": "1.1.*"
     },
 	"autoload": {
 		"classmap": [
@@ -31,8 +32,9 @@
             "git pull origin master"
         ],
 		"post-install-cmd": [
-			"php artisan clear-compiled",
+            "php artisan asset:publish kmd/logviewer",
             "php artisan ide-helper:generate",
+            "php artisan clear-compiled",
 			"php artisan optimize",
             "php artisan up"
 		],
@@ -40,8 +42,9 @@
             "php artisan down"
         ],
 		"post-update-cmd": [
-			"php artisan clear-compiled",
             "php artisan ide-helper:generate",
+            "php artisan asset:publish kmd/logviewer",
+            "php artisan clear-compiled",
 			"php artisan optimize",
             "php artisan up"
 		],

@@ -132,6 +132,8 @@ return array(
         'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
         //Database backup
         'Schickling\Backup\BackupServiceProvider',
+        //Log viewer
+        'Kmd\Logviewer\LogviewerServiceProvider',
 
 	),
 
