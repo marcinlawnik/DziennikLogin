@@ -134,7 +134,8 @@ return array(
         'Schickling\Backup\BackupServiceProvider',
         //Log viewer
         'Kmd\Logviewer\LogviewerServiceProvider',
-
+        //Cron wrapper
+        'Liebig\Cron\CronServiceProvider',
 	),
 
 	/*

@@ -88,7 +88,7 @@ App::missing(function($exception)
 
 App::down(function()
 {
-	return Response::view("maintenance", array() , 503);
+	return Response::view('maintenance', array() , 503);
 });
 
 /*
@@ -103,3 +103,45 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Add Cron Jobs
+|--------------------------------------------------------------------------
+|
+| Adding cron jobs here instead of crontab, courtesy liebig/cron
+|
+*/
+
+Event::listen('cron.collectJobs', function() {
+
+    Log::debug('event fired cron.collectJobs');
+
+    Cron::add('PushGradeCheckToQueueEvery5MinutesTask', '5 * * * *', function() {
+
+        try{
+
+            $users = User::all();
+
+            $counter = 0;
+
+            $ids = array();
+
+            foreach($users as $user){
+                Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+                $counter++;
+                $ids[] = $user->id;
+            }
+
+            Log::info('Pushed check jobs for users', array('users_amount' => $counter, 'users_ids' => $ids));
+
+        } catch (Exception $e){
+
+            Log::error('Something bad happened at pushing jobs.');
+
+        }
+
+        return null;
+    });
+
+});

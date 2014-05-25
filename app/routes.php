@@ -56,4 +56,9 @@ Route::group(array('before' => 'auth'), function()
         return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
     });
 
+    Route::get('time', function()
+    {
+        return Redirect::to('dashboard/index')->with('message', date('H:i:s'));
+    });
+
 });
