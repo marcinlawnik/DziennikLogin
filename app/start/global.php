@@ -117,9 +117,7 @@ Event::listen('cron.collectJobs', function() {
 
     Log::debug('event fired cron.collectJobs');
 
-    Cron::add('PushGradeCheckToQueueEvery5MinutesTask', '5 * * * *', function() {
-
-        try{
+    Cron::add('CronPushGradeCheckToQueueEvery5Minutes', '*/5 * * * *', function() {
 
             $users = User::all();
 
@@ -132,14 +130,6 @@ Event::listen('cron.collectJobs', function() {
                 $counter++;
                 $ids[] = $user->id;
             }
-
-            Log::info('Pushed check jobs for users', array('users_amount' => $counter, 'users_ids' => $ids));
-
-        } catch (Exception $e){
-
-            Log::error('Something bad happened at pushing jobs.');
-
-        }
 
         return null;
     });
