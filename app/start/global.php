@@ -119,17 +119,19 @@ Event::listen('cron.collectJobs', function() {
 
     Cron::add('CronPushGradeCheckToQueueEvery5Minutes', '*/5 * * * *', function() {
 
-            $users = User::all();
+        $users = User::all();
 
-            $counter = 0;
+        $counter = 0;
 
-            $ids = array();
+        $ids = array();
 
-            foreach($users as $user){
-                Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
-                $counter++;
-                $ids[] = $user->id;
-            }
+        foreach($users as $user){
+            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+            $counter++;
+            $ids[] = $user->id;
+        }
+
+        Log::info('Pushed check jobs for users', array('users_amount' => $counter, 'users_ids' => $ids));
 
         return null;
     });
