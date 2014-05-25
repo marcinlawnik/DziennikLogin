@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>DziennikLogin</title>
     <style type="text/css">
-        /* just for the demo */
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -77,7 +76,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li class="username">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nazwa użytkownika<b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->email }} <b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
             <li><a href="edit.php" >Edycja</a></li>
         </ul>
