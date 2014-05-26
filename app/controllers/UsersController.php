@@ -23,9 +23,9 @@ class UsersController extends BaseController {
             $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
             $user->save();
 
-            return Redirect::to('users/login')->with('message', 'Thanks for registering!');
+            return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
         } else {
-            return Redirect::to('users/register')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
+            return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
         }
     }
 
