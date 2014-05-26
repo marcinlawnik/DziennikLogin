@@ -26,7 +26,7 @@ class EmailSendGradesWorker extends SendGradesWorker
             if(!empty($data['grades'])){
                 Mail::send('emails.grades', $data, function($message)
                 {
-                    $message->to($this->userObject->email)->subject('Oceny z DziennikLogin - ' . date('Y-m-d H:i'));
+                    $message->to($this->userObject->email)->subject('Oceny z DziennikLogin - ' . date('Y - m - d H:i'));
                 });
 
                 //Mark grades as sent
