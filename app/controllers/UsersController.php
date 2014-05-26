@@ -59,18 +59,20 @@ class UsersController extends BaseController {
             'password_confirmation'=>'required|alpha_num|between:8,32'
         );
         $validator = Validator::make(Input::all(), $rules);
-        $user = Auth::user();
+        $user = User::find(Auth::user()->id);
         $credentials = array(
             'email' => $user->email,
             'password' => Input::get('oldpassword')
         );
-        if ($validator->passes()
-            && Auth::validate($credentials)
-            && Input::get('password') == Input::get('password_confirmation')) {
 
+        if ($validator->passes()) {
+
+            if(!Auth::validate($credentials)){
+                return Redirect::to('users/edit')->with('error', 'Stare hasło nieprawidłowe!')->withInput();
+            }
             $user->password = Hash::make(Input::get('password'));
             $user->save();
-
+            Log::info('happens');
             Auth::logout();
             return Redirect::to('users/login')->with('message', 'Hasło zmienione, zaloguj się ponownie!');
         } else {
