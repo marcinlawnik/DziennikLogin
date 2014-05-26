@@ -48,6 +48,36 @@ class UsersController extends BaseController {
         }
     }
 
+    public function getEdit(){
+        return View::make('users.edit');
+    }
+
+    public function postEdit(){
+        $rules = array(
+            'oldpassword'=>'required|alpha_num|between:8,32',
+            'password'=>'required|alpha_num|between:8,32|confirmed',
+            'password_confirmation'=>'required|alpha_num|between:8,32'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        $user = Auth::user();
+        $credentials = array(
+            'email' => $user->email,
+            'password' => Input::get('oldpassword')
+        );
+        if ($validator->passes()
+            && Auth::validate($credentials)
+            && Input::get('password') == Input::get('password_confirmation')) {
+
+            $user->password = Hash::make(Input::get('password'));
+            $user->save();
+
+            Auth::logout();
+            return Redirect::to('users/login')->with('message', 'Hasło zmienione, zaloguj się ponownie!');
+        } else {
+            return Redirect::to('users/edit')->withErrors($validator->errors())->withInput();
+        }
+    }
+
     public function getLogout() {
         if(Auth::check()){
             Auth::logout();

@@ -15,19 +15,15 @@ class GradesController extends \BaseController {
                 $subjects[]=$grade->subject_id;
             }
         }
-        
-        if(!empty($grades)){
 
-            $averages = array();
+        $averages = array();
 
-            foreach($subjects as $subject) {
-                $averages[Subject::find($subject)->name]=Subject::calculateAverage($subject);
-            }
-            
-            return View::make('grades.index')->withGrades($grades)->withAverages($averages);
-        } else {
-            return View::make('grades.index')->with('message', 'Brak ocen!')->withGrades('');
+        foreach($subjects as $subject) {
+            $averages[Subject::find($subject)->name]=Subject::calculateAverage($subject);
         }
+
+        return View::make('grades.index')->withGrades($grades)->withAverages($averages);
+
     }
 
     public function getShow($id)

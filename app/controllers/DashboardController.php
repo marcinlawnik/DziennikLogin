@@ -9,6 +9,14 @@ class DashboardController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-		return View::make('dashboard.index');
+
+        $grades = Grade::where('user_id', '=', Auth::user()->id)->get();
+
+        if($grades->isEmpty() === true){
+            Session::flash('message', 'Nie posiadasz żadnych ocen! Kliknij '.link_to('firejob', 'tutaj').', aby uruchomić proces pobierania.');
+        }
+
+        return View::make('dashboard.index');
+
 	}
 }

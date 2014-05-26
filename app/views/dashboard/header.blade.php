@@ -50,15 +50,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        {{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('height' => '70%', 'width' => '70%')) }}
+        {{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('height' => '70%', 'width' => '70%', 'style' => '' )) }}
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li><a href="index.php">Strona Główna</a></li>
+            <li><a href="{{ URL::to('/dashboard/index') }}">Strona Główna</a></li>
             <li><a href="test.php">Test</a></li>
-            <li><a href="grades.php">Oceny</a></li>
+
+            <li><a href="{{ URL::to('/grades') }}">Oceny</a></li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -75,14 +76,21 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            <li class="debug">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opcje debugowania <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" >Opcje</a></li>
+                </ul>
+            </li>
+
             <li class="username">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->email }} <b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
-            <li><a href="edit.php" >Edycja</a></li>
-        </ul>
-                    <li><a href="{{ URL::to('/logout') }}"><span class="glyphicon glyphicon-off"></span></a></li>
-        </ul>
-        </ul>
+                    <li><a href="{{ URL::to('/users/edit') }}" >Edytuj ustawienia</a></li>
+                </ul>
+                <li><a href="{{ URL::to('/logout') }}"><span class="glyphicon glyphicon-off"></span></a></li>
+
+
     </div><!-- /.navbar-collapse -->
 </nav>
 

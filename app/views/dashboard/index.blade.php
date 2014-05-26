@@ -1,3 +1,5 @@
 @include('dashboard.header')
 
-Strona główna
+Pustooo
+
+@include('includes.footer')
