@@ -14,7 +14,7 @@ Oceny uszeregowane są od najwyższej do najniższej.
 Data: {{ $grade->date  }}<br>
 Ocena: {{ $grade->value  }}<br>
 Waga: {{ $grade->weight  }}<br>
-Przedmiot: {{ $grade->subject_id  }}<br>
+Przedmiot: {{ $grade->subject->name }}<br>
 Trymestr: {{ $grade->trimester  }}<br>
 Tytuł: {{ $grade->title  }}<br><br>
 

@@ -22,7 +22,7 @@ class TextReportGeneratorWorker extends ReportGeneratorWorker
         $ids = $this->getNotSentGradesIds();
 
         if(!empty($ids)){
-            return Grade::whereIn('id', $ids)->get();
+            return Grade::with('subject')->whereIn('id', $ids)->get();
         } else {
             return false;
         }

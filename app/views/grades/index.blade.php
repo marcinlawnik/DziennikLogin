@@ -8,7 +8,7 @@
 <table id="table_grades" border="5">
     <thead>
     <tr>
-        <th>ID</th><th>id przedmiotu</th><th>wartość</th><th>waga</th><th>skrót</th><th>opis</th><th>data</th>
+        <th>ID</th><th>id przedmiotu</th><th>nazwa przedmiotku</th></th><th>wartość</th><th>waga</th><th>skrót</th><th>opis</th><th>data</th>
     </tr>
     </thead>
 
@@ -17,6 +17,7 @@
     <tr>
         <td>{{ $value->id }}</td>
         <td>{{ $value->subject_id}}</td>
+        <td>{{ $value->subject->name}}</td>
         <td>{{ $value->value }}</td>
         <td>{{ $value->weight }}</td>
         <td>{{ $value->abbreviation }}</td>

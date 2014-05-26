@@ -6,9 +6,10 @@ class GradesController extends \BaseController {
     public function getIndex()
     {
         // Show all grades belonging to user
-        $grades = User::find(Auth::user()->id)->grades;
+        $grades = Grade::with('subject')->where('user_id', '=', Auth::user()->id)->get();
         
         $subjects = array();
+
         foreach($grades as $grade) {
             if(!in_array($grade->subject_id, $subjects)) {
                 $subjects[]=$grade->subject_id;
