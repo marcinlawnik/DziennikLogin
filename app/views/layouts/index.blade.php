@@ -17,16 +17,12 @@
     </style>
 </head>
 <body>
-<div class="container">
-    @if(Session::has('message'))
-    <p class="alert">{{ Session::get('message') }}</p>
-    @endif
-</div>
 <div class="container-narrow">
-
+    @include('includes.messages')
     <div class="masthead">
         <h3 class="text-muted" style="">{{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('style' => 'margin-right: 20px;')) }} DziennikLogin</h3>
     </div>
+
 
     <div class="jumbotron">
         <h1>Nie masz czasu na sprawdzanie ocen?</h1>

@@ -83,7 +83,7 @@ class UsersController extends BaseController {
     public function getLogout() {
         if(Auth::check()){
             Auth::logout();
-            return Redirect::to('users/login')->with('message', 'Wylogowano poprawnie!');
+            return Redirect::to('/')->with('message', 'Wylogowano poprawnie!');
         } else {
             return Redirect::to('users/login');
         }
