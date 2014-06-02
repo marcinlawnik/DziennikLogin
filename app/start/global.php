@@ -119,7 +119,12 @@ Event::listen('cron.collectJobs', function() {
 
     Cron::add('CronPushGradeCheckToQueueEvery5Minutes', '*/5 * * * *', function() {
 
-        $users = User::all();
+        $users = User::with('Settings')->whereHas('Settings',
+            function($query) {
+                $query->where('job_is_active', '=', 1);
+                $query->where('job_interval', '=', 5);
+            })
+            ->get();
 
         $counter = 0;
 
@@ -131,7 +136,31 @@ Event::listen('cron.collectJobs', function() {
             $ids[] = $user->id;
         }
 
-        Log::info('Pushed check jobs for users', array('users_amount' => $counter, 'users_ids' => $ids));
+        Log::info('Pushed check jobs for users (every 5 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
+
+        return null;
+    });
+
+    Cron::add('CronPushGradeCheckToQueueEvery15Minutes', '*/15 * * * *', function() {
+
+        $users = User::with('Settings')->whereHas('Settings',
+            function($query) {
+                $query->where('job_is_active', '=', 1);
+                $query->where('job_interval', '=', 15);
+            })
+            ->get();
+
+        $counter = 0;
+
+        $ids = array();
+
+        foreach($users as $user){
+            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+            $counter++;
+            $ids[] = $user->id;
+        }
+
+        Log::info('Pushed check jobs for users (every 15 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
 
         return null;
     });

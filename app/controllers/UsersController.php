@@ -23,6 +23,16 @@ class UsersController extends BaseController {
             $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
             $user->save();
 
+            $setting = new Setting;
+            $setting->user_id = $user->id;
+
+            //Setting the defults
+            $setting->job_is_active = 1;
+            $setting->job_interval = 15;
+
+            //Saving
+            $setting->save();
+
             return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
@@ -45,38 +55,6 @@ class UsersController extends BaseController {
             return Redirect::to('users/login')
                 ->with('error', 'Email i/lub hasło niepoprawne!')
                 ->withInput();
-        }
-    }
-
-    public function getEdit(){
-        return View::make('users.edit');
-    }
-
-    public function postEdit(){
-        $rules = array(
-            'oldpassword'=>'required|alpha_num|between:8,32',
-            'password'=>'required|alpha_num|between:8,32|confirmed',
-            'password_confirmation'=>'required|alpha_num|between:8,32'
-        );
-        $validator = Validator::make(Input::all(), $rules);
-        $user = User::find(Auth::user()->id);
-        $credentials = array(
-            'email' => $user->email,
-            'password' => Input::get('oldpassword')
-        );
-
-        if ($validator->passes()) {
-
-            if(!Auth::validate($credentials)){
-                return Redirect::to('users/edit')->with('error', 'Stare hasło nieprawidłowe!')->withInput();
-            }
-            $user->password = Hash::make(Input::get('password'));
-            $user->save();
-            Log::info('happens');
-            Auth::logout();
-            return Redirect::to('users/login')->with('message', 'Hasło zmienione, zaloguj się ponownie!');
-        } else {
-            return Redirect::to('users/edit')->withErrors($validator->errors())->withInput();
         }
     }
 

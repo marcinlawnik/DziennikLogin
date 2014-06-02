@@ -1,5 +1,7 @@
 @include('dashboard.header')
 
-Pustooo
+{{ $content }}
+
+{{ var_dump($other) }}
 
 @include('includes.footer')

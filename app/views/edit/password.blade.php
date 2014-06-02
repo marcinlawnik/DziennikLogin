@@ -1,6 +1,6 @@
 @include('dashboard.header')
 
-{{ Form::open(array('url'=>'users/edit', 'class'=>'')) }}
+{{ Form::open(array('url'=>'edit/password', 'class'=>'')) }}
 @if(!empty($errors->all()))
 <ul class="alert alert-danger col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
     @foreach($errors->all() as $error)

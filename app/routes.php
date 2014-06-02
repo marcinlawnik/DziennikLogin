@@ -44,6 +44,8 @@ Route::group(array('before' => 'auth'), function()
 
     Route::controller('dashboard', 'DashboardController');
 
+    Route::controller('edit', 'EditController');
+
     Route::get('firejob', function()
     {
         Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id), 'grade_check');

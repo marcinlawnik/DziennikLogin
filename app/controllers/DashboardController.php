@@ -16,7 +16,23 @@ class DashboardController extends \BaseController {
             Session::flash('message', 'Nie posiadasz żadnych ocen! Kliknij '.link_to('firejob', 'tutaj').', aby uruchomić proces pobierania.');
         }
 
-        return View::make('dashboard.index');
+//        $job_is_active = 1;
+//        $content = User::with('Settings')->whereHas('Settings',
+//                function($query) use ($job_is_active) {
+//                    $query->where('job_is_active', '=', $job_is_active);
+//                })
+//                ->get();
+
+        $content = User::with('Settings')->whereHas('Settings',
+            function($query) {
+                $query->where('job_is_active', '=', 1);
+                $query->where('job_interval', '=', 15);
+            })
+            ->get();
+
+        $other = $content->isEmpty();
+
+        return View::make('dashboard.index')->withContent($content)->withOther($other);
 
 	}
 }

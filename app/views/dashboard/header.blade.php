@@ -86,7 +86,7 @@
             <li class="username">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->email }} <b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
-                    <li><a href="{{ URL::to('/users/edit') }}" >Edytuj ustawienia</a></li>
+                    <li><a href="{{ URL::to('/edit/password') }}" >Zmień hasło</a></li>
                 </ul>
                 <li><a href="{{ URL::to('/logout') }}"><span class="glyphicon glyphicon-off"></span></a></li>
 
