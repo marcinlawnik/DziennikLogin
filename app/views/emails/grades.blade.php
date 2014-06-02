@@ -8,7 +8,7 @@ Witaj,<br>
 
 Poniżej znajduja się twoje oceny.<br>
 Oceny uszeregowane są od najwyższej do najniższej.
-</p><br>
+</p>
 <p>
 @foreach($grades as $grade)
 Data: {{ $grade->date  }}<br>
