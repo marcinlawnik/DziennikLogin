@@ -3,8 +3,7 @@
 	"description": "DziennikLogin web interface in laravel",
 	"license": "unlicense",
 	"require": {
-		"laravel/framework": "4.1.*",
-        "twitter/bootstrap": "*",
+		"laravel/framework": "4.2.*",
         "codesleeve/asset-pipeline": "dev-master",
         "way/generators": "2.*",
         "jyggen/curl": "v3.0.1",
