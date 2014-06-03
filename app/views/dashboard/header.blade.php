@@ -61,15 +61,19 @@
 
             <li><a href="{{ URL::to('/grades') }}">Oceny</a></li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Przedmioty <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">matematyka</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
+                    {{-- Hacky assign variable - http://stackoverflow.com/questions/13002626/laravels-blade-how-can-i-set-variables-in-a-template --}}
+                    @if ($subjects=array()) @endif
+                    @foreach(Grade::with('subject')->where('user_id', '=', Auth::user()->id)->get() as $grade)
+
+                    @if (!in_array($grade->subject_id, $subjects))
+                    {{-- Hacky assign variable --}}
+                    @if ($subjects[]=$grade->subject_id) @endif
+                    <li><a href="{{ URL::to('/grades/subject/'."$grade->subject_id") }}">{{Subject::find($grade->subject_id)->name}}</a></li>
+                    @endif
+
+                    @endforeach
                 </ul>
 
             </li>

@@ -21,7 +21,7 @@ class Subject extends Eloquent {
             $sumaWag += $grade->weight;
         }
         if($sumaWag != 0) {
-            return $sumaOcen/$sumaWag;
+            return round($sumaOcen/$sumaWag, 2);
         } else {
             return 'ERROR';
             Log::error('Liczenie średniej nie powiodło się');

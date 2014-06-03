@@ -26,6 +26,25 @@ class GradesController extends \BaseController {
 
     }
 
+    public function getSubject($id)
+    {
+        // Show all grades belonging to user in said subject
+        $grades = Grade::with('subject')
+            ->where('user_id', '=', Auth::user()->id)
+            ->where('subject_id', '=', $id)
+            ->get();
+
+        if($grades->isEmpty()){
+            return Redirect::to('grades/index');
+        } else {
+            return View::make('grades.subject')
+                ->withGrades($grades)
+                ->withSubject(Subject::find($id)->name)
+                ->withAverage(Subject::calculateAverage($id));
+        }
+
+    }
+
     public function getShow($id)
     {
         // Show detailed data about chosen grade
