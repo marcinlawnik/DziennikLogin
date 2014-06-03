@@ -23,7 +23,7 @@ class DashboardController extends \BaseController {
 //                })
 //                ->get();
 
-        $content = Grade::where('user_id', '=', Auth::user()->id)->order('date', 'DESC')->take(10);
+        $content = Grade::where('user_id', '=', Auth::user()->id)->orderBy('date', 'DESC')->take(10);
           
 
 
