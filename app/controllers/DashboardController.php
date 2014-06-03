@@ -23,16 +23,11 @@ class DashboardController extends \BaseController {
 //                })
 //                ->get();
 
-        $content = User::with('Settings')->whereHas('Settings',
-            function($query) {
-                $query->where('job_is_active', '=', 1);
-                $query->where('job_interval', '=', 15);
-            })
-            ->get();
+        $content = Grade::where('user_id', '=', Auth::user()->id)->order('date', 'DESC')->take(10);
+          
 
-        $other = $content->isEmpty();
 
-        return View::make('dashboard.index')->withContent($content)->withOther($other);
+        return View::make('dashboard.index')->withContent($content);
 
 	}
 }
