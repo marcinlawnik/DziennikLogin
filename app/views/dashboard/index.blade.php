@@ -1,9 +1,9 @@
 @include('dashboard.header')
 
-
 <div class="container">
 <div class="row">
 <div class="col-sm-12 col-md-12">
+<h1>10 najnowszych ocen</h1>
     <div class="well">
         <table class="table table-striped" id="table_grades">
             <thead>
