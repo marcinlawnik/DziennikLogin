@@ -12,7 +12,7 @@
         "xethron/migrations-generator": "dev-master",
         "schickling/backup": "dev-master",
 		"pda/pheanstalk": "dev-master",
-        "kmd/logviewer": "1.1.*",
+        "kmd/logviewer": "1.2.*",
         "liebig/cron": "dev-master"
     },
 	"autoload": {

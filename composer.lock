@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3a853d76f430a6123ca62519e6002dbd",
+    "hash": "c6bc73ed68e9b4031b7af6d02a5d5df0",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1224,28 +1224,28 @@
         },
         {
             "name": "kmd/logviewer",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikemand/logviewer.git",
-                "reference": "fda642b18bd9a65065dce3e0764a3315c4fbfe1d"
+                "reference": "15ecb824128904cbf81a721e6d7c03b54deb61b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikemand/logviewer/zipball/fda642b18bd9a65065dce3e0764a3315c4fbfe1d",
-                "reference": "fda642b18bd9a65065dce3e0764a3315c4fbfe1d",
+                "url": "https://api.github.com/repos/mikemand/logviewer/zipball/15ecb824128904cbf81a721e6d7c03b54deb61b0",
+                "reference": "15ecb824128904cbf81a721e6d7c03b54deb61b0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.7"
+                "illuminate/filesystem": "~4.0",
+                "illuminate/support": "~4.0",
+                "php": ">=5.3.7",
+                "psr/log": "~1.0",
+                "symfony/finder": "~2.3"
             },
             "require-dev": {
-                "illuminate/filesystem": "4.0.x",
-                "illuminate/support": "4.0.x",
-                "mockery/mockery": "0.8.0",
-                "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/finder": "2.3.*"
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
             },
             "type": "library",
             "autoload": {
@@ -1273,7 +1273,7 @@
                 "log viewer",
                 "logviewer"
             ],
-            "time": "2013-11-18 18:39:07"
+            "time": "2014-06-04 09:14:11"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1556,12 +1556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liebig/cron.git",
-                "reference": "20f13c3a6bfb211939e27301f598a103a710db50"
+                "reference": "442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liebig/cron/zipball/20f13c3a6bfb211939e27301f598a103a710db50",
-                "reference": "20f13c3a6bfb211939e27301f598a103a710db50",
+                "url": "https://api.github.com/repos/liebig/cron/zipball/442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8",
+                "reference": "442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8",
                 "shasum": ""
             },
             "require": {
@@ -1598,20 +1598,20 @@
                 "cronmanager",
                 "laravel"
             ],
-            "time": "2014-05-21 07:39:54"
+            "time": "2014-06-05 09:22:39"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.9.1",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
+                "reference": "25b16e801979098cb2f120e697bfce454b18bf23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
-                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/25b16e801979098cb2f120e697bfce454b18bf23",
+                "reference": "25b16e801979098cb2f120e697bfce454b18bf23",
                 "shasum": ""
             },
             "require": {
@@ -1639,7 +1639,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9.x-dev"
+                    "dev-master": "1.10.x-dev"
                 }
             },
             "autoload": {
@@ -1666,7 +1666,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-24 13:29:03"
+            "time": "2014-06-04 16:30:04"
         },
         {
             "name": "mtdowling/cron-expression",
