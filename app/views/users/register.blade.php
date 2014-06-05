@@ -3,6 +3,7 @@
     <h3 class="text-muted" style="">{{ HTML::image('assets/logo_small.png', 'DziennikLogin logo', array('style' => 'margin-right: 20px;')) }} DziennikLogin</h3>
 </div>
 <div class="container-fluid">
+@include('includes.disclaimer')
 
 {{ Form::open(array('url'=>'users/create', 'class'=>'form-signup')) }}
 
@@ -14,8 +15,6 @@
 <div id="legend">
     <legend class="">Rejestracja do bety</legend>
 </div>
-                   
-                   
 
                     <div class="form-group">
                         <!-- E-mail -->
