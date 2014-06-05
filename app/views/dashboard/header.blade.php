@@ -97,3 +97,5 @@
 </nav>
 
 @include('includes.messages')
+
+@include('includes.disclaimer')
