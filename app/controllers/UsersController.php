@@ -33,6 +33,8 @@ class UsersController extends BaseController {
             //Saving
             $setting->save();
 
+            Log::info('New user registered', ['user_id' => $user->id]);
+
             return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
