@@ -6,7 +6,7 @@ class EmailSendGradesWorker extends SendGradesWorker
     public function fire($job, $data){
 
         $start_time = microtime(true);
-        Log::info('Job started_EmailSendGradesWorker', array('start_time' => $start_time));
+        Log::debug('Job started_EmailSendGradesWorker', array('start_time' => $start_time));
 
         $report = new TextReportGeneratorWorker();
 
@@ -21,7 +21,7 @@ class EmailSendGradesWorker extends SendGradesWorker
                 'grades' => $grades
             );
 
-            Log::info(View::make('emails.grades', $data)->render());
+            //Log::info(View::make('emails.grades', $data)->render());
 
             if(!empty($data['grades'])){
                 Mail::send('emails.grades', $data, function($message)
@@ -34,13 +34,13 @@ class EmailSendGradesWorker extends SendGradesWorker
                     ->whereIn('grade_id', $report->getNotSentGradesIds())
                     ->update(array('status' => '1'));
 
-                Log::info('Email sent');
+                Log::debug('Email sent');
 
             }
 
         } else {
 
-            Log::info('No grades to send');
+            Log::debug('No grades to send');
 
         }
 
@@ -49,7 +49,7 @@ class EmailSendGradesWorker extends SendGradesWorker
         //Delete the job
         $job->delete();
         //Some logs
-        Log::info('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
+        Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
     }
 
 }

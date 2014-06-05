@@ -36,7 +36,7 @@ class GradeProcessWorker
         //Who stole the cookies from the cookie jar?
         $request->setOption(CURLOPT_COOKIEJAR, storage_path('cookie.txt'));//insert path of storage by laravel
         $request->setOption(CURLOPT_COOKIEFILE, storage_path('cookie.txt'));//insert path of storage by laravel
-        Log::info('Request created');// array('context' => $request->getInfo())
+        Log::debug('Request created');// array('context' => $request->getInfo())
         return $request;
     }
 
@@ -54,7 +54,7 @@ class GradeProcessWorker
             Log::error('User not found.', array('user_id' => $user_id));
             return false;
         } else {
-            Log::info('User found.', array('user_id' => $user_id));
+            Log::debug('User found.', array('user_id' => $user_id));
         }
 
         //We will be supplying post data
@@ -65,7 +65,7 @@ class GradeProcessWorker
         $request->execute();
         //If it twerks then it works ;)
         if($request->isSuccessful()){
-            Log::info('Request to login successful');
+            Log::debug('Request to login successful');
             //Log::info($request->getInfo());
             //Log::info($request->getRawResponse());
             return true;
@@ -90,7 +90,7 @@ class GradeProcessWorker
         $request->execute();
         //If it works...
         if($request->isSuccessful()){
-            Log::info('Logout successful.');
+            Log::debug('Logout successful.');
             return true;
         } else {
             Log::error('Logout failed.', array('error' => $request->getErrorMessage()));
@@ -119,7 +119,7 @@ class GradeProcessWorker
             //Log::info($response);
             //transcode to utf8 because register uses ancient iso
             $response = mb_convert_encoding($response, "UTF-8", "UTF-8,ISO-8859-2");
-            Log::info('Grade page request successful'/*, array('table_content' => $response_final) */);
+            Log::debug('Grade page request successful'/*, array('table_content' => $response_final) */);
             return $response;
         } else {
             Log::error('Grade page request failed', array('error' => $request->getErrorMessage));

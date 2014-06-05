@@ -45,7 +45,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
             Log::error('Trimester detection failed, setting trimester as 9');
         }
 
-        Log::info('Obtaining current trimester', array('trimester' => $this->currentTrimester));
+        Log::debug('Obtaining current trimester', array('trimester' => $this->currentTrimester));
 
     }
 
@@ -64,7 +64,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         } else {
             $this->subjectsArray = array();
         }
-        Log::info('Obtained subjects array', array('subjectsArray' => $this->subjectsArray));
+        Log::debug('Obtained subjects array', array('subjectsArray' => $this->subjectsArray));
 
     }
 
@@ -75,7 +75,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
             $this->currentSubjectId = Subject::where('name', '=', $this->currentSubjectName)->first()->id;
 
-            Log::info('Processing subject',
+            Log::debug('Processing subject',
                 array(
                     'name' => $this->currentSubjectName,
                     'id_from_database' => $this->currentSubjectId,
@@ -84,7 +84,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         } else {
 
-            Log::info('Creating new subject');
+            Log::debug('Creating new subject');
 
             $subject = Subject::create(array('name' => $this->currentSubjectName));
 
@@ -92,7 +92,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
             $this->createSubjectsArray();
 
-            Log::info('Processing NEW subject',
+            Log::debug('Processing NEW subject',
                 array(
                     'name' => $this->currentSubjectName,
                     'id_from_database' => $this->currentSubjectId,
@@ -164,7 +164,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
                 'status' => False,
             ));
 
-            Log::info('inserting grade cell',
+            Log::debug('Inserting grade cell',
                 array(
                     'subject' => $this->currentSubjectName,
                     'abbreviation' => $gradeAbbreviation,
@@ -177,7 +177,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
                 ));
         } else {
             //Grade already inserted
-            Log::info('Already inserted grade');
+            Log::debug('Already inserted grade');
         }
 
     }
@@ -189,9 +189,9 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         $average = trim($cell->plaintext);
 
         if($average >= 1.00){
-            Log::info('processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
+            Log::debug('Processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
         } else {
-            Log::info('processing empty average cell', array('subject' => $this->currentSubjectName));
+            Log::debug('Processing empty average cell', array('subject' => $this->currentSubjectName));
         }
 
 
@@ -228,7 +228,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
     public function fire($job, $data){
 
         $start_time = microtime(true);
-        Log::info('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
+        Log::debug('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
         //Below is self-descriptive
         $request = $this->createRequest();
         $this->doLogin($request, $data['user_id']);
@@ -242,14 +242,14 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         $this->currentUserObject->save();
         //Push new email job for user
         //TODO: Options to get email whenever they want
-        Log::info('Pushing email send job for user', array('user_id' => $data['user_id']));
+        Log::debug('Pushing email send job for user', array('user_id' => $data['user_id']));
         //$time = Carbon::now()->addMinutes(5);
         Queue::push('EmailSendGradesWorker', array('user_id' => $data['user_id']), 'emails');
         //Some logs
-        Log::info('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
+        Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);
         $job->delete();
-        Log::info('Job deleted', array('time' => microtime(true)));
+        Log::debug('Job deleted', array('time' => microtime(true)));
 
     }
 }

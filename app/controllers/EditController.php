@@ -30,7 +30,7 @@ class EditController extends \BaseController {
             }
             $user->password = Hash::make(Input::get('password'));
             $user->save();
-            Log::info('happens');
+            Log::info('User changed password', ['user_id' => $user->id]);
             Auth::logout();
             return Redirect::to('users/login')->with('message', 'Hasło zmienione, zaloguj się ponownie!');
         } else {
