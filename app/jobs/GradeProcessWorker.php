@@ -11,9 +11,13 @@ class GradeProcessWorker
      * @param $user
      * @return string
      */
-    public function getPostData($username, $password){
-        return 'user_name=' . $username . '&user_passwd=' . $password . '&con=e-dziennik-szkola01.con';
+
+    public function getPostData($user){
+        return 'user_name=' . $user->registerusername . '&user_passwd=' . Crypt::decrypt($user->registerpassword) . '&con=e-dziennik-szkola01.con';
     }
+//    public function getPostData($username, $password){
+//        return 'user_name=' . $username . '&user_passwd=' . $password . '&con=e-dziennik-szkola01.con';
+//    }
 
     /**
      * Creates a cURL request with necessary options
@@ -40,46 +44,70 @@ class GradeProcessWorker
         return $request;
     }
 
-    /**
-     * Requests login into register for specified user by his credentials.
-     * Returns true on success, false otherwise.
-     *
-     * @param $request
-     * @param $username
-     * @param $password
-     * @return bool
-     */
+//    /**
+//     * Requests login into register for specified user by his credentials.
+//     * Returns true on success, false otherwise.
+//     *
+//     * @param $request
+//     * @param $username
+//     * @param $password
+//     * @return bool
+//     */
+//
+//    public function doLoginByCredentials($request, $username, $password){
+//        //We will be supplying post data
+//        $request->setOption(CURLOPT_POST, 1);
+//        //The actual post data
+//        $request->setOption(CURLOPT_POSTFIELDS, $this->getPostData($username, $password));
+//        //Aaaand - execute!
+//        $request->execute();
+//        //If it twerks then it works ;)
+//        //Check if not redirected to login page
+//        if($request->isSuccessful() && strpos($request->getResponse(),'logowania') === false){
+//            Log::debug('Request to login successful');
+//            //Log::info($request->getInfo());
+//            Log::info($request->getResponse());
+//            return true;
+//        } else {
+//            Log::error('Request to login failed', array('error' => $request->getErrorMessage()));
+//            return false;
+//        }
+//    }
 
-    public function doLoginByCredentials($request, $username, $password){
-        //We will be supplying post data
-        $request->setOption(CURLOPT_POST, 1);
-        //The actual post data
-        $request->setOption(CURLOPT_POSTFIELDS, $this->getPostData($username, $password));
-        //Aaaand - execute!
-        $request->execute();
-        //If it twerks then it works ;)
-        //Check if not redirected to login page
-        if($request->isSuccessful() && strpos($request->getResponse(),'logowania') === false){
-            Log::debug('Request to login successful');
-            //Log::info($request->getInfo());
-            Log::info($request->getResponse());
-            return true;
-        } else {
-            Log::error('Request to login failed', array('error' => $request->getErrorMessage()));
-            return false;
-        }
-    }
+//    /**
+//     * Requests login into register for specified user by his id.
+//     * Returns true on success, false otherwise.
+//     * Is a proxy method to doLoginByCredentials by getting user from database.
+//     *
+//     * @param $request
+//     * @param $user_id
+//     * @return bool
+//     */
+//    public function doLoginById($request, $user_id){
+//        //Find the user
+//        $this->currentUserObject = User::find($user_id);
+//        if($this->currentUserObject == ''){
+//            Log::error('User not found.', array('user_id' => $user_id));
+//            return false;
+//        } else {
+//            Log::debug('User found.', array('user_id' => $user_id));
+//        }
+//
+//        $username = $this->currentUserObject->registerusername;
+//        $password = Crypt::decrypt($this->currentUserObject->registerpassword);
+//
+//        $this->doLoginByCredentials($request, $username, $password);
+//
+//    }
 
     /**
-     * Requests login into register for specified user by his id.
+     * Requests login into register for specified user.
      * Returns true on success, false otherwise.
-     * Is a proxy method to doLoginByCredentials by getting user from database.
-     *
      * @param $request
      * @param $user_id
      * @return bool
      */
-    public function doLoginById($request, $user_id){
+    public function doLogin($request, $user_id){
         //Find the user
         $this->currentUserObject = User::find($user_id);
         if($this->currentUserObject == ''){
@@ -89,10 +117,22 @@ class GradeProcessWorker
             Log::debug('User found.', array('user_id' => $user_id));
         }
 
-        $username = $this->currentUserObject->registerusername;
-        $password = Crypt::decrypt($this->currentUserObject->registerpassword);
-
-        $this->doLoginByCredentials($request, $username, $password);
+        //We will be supplying post data
+        $request->setOption(CURLOPT_POST, 1);
+        //The actual post data
+        $request->setOption(CURLOPT_POSTFIELDS, $this->getPostData($this->currentUserObject));
+        //Aaaand - execute!
+        $request->execute();
+        //If it twerks then it works ;)
+        if($request->isSuccessful()){
+            Log::debug('Request to login successful');
+            //Log::info($request->getInfo());
+            //Log::info($request->getRawResponse());
+            return true;
+        } else {
+            Log::error('Request to login failed', array('error' => $request->getErrorMessage()));
+            return false;
+        }
 
     }
 
@@ -163,14 +203,14 @@ class GradeProcessWorker
         return $response;
     }
 
-    public function checkCredentials($username, $password){
-        $request = $this->createRequest();
-
-        $response = $this->doLoginByCredentials($request, $username, $password);
-
-        $this->doLogout($request);
-
-        return $response;
-    }
+//    public function checkCredentials($username, $password){
+//        $request = $this->createRequest();
+//
+//        $response = $this->doLoginByCredentials($request, $username, $password);
+//
+//        $this->doLogout($request);
+//
+//        return $response;
+//    }
 
 }

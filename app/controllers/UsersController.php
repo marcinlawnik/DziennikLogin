@@ -15,13 +15,13 @@ class UsersController extends BaseController {
     public function postCreate() {
         $validator = Validator::make(Input::all(), User::$rules);
 
-        $registerPasswordChecker = new GradeProcessWorker();
-
-        $registerPasswordCheckResult = $registerPasswordChecker->checkCredentials(Input::get('registerusername'), Input::get('registerpassword'));
+//        $registerPasswordChecker = new GradeProcessWorker();
+//
+//        $registerPasswordCheckResult = $registerPasswordChecker->checkCredentials(Input::get('registerusername'), Input::get('registerpassword'));
 
 
         if ($validator->passes()) {
-            if($registerPasswordCheckResult === true){
+            //if($registerPasswordCheckResult === true){
                 $user = new User;
                 $user->email = Input::get('email');
                 $user->password = Hash::make(Input::get('password'));
@@ -42,9 +42,9 @@ class UsersController extends BaseController {
                 Log::info('New user registered', ['user_id' => $user->id]);
 
                 return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
-            } else {
+            //} else {
                 return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
-            }
+            //}
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
         }

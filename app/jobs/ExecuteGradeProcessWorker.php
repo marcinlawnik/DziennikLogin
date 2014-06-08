@@ -231,7 +231,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         Log::debug('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
         //Below is self-descriptive
         $request = $this->createRequest();
-        $this->doLoginById($request, $data['user_id']);
+        $this->doLogin($request, $data['user_id']);//$this->doLoginById($request, $data['user_id']);
         $this->createGradePageDom($request);
         $this->doLogout($request);
         $this->setCurrentTrimester();
