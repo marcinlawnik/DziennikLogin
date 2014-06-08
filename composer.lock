@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c6bc73ed68e9b4031b7af6d02a5d5df0",
+    "hash": "52c7c6fe493a47862c01dbe5e024fcb7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1556,12 +1556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liebig/cron.git",
-                "reference": "442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8"
+                "reference": "0a58d575b5a369134cae5dd268abd033d5d25b2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liebig/cron/zipball/442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8",
-                "reference": "442846a5c7fbf2b0c1ace8497bf9fb5f0a25fac8",
+                "url": "https://api.github.com/repos/liebig/cron/zipball/0a58d575b5a369134cae5dd268abd033d5d25b2f",
+                "reference": "0a58d575b5a369134cae5dd268abd033d5d25b2f",
                 "shasum": ""
             },
             "require": {
@@ -1598,7 +1598,7 @@
                 "cronmanager",
                 "laravel"
             ],
-            "time": "2014-06-05 09:22:39"
+            "time": "2014-06-06 13:00:21"
         },
         {
             "name": "monolog/monolog",
@@ -3376,10 +3376,10 @@
     "stability-flags": {
         "codesleeve/asset-pipeline": 20,
         "yangqi/htmldom": 20,
-        "xethron/migrations-generator": 20,
         "schickling/backup": 20,
         "pda/pheanstalk": 20,
-        "liebig/cron": 20
+        "liebig/cron": 20,
+        "xethron/migrations-generator": 20
     },
     "platform": [
 

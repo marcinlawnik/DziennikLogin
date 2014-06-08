@@ -12,10 +12,10 @@
         "schickling/backup": "dev-master",
 		"pda/pheanstalk": "dev-master",
         "kmd/logviewer": "1.2.*",
-        "liebig/cron": "dev-master"
+        "liebig/cron": "dev-master",
+        "xethron/migrations-generator": "dev-master"
     },
     "require-dev": {
-        "xethron/migrations-generator": "dev-master"
     },
 	"autoload": {
 		"classmap": [
