@@ -15,27 +15,36 @@ class UsersController extends BaseController {
     public function postCreate() {
         $validator = Validator::make(Input::all(), User::$rules);
 
+        $registerPasswordChecker = new GradeProcessWorker();
+
+        $registerPasswordCheckResult = $registerPasswordChecker->checkCredentials(Input::get('registerusername'), Input::get('registerpassword'));
+
+
         if ($validator->passes()) {
-            $user = new User;
-            $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
-            $user->registerusername = Input::get('registerusername');
-            $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
-            $user->save();
+            if($registerPasswordCheckResult === true){
+                $user = new User;
+                $user->email = Input::get('email');
+                $user->password = Hash::make(Input::get('password'));
+                $user->registerusername = Input::get('registerusername');
+                $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
+                $user->save();
 
-            $setting = new Setting;
-            $setting->user_id = $user->id;
+                $setting = new Setting;
+                $setting->user_id = $user->id;
 
-            //Setting the defults
-            $setting->job_is_active = 1;
-            $setting->job_interval = 15;
+                //Setting the defults
+                $setting->job_is_active = 1;
+                $setting->job_interval = 15;
 
-            //Saving
-            $setting->save();
+                //Saving
+                $setting->save();
 
-            Log::info('New user registered', ['user_id' => $user->id]);
+                Log::info('New user registered', ['user_id' => $user->id]);
 
-            return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
+                return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
+            } else {
+                return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
+            }
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
         }

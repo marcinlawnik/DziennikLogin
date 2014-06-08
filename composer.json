@@ -9,11 +9,13 @@
         "jyggen/curl": "v3.0.1",
         "yangqi/htmldom": "dev-master",
 		"barryvdh/laravel-ide-helper": "1.*",
-        "xethron/migrations-generator": "dev-master",
         "schickling/backup": "dev-master",
 		"pda/pheanstalk": "dev-master",
         "kmd/logviewer": "1.2.*",
         "liebig/cron": "dev-master"
+    },
+    "require-dev": {
+        "xethron/migrations-generator": "dev-master"
     },
 	"autoload": {
 		"classmap": [

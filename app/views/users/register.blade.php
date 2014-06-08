@@ -4,7 +4,7 @@
 </div>
 <div class="container-fluid">
 @include('includes.disclaimer')
-
+@include('includes.messages')
 {{ Form::open(array('url'=>'users/create', 'class'=>'form-signup')) }}
 
 <ul>
