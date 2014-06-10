@@ -1,5 +1,5 @@
 @include('dashboard.header')
-
+<div class="container-narrow">
 {{ Form::open(array('url'=>'edit/password', 'class'=>'')) }}
 @if(!empty($errors->all()))
 <ul class="alert alert-danger col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
@@ -20,4 +20,4 @@ Powtórz nowe hasło:
 {{ Form::close() }}
 
 @include('includes.footer')
-
+</div>
