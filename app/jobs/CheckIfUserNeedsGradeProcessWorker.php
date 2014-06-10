@@ -7,7 +7,7 @@ class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
         $start_time = microtime(true);
         Log::debug('Job started_CheckIfUserNeedsGradeProcessWorker', array('time' => $start_time));
         $request = $this->createRequest();
-        $this->doLogin($request, $data['user_id']);//$this->doLoginById($request, $data['user_id']);
+        $this->doLoginById($request, $data['user_id']);//$this->doLoginById($request, $data['user_id']);
         $table = $this->getGradeTable($request);
         $this->doLogout($request);
         $user = User::find($data['user_id']);

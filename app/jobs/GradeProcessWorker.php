@@ -107,7 +107,7 @@ class GradeProcessWorker
      * @param $user_id
      * @return bool
      */
-    public function doLogin($request, $user_id){
+    public function doLoginById($request, $user_id){
         //Find the user
         $this->currentUserObject = User::find($user_id);
         if($this->currentUserObject == ''){
