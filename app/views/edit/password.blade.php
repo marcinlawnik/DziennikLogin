@@ -7,6 +7,9 @@
     <li style="margin-left:2%;">{{ $error }}</li>
     @endforeach
 </ul>
+<div id="legend">
+    <legend class="">zmiana hasła</legend>
+</div>
 @endif
 Stare hasło:
 {{ Form::password('oldpassword', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
