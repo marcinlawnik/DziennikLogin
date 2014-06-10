@@ -12,12 +12,12 @@
 <div id="legend">
     <legend class="">zmiana hasła</legend>
 </div>
-Stare hasło:
-{{ Form::password('oldpassword', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
-Nowe hasło:
-{{ Form::password('password', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
-Powtórz nowe hasło:
-{{ Form::password('password_confirmation', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
+
+{{ Form::password('oldpassword', array('class'=>'form-control input-xlarge', 'placeholder'=>'Stare hasło')) }}
+
+{{ Form::password('password', array('class'=>'form-control input-xlarge', 'placeholder'=>'Nowe hasło')) }}
+
+{{ Form::password('password_confirmation', array('class'=>'form-control input-xlarge', 'placeholder'=>'Powtórz nowe hasło')) }}
 
 {{ Form::submit('Zapisz', array('class'=>'btn btn-success'))}}
 
