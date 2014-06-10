@@ -9,14 +9,15 @@
 </ul>
 @endif
 Stare hasło:
-{{ Form::password('oldpassword', array('class'=>'', 'placeholder'=>'')) }}
+{{ Form::password('oldpassword', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
 Nowe hasło:
-{{ Form::password('password', array('class'=>'', 'placeholder'=>'')) }}
+{{ Form::password('password', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
 Powtórz nowe hasło:
-{{ Form::password('password_confirmation', array('class'=>'', 'placeholder'=>'')) }}
+{{ Form::password('password_confirmation', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
 
 {{ Form::submit('Zapisz', array('class'=>'btn btn-success'))}}
 
 {{ Form::close() }}
 
 @include('includes.footer')
+
