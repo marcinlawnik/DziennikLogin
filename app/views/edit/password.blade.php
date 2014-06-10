@@ -10,7 +10,7 @@
 
 @endif
 <div id="legend">
-    <legend class="">Zmiana hasła</legend>
+    <legend class="">Zmiana hasła do systemu</legend>
 </div>
 
 {{ Form::password('oldpassword', array('class'=>'form-control input-xlarge', 'placeholder'=>'Stare hasło')) }}
