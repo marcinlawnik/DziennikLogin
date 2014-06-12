@@ -61,7 +61,7 @@ class GradeProcessWorker
      * @param $password
      * @return bool
      */
-    public function doLoginByCredentials($request, $username = 'marcin.lawniczak', $password = 'ekosiarz'){
+    public function doLoginByCredentials($request, $username, $password){
 
         //We will be supplying post data
         $request->setOption(CURLOPT_POST, 1);
