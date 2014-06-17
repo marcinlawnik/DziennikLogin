@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "52c7c6fe493a47862c01dbe5e024fcb7",
+    "hash": "d35aea67d7663b3c099d16e42470de2f",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1078,6 +1078,50 @@
             "time": "2014-05-07 17:04:22"
         },
         {
+            "name": "icap/html-diff",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iCAPLyon1/HtmlDiff.git",
+                "reference": "c9477e69ac9db15eb3a7a34c0053b80b8daf88d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iCAPLyon1/HtmlDiff/zipball/c9477e69ac9db15eb3a7a34c0053b80b8daf88d0",
+                "reference": "c9477e69ac9db15eb3a7a34c0053b80b8daf88d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Icap\\HtmlDiff\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Panagiotis Tsavdaris",
+                    "email": "ptsavdar@gmail.com"
+                },
+                {
+                    "name": "ICAP development team",
+                    "homepage": "https://github.com/iCAPLyon1"
+                }
+            ],
+            "description": "A PHP5 library that diffs (compares) HTML files.",
+            "keywords": [
+                "daisy diff",
+                "html diff"
+            ],
+            "time": "2014-01-16 16:31:34"
+        },
+        {
             "name": "ircmaxell/password-compat",
             "version": "1.0.3",
             "source": {
@@ -1348,16 +1392,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.2.1",
+            "version": "v4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "be75911bf8f7fe81a2db1dd2585324d080289dd5"
+                "reference": "0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/be75911bf8f7fe81a2db1dd2585324d080289dd5",
-                "reference": "be75911bf8f7fe81a2db1dd2585324d080289dd5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1",
+                "reference": "0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1505,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-06-01 18:14:55"
+            "time": "2014-06-11 21:33:06"
         },
         {
             "name": "leafo/lessphp",
@@ -1556,12 +1600,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liebig/cron.git",
-                "reference": "0a58d575b5a369134cae5dd268abd033d5d25b2f"
+                "reference": "40aeff3f52038474abee47a3716c64a803dfd683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liebig/cron/zipball/0a58d575b5a369134cae5dd268abd033d5d25b2f",
-                "reference": "0a58d575b5a369134cae5dd268abd033d5d25b2f",
+                "url": "https://api.github.com/repos/liebig/cron/zipball/40aeff3f52038474abee47a3716c64a803dfd683",
+                "reference": "40aeff3f52038474abee47a3716c64a803dfd683",
                 "shasum": ""
             },
             "require": {
@@ -1598,7 +1642,7 @@
                 "cronmanager",
                 "laravel"
             ],
-            "time": "2014-06-06 13:00:21"
+            "time": "2014-06-12 12:20:51"
         },
         {
             "name": "monolog/monolog",
