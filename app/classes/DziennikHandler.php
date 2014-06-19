@@ -13,6 +13,8 @@ class DziennikHandler
 
     protected $username;
 
+    protected $password;
+
     public $gradePageDom;
 
     /**
@@ -38,8 +40,6 @@ class DziennikHandler
     {
         $this->username = $username;
     }
-
-    protected $password;
 
     function __construct()
     {
