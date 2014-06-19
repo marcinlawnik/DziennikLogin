@@ -19,6 +19,7 @@ class AddSnapshotsTable extends Migration {
             $table->integer('user_id');
             $table->string('table_html');
             $table->boolean('is_processed')->nullable();
+            $table->timestamps();
 		});
 	}
 

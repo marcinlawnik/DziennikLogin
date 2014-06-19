@@ -22,6 +22,7 @@ class AddSnapshotChangesTable extends Migration {
             //Either add or delete
             $table->string('action');
             $table->integer('is_sent_email');
+            $table->timestamps();
 		});
 	}
 
