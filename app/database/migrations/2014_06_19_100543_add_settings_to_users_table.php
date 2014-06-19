@@ -32,7 +32,7 @@ class AddSettingsToUsersTable extends Migration {
 	{
 		Schema::table('users', function(Blueprint $table)
 		{
-            $table->renameColumn('hash_is_changed', 'is_changed');
+            //$table->renameColumn('hash_is_changed', 'is_changed');
             $table->dropColumn(['job_is_active', 'job_interval']);
 		});
 	}
