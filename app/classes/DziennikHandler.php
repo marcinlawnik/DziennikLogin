@@ -152,7 +152,9 @@ class DziennikHandler
     }
 
     /**
-     * Requests grade page for specific user.
+     * Obtains grade page for specific user.
+     *
+     * @return bool
      */
     public function obtainGradePage()
     {
@@ -187,6 +189,14 @@ class DziennikHandler
     {
         return $this->gradePageDom->find('table', 4)->outertext;
     }
+
+    /**
+     * Check if credentials are correct
+     *
+     * @param $username
+     * @param $password
+     * @return bool
+     */
 
     public function checkCredentials($username, $password){
 
