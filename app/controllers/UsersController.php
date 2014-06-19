@@ -27,23 +27,16 @@ class UsersController extends BaseController {
                 $user->password = Hash::make(Input::get('password'));
                 $user->registerusername = Input::get('registerusername');
                 $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
-                $user->save();
-
-                $setting = new Setting;
-                $setting->user_id = $user->id;
-
                 //Setting the defults
-                $setting->job_is_active = 1;
-                $setting->job_interval = 15;
-
-                //Saving
-                $setting->save();
+                $user->job_is_active = 1;
+                $user->job_interval = 15;
+                $user->save();
 
                 Log::info('New user registered', ['user_id' => $user->id]);
 
                 return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
             //} else {
-                return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
+                //return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
             //}
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
