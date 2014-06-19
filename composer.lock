@@ -1392,16 +1392,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v4.2.3",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1"
+                "reference": "ee370ac91ee0a51303765c870e139b1ecd1e222c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1",
-                "reference": "0efc0c962f28c9b5f3ce2da899c7a08a9471b5b1",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ee370ac91ee0a51303765c870e139b1ecd1e222c",
+                "reference": "ee370ac91ee0a51303765c870e139b1ecd1e222c",
                 "shasum": ""
             },
             "require": {
@@ -1505,7 +1505,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-06-11 21:33:06"
+            "time": "2014-06-18 05:07:22"
         },
         {
             "name": "leafo/lessphp",
@@ -1949,12 +1949,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pda/pheanstalk.git",
-                "reference": "2394c748c8c4e01853d622857df293f11c5a9a94"
+                "reference": "8c9568db39e78004455a327f02c347e2133d4ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/2394c748c8c4e01853d622857df293f11c5a9a94",
-                "reference": "2394c748c8c4e01853d622857df293f11c5a9a94",
+                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/8c9568db39e78004455a327f02c347e2133d4ab5",
+                "reference": "8c9568db39e78004455a327f02c347e2133d4ab5",
                 "shasum": ""
             },
             "require": {
@@ -1966,12 +1966,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Pheanstalk": "classes/"
+                "psr-4": {
+                    "Pheanstalk\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1991,7 +1991,7 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2014-05-08 17:49:40"
+            "time": "2014-06-18 16:33:53"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
