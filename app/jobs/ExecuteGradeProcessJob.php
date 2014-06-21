@@ -198,7 +198,7 @@ class ExecuteGradeProcessJob
     public function fire($job, $data){
 
         $start_time = microtime(true);
-        Log::debug('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
+        Log::debug('Job started_ExecuteGradeProcessJob', array('start_time' => $start_time));
 
         //Create new handler
         $dziennikHandler = new DziennikHandler();
@@ -227,7 +227,7 @@ class ExecuteGradeProcessJob
 
         //Create snapshot
         $this->snapshot = new Snapshot();
-        $this->snapshot->hash = Hash::make($dziennikHandler->getGradeTableRawHtml());
+        $this->snapshot->hash = md5($dziennikHandler->getGradeTableRawHtml());
         $this->snapshot->user_id = $this->userObject->id;
         $this->snapshot->table_html = $dziennikHandler->getGradeTableRawHtml();
         $this->snapshot->save();
@@ -239,9 +239,9 @@ class ExecuteGradeProcessJob
         $this->userObject->save();
         //Push new email job for user
         //TODO: Options to get email whenever they want
-        Log::debug('Pushing email send job for user', array('user_id' => $data['user_id']));
+        Log::debug('Pushing Snapshot comparison job for user', array('user_id' => $data['user_id']));
         //$time = Carbon::now()->addMinutes(5);
-        //Queue::push('EmailSendGradesJob', array('user_id' => $data['user_id']), 'emails');
+        Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'grade_process');
         //Some logs
         Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);

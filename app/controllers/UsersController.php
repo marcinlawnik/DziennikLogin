@@ -54,8 +54,10 @@ class UsersController extends BaseController {
 
     public function postSignin() {
         if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
+            Log::debug('User logged in', ['email' => Input::get('email')]);
             return Redirect::action('DashboardController@getIndex')->with('message', 'Zalogowano!');
         } else {
+            Log::debug('User failed to login', ['email' => Input::get('email')]);
             return Redirect::to('users/login')
                 ->with('error', 'Email i/lub hasło niepoprawne!')
                 ->withInput();

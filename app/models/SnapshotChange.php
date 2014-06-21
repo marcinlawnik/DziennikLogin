@@ -1,7 +1,7 @@
 <?php
 
 class SnapshotChange extends \Eloquent {
-	protected $fillable = [];
+	protected $guarded = ['user_id', 'id'];
 
     public function user()
     {
