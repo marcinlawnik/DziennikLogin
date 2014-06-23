@@ -48,7 +48,7 @@ Route::group(array('before' => 'auth'), function()
 
     Route::get('firejob', function()
     {
-        Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id), 'grade_check');
+        Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id), 'grade');
         return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
     });
 
