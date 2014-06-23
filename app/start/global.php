@@ -131,7 +131,7 @@ Event::listen('cron.collectJobs', function() {
         $ids = array();
 
         foreach($users as $user){
-            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade');
             $counter++;
             $ids[] = $user->id;
         }
@@ -155,7 +155,7 @@ Event::listen('cron.collectJobs', function() {
         $ids = array();
 
         foreach($users as $user){
-            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade');
             $counter++;
             $ids[] = $user->id;
         }
