@@ -14,8 +14,8 @@
         "kmd/logviewer": "1.2.*",
         "liebig/cron": "dev-master",
         "xethron/migrations-generator": "dev-master",
-        "icap/html-diff": ">=1.0.1",
-        "doctrine/dbal": "v2.4.2"
+        "doctrine/dbal": "v2.4.2",
+
     },
     "require-dev": {
     },
@@ -28,7 +28,8 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
             "app/jobs",
-            "app/classes"
+            "app/classes",
+            "app/api"
 		]
 	},
 	"scripts": {
