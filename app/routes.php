@@ -51,19 +51,19 @@ Route::group(array('before' => 'auth'), function()
 
         Route::get('check', function()
         {
-            Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => Auth::user()->id), 'grade_check');
+            Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => Sentry::getUser()->id), 'grade_check');
             return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
         });
 
         Route::get('compare', function()
         {
-            Queue::push('CompareGradeSnapshotsJob', array('user_id' => Auth::user()->id), 'grade_process');
+            Queue::push('CompareGradeSnapshotsJob', array('user_id' => Sentry::getUser()->id), 'grade_process');
             return Redirect::to('dashboard/index')->with('message', 'Porównanie snapshotów zakolejkowane!');
         });
 
         Route::get('email', function()
         {
-            Queue::push('EmailSendGradesWorker', array('user_id' => Auth::user()->id), 'emails');
+            Queue::push('EmailSendGradesWorker', array('user_id' => Sentry::getUser()->id), 'emails');
             return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
         });
 

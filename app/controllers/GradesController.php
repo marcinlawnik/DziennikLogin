@@ -6,7 +6,7 @@ class GradesController extends \BaseController {
     public function getIndex()
     {
         // Show all grades belonging to user
-        $grades = Grade::with('subject')->where('user_id', '=', Auth::user()->id)->get();
+        $grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
         
         $subjects = array();
 
@@ -30,7 +30,7 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user in said subject
         $grades = Grade::with('subject')
-            ->where('user_id', '=', Auth::user()->id)
+            ->where('user_id', '=', Sentry::getUser()->id)
             ->where('subject_id', '=', $id)
             ->get();
 
@@ -55,7 +55,7 @@ class GradesController extends \BaseController {
         );
         if($validator->passes())
         {
-            $grade = User::find(Auth::user()->id)->grades()->where('id', '=', $id)->first();
+            $grade = User::find(Sentry::getUser()->id)->grades()->where('id', '=', $id)->first();
             if($grade == ''){
                 return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
             }

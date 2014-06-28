@@ -15,7 +15,7 @@
         "liebig/cron": "dev-master",
         "xethron/migrations-generator": "dev-master",
         "doctrine/dbal": "v2.4.2",
-
+        "cartalyst/sentry": "2.1.*"
     },
     "require-dev": {
     },

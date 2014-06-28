@@ -139,6 +139,8 @@ return array(
         'Kmd\Logviewer\LogviewerServiceProvider',
         //Cron wrapper
         'Liebig\Cron\CronServiceProvider',
+        //Sentry
+        'Cartalyst\Sentry\SentryServiceProvider',
 	),
 
 	/*
@@ -203,6 +205,8 @@ return array(
 		'Route'           => 'Illuminate\Support\Facades\Route',
 		'Schema'          => 'Illuminate\Support\Facades\Schema',
 		'Seeder'          => 'Illuminate\Database\Seeder',
+        //Sentry
+        'Sentry'          => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
 		'Session'         => 'Illuminate\Support\Facades\Session',
 		'SSH'             => 'Illuminate\Support\Facades\SSH',
 		'Str'             => 'Illuminate\Support\Str',
