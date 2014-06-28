@@ -115,54 +115,60 @@ require app_path().'/filters.php';
 
 Event::listen('cron.collectJobs', function() {
 
-    Log::debug('event fired cron.collectJobs');
 
-    Cron::add('CronPushGradeCheckToQueueEvery5Minutes', '*/5 * * * *', function() {
+    if(! App::isDownForMaintenance()){
+        //Log::debug('event fired cron.collectJobs');
 
-        $users = User::with('Settings')->whereHas('Settings',
-            function($query) {
-                $query->where('job_is_active', '=', 1);
-                $query->where('job_interval', '=', 5);
-            })
-            ->get();
+        Cron::add('CronPushGradeCheckToQueueEvery5Minutes', '*/5 * * * *', function() {
 
-        $counter = 0;
+            $users = User::with('Settings')->whereHas('Settings',
+                function($query) {
+                    $query->where('job_is_active', '=', 1);
+                    $query->where('job_interval', '=', 5);
+                })
+                ->get();
 
-        $ids = array();
+            $counter = 0;
 
-        foreach($users as $user){
-            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
-            $counter++;
-            $ids[] = $user->id;
-        }
+            $ids = array();
 
-        Log::info('Pushed check jobs for users (every 5 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
+            foreach($users as $user){
+                Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+                $counter++;
+                $ids[] = $user->id;
+            }
 
-        return null;
-    });
+            Log::info('Pushed check jobs for users (every 5 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
 
-    Cron::add('CronPushGradeCheckToQueueEvery15Minutes', '*/15 * * * *', function() {
+            return null;
+        });
 
-        $users = User::with('Settings')->whereHas('Settings',
-            function($query) {
-                $query->where('job_is_active', '=', 1);
-                $query->where('job_interval', '=', 15);
-            })
-            ->get();
+        Cron::add('CronPushGradeCheckToQueueEvery15Minutes', '*/15 * * * *', function() {
 
-        $counter = 0;
+            $users = User::with('Settings')->whereHas('Settings',
+                function($query) {
+                    $query->where('job_is_active', '=', 1);
+                    $query->where('job_interval', '=', 15);
+                })
+                ->get();
 
-        $ids = array();
+            $counter = 0;
 
-        foreach($users as $user){
-            Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
-            $counter++;
-            $ids[] = $user->id;
-        }
+            $ids = array();
 
-        Log::info('Pushed check jobs for users (every 15 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
+            foreach($users as $user){
+                Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => $user->id), 'grade_check');
+                $counter++;
+                $ids[] = $user->id;
+            }
 
-        return null;
-    });
+            Log::info('Pushed check jobs for users (every 15 minutes)', array('users_amount' => $counter, 'users_ids' => $ids));
+
+            return null;
+        });
+    } else {
+        Log::debug('Pushing no jobs, maintenance mode active.');
+    }
+
 
 });
