@@ -18,7 +18,7 @@ class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
             $user->save();
             //Push a new job to queue to process table
             Log::debug('Pushing ExecuteGradeProcessWorker to stack for user.', ['user_id' => $user->id]);
-            Queue::push('ExecuteGradeProcessWorker', array('user_id' => $user->id), 'grade_process');
+            Queue::push('ExecuteGradeProcessWorker', array('user_id' => $user->id), 'grade');
         } else {
             //No need to do anything as the table has not changed
             Log::debug('User grade page status not changed', array('user_id' => $user->id, 'hash' => md5($table)));
