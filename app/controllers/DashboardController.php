@@ -13,7 +13,7 @@ class DashboardController extends \BaseController {
         $grades = Grade::where('user_id', '=', Sentry::getUser()->id)->get();
 
         if($grades->isEmpty() === true){
-            Session::flash('message', 'Nie posiadasz żadnych ocen! Kliknij '.link_to('firejob', 'tutaj').', aby uruchomić proces pobierania.');
+            Session::flash('message', 'Nie posiadasz żadnych ocen! Kliknij '.link_to('jobs/check', 'tutaj').', aby uruchomić proces pobierania.');
         }
 
         $content = Grade::where('user_id', '=', Sentry::getUser()->id)->orderBy('date', 'DESC')->take(10)->get();

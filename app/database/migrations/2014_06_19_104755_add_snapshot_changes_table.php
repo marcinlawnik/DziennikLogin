@@ -16,7 +16,7 @@ class AddSnapshotChangesTable extends Migration {
 		{
 			$table->increments('id');
             $table->integer('user_id');
-            $table->integer('snapshot_id_from');
+            $table->integer('snapshot_id_from')->nullable();
             $table->integer('snapshot_id_to');
             $table->integer('grade_id');
             //Either add or delete

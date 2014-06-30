@@ -57,9 +57,9 @@ class SnapshotComparator
 
 
     /**
-     * @param Snapshot $snapshotFrom
+     * @param $snapshotFrom
      */
-    public function setSnapshotFrom(Snapshot $snapshotFrom)
+    public function setSnapshotFrom( $snapshotFrom)
     {
         $this->snapshotFrom = $snapshotFrom;
     }
@@ -88,30 +88,38 @@ class SnapshotComparator
     public function compare()
     {
 
-        //Get grades for each snapshot
+        //Get grades for each snapshot, check if not empty
+
         $snapshotToGrades =
             $this->snapshotTo
             ->grades()
-            ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])
-            ->toArray();
+            ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
 
-        $snapshotFromGrades =
-            $this->snapshotFrom
-            ->grades()
-            ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])
-            ->toArray();
+        if(!is_null($this->snapshotFrom))
+        {
+            //dd($this->snapshotFrom);
+            $snapshotFromGrades =
+                $this->snapshotFrom
+                    ->grades()
+                    ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
+        } else {
+            $snapshotFromGrades = [];
+        }
+
 
         //Added grades
-        $addedGrades = array_udiff($snapshotFromGrades,$snapshotToGrades, 'self::udiffCompareGradesInArrays');
+        $addedGrades = array_udiff($snapshotToGrades,$snapshotFromGrades, 'self::udiffCompareGradesInArrays');
+
+        //dd($addedGrades);
 
         foreach($addedGrades as $id => $grade){
-            $this->added[] = Grade::find($id);
+            $this->added[] = Grade::find($id+1);
         }
         //Deleted grades
-        $deletedGrades = array_udiff($snapshotToGrades, $snapshotFromGrades, 'self::udiffCompareGradesInArrays');
+        $deletedGrades = array_udiff($snapshotFromGrades, $snapshotToGrades, 'self::udiffCompareGradesInArrays');
 
         foreach($deletedGrades as $id => $grade){
-            $this->deleted[] = Grade::find($id);
+            $this->deleted[] = Grade::find($id+1);
         }
 
     }
@@ -121,10 +129,15 @@ class SnapshotComparator
      */
     public function process()
     {
+
+        //dd($this->added);
+
         foreach($this->added as $grade)
         {
+
+            //dd($grade);
             $snapshotChange = new SnapshotChange([
-                'snapshot_id_from' => $this->snapshotFrom->id,
+                'snapshot_id_from' => (is_object($this->snapshotFrom) ? $this->snapshotFrom->id : null),
                 'snapshot_id_to' => $this->snapshotTo->id,
                 'action' => 'add',
                 'is_sent_email' => 0
@@ -137,10 +150,13 @@ class SnapshotComparator
             $snapshotChange->save();
         }
 
+
+        //dd($this->deleted);
+
         foreach($this->deleted as $grade)
         {
             $snapshotChange = new SnapshotChange([
-                'snapshot_id_from' => $this->snapshotFrom->id,
+                'snapshot_id_from' => (is_object($this->snapshotFrom) ? $this->snapshotFrom->id : null),
                 'snapshot_id_to' => $this->snapshotTo->id,
                 'action' => 'delete',
                 'is_sent_email' => 0

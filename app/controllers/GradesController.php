@@ -6,8 +6,9 @@ class GradesController extends \BaseController {
     public function getIndex()
     {
         // Show all grades belonging to user
-        $grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
-        
+        //$grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
+        $snapshot = Sentry::getUser()->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
+        $grades = Snapshot::find($snapshot->id)->grades();
         $subjects = array();
 
         foreach($grades as $grade) {
@@ -28,10 +29,14 @@ class GradesController extends \BaseController {
 
     public function getSubject($id)
     {
+
+        //Get current snapshot
+        $snapshot = User::find(Sentry::getUser()->getId())->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
         // Show all grades belonging to user in said subject
         $grades = Grade::with('subject')
             ->where('user_id', '=', Sentry::getUser()->id)
             ->where('subject_id', '=', $id)
+            ->where('snapshot_id', '=', $snapshot->id)
             ->get();
 
         if($grades->isEmpty()){

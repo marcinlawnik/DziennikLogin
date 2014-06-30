@@ -13,4 +13,9 @@ class Snapshot extends \Eloquent {
         return $this->hasMany('Grade');
     }
 
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('created_at', 'DESC');
+    }
+
 }
