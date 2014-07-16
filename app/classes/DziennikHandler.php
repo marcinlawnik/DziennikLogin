@@ -80,6 +80,7 @@ class DziennikHandler
         //Allow the register some time to think, because it's slow as hell
         $request->setOption(CURLOPT_TIMEOUT, 60);
         //Who stole the cookies from the cookie jar?
+        //TODO: make sure one cookie file per request
         $request->setOption(CURLOPT_COOKIEJAR, storage_path('cookie.txt')); //insert path of storage by laravel
         $request->setOption(CURLOPT_COOKIEFILE, storage_path('cookie.txt')); //insert path of storage by laravel
         Log::debug('Request created'); // array('context' => $request->getInfo())
