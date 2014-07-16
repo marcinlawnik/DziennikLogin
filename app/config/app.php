@@ -141,6 +141,8 @@ return array(
         'Liebig\Cron\CronServiceProvider',
         //Sentry
         'Cartalyst\Sentry\SentryServiceProvider',
+        //API
+        'Dingo\Api\ApiServiceProvider',
 	),
 
 	/*
@@ -169,6 +171,8 @@ return array(
 
 	'aliases' => array(
 
+        //API
+        'API'             => 'Dingo\Api\Facades\API',
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
 		'Auth'            => 'Illuminate\Support\Facades\Auth',
@@ -179,7 +183,9 @@ return array(
 		'ClassLoader'     => 'Illuminate\Support\ClassLoader',
 		'Config'          => 'Illuminate\Support\Facades\Config',
         //Controller class from Laravel
-		'Controller'      => 'Illuminate\Routing\Controller',
+		//'Controller'      => 'Illuminate\Routing\Controller',
+        //Controller from dingo/api
+        'Controller'      => 'Dingo\Api\Routing\Controller',
 		'Cookie'          => 'Illuminate\Support\Facades\Cookie',
 		'Crypt'           => 'Illuminate\Support\Facades\Crypt',
 		'DB'              => 'Illuminate\Support\Facades\DB',

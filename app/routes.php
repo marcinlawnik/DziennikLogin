@@ -81,3 +81,9 @@ Route::group(array('before' => 'auth'), function()
 });
 
 //API - Routing
+
+Route::api(['version' => 'v1'], function()
+{
+    // Route definitions.
+});
+
