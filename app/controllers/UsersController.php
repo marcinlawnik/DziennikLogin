@@ -2,14 +2,12 @@
 
 class UsersController extends BaseController {
 
-    protected $layout = "users.main";
-
     public function __construct() {
         $this->beforeFilter('csrf', array('on'=>'post'));
     }
 
     public function getRegister() {
-        $this->layout->content = View::make('users.register');
+        return View::make('users.register');
     }
 
     public function postCreate() {
@@ -21,29 +19,33 @@ class UsersController extends BaseController {
 
 
         if ($validator->passes()) {
+
+            //TODO: Add email activation
+
+            $user = Sentry::register([
+                'email' => Input::get('email'),
+                'password' => Input::get('password'),
+                'registerusername' => Input::get('registerusername'),
+                'registerpassword' => Crypt::encrypt(Input::get('registerpassword')),
+                'job_is_active' => 1,
+                'job_interval' => 15
+            ], true);
             //if($registerPasswordCheckResult === true){
-                $user = new User;
-                $user->email = Input::get('email');
-                $user->password = Hash::make(Input::get('password'));
-                $user->registerusername = Input::get('registerusername');
-                $user->registerpassword = Crypt::encrypt(Input::get('registerpassword'));
-                $user->save();
+//                $user = new User;
+//                $user->email = ;
+//                $user->password = Hash::make();
+//                $user->registerusername = );
+//                $user->registerpassword = ;
+//                //Setting the defults
+//                $user->job_is_active = 1;
+//                $user->job_interval = 15;
+//                $user->save();
 
-                $setting = new Setting;
-                $setting->user_id = $user->id;
-
-                //Setting the defults
-                $setting->job_is_active = 1;
-                $setting->job_interval = 15;
-
-                //Saving
-                $setting->save();
-
-                Log::info('New user registered', ['user_id' => $user->id]);
+                Log::info('New user registered', ['user_id' => $user->getId()]);
 
                 return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
             //} else {
-                return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
+                //return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
             //}
         } else {
             return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
@@ -51,30 +53,62 @@ class UsersController extends BaseController {
     }
 
     public function getLogin() {
-        if (Auth::check()){
-            $this->layout = null;
+        if (Sentry::check()){
             return Redirect::action('DashboardController@getIndex')->with('message', 'Już jesteś zalogowany!');
         } else {
-            $this->layout->content = View::make('users.login');
+            return View::make('users.login');
         }
     }
 
     public function postSignin() {
-        if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
-            return Redirect::action('DashboardController@getIndex')->with('message', 'Zalogowano!');
-        } else {
-            return Redirect::to('users/login')
-                ->with('error', 'Email i/lub hasło niepoprawne!')
-                ->withInput();
+        try
+        {
+            if (Sentry::authenticate(['email'=>Input::get('email'), 'password'=>Input::get('password')])) {
+                Log::debug('User logged in', ['email' => Input::get('email')]);
+                return Redirect::action('DashboardController@getIndex')->with('message', 'Zalogowano!');
+            } else {
+                Log::debug('User failed to login', ['email' => Input::get('email')]);
+            }
         }
+        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
+        }
+        catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
+        }
+        catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
+        }
+        catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Konto nie zostało aktywowane!')->withInput();
+        }
+
+        // The following is only required if the throttling is enabled
+        catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!');
+        }
+        catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
+        {
+            return Redirect::to('users/login')->with('error', 'Użytkownik zbanowany!');
+        }
+
     }
 
     public function getLogout() {
-        if(Auth::check()){
-            Auth::logout();
+        if(Sentry::check()){
+            Sentry::logout();
             return Redirect::to('/')->with('message', 'Wylogowano poprawnie!');
         } else {
-            return Redirect::to('users/login');
+            return Redirect::to('users/login')->with('message', 'Zaloguj się!');
         }
 
     }

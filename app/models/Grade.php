@@ -15,4 +15,9 @@ class Grade extends Eloquent {
         return $this->belongsTo('User');
     }
 
+    public function snapshot()
+    {
+        return $this->belongsTo('Snapshot');
+    }
+
 }

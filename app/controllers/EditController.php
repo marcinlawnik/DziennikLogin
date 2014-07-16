@@ -17,24 +17,21 @@ class EditController extends \BaseController {
             'password_confirmation'=>'required|alpha_num|between:8,32'
         );
         $validator = Validator::make(Input::all(), $rules);
-        $user = User::find(Auth::user()->id);
-        $credentials = array(
-            'email' => $user->email,
-            'password' => Input::get('oldpassword')
-        );
+        $user = Sentry::getUser();
 
         if ($validator->passes()) {
 
-            if(!Auth::validate($credentials)){
-                return Redirect::to('edit/password')->with('error', 'Stare hasło nieprawidłowe!')->withInput();
+            if( ! $user->checkPassword(Input::get('oldpassword'))){
+                return Redirect::to('edit/password')->with('error', 'Stare hasło nieprawidłowe!');
             }
-            $user->password = Hash::make(Input::get('password'));
-            $user->save();
-            Log::info('User changed password', ['user_id' => $user->id]);
-            Auth::logout();
+            $userProvider = Sentry::getUserProvider()->findById($user->id);
+            $userProvider->password = Input::get('password');
+            $userProvider->save();
+            Log::debug('User changed password', ['user_id' => $user->id]);
+            Sentry::logout();
             return Redirect::to('users/login')->with('message', 'Hasło zmienione, zaloguj się ponownie!');
         } else {
-            return Redirect::to('edit/password')->withErrors($validator->errors())->withInput();
+            return Redirect::to('edit/password')->withErrors($validator->errors());
         }
     }
 

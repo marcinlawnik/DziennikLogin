@@ -9,9 +9,10 @@ class Subject extends Eloquent {
     {
         return $this->hasMany('Grade');
     }
-    
+
+    //TODO: Make this accept user ID
     public static function calculateAverage($subject_id) {
-        $grades = Grade::where('user_id', '=', Auth::user()->id)->where('subject_id', '=', $subject_id)->get();
+        $grades = Grade::where('user_id', '=', Sentry::getUser()->id)->where('subject_id', '=', $subject_id)->get();
 
         $sumaOcen=0;
         $sumaWag=0;

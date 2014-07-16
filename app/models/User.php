@@ -38,8 +38,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->belongsToMany('Subject');
     }
 
-    public function settings(){
-        return $this->hasOne('Setting');
+    public function snapshots()
+    {
+        return $this->hasMany('Snapshot');
+    }
+
+    public function snapshotChanges()
+    {
+        return $this->hasMany('SnapshotChange');
     }
 
 	/**

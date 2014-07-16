@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddSettingsTable extends Migration {
+class AddSnapshotsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,13 @@ class AddSettingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('settings', function(Blueprint $table) {
-            $table->increments('id');
+		Schema::create('snapshots', function(Blueprint $table)
+		{
+			$table->increments('id');
+            $table->string('hash', 32);
             $table->integer('user_id');
-            $table->boolean('job_is_active')->nullable();
-            //In minutes, amount of time between jobs. Default: 15
-            $table->integer('job_interval')->nullable();
+            $table->text('table_html');
+            $table->boolean('is_processed')->nullable();
             $table->timestamps();
 		});
 	}
@@ -30,7 +31,7 @@ class AddSettingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('settings');
+		Schema::drop('snapshots');
 	}
 
 }
