@@ -63,7 +63,7 @@
                 <ul class="dropdown-menu">
                     {{-- Hacky assign variable - http://stackoverflow.com/questions/13002626/laravels-blade-how-can-i-set-variables-in-a-template --}}
                     @if ($subjects=array()) @endif
-                    @foreach(Grade::with('subject')->where('user_id', '=', Auth::user()->id)->get() as $grade)
+                    @foreach(Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get() as $grade)
 
                     @if (!in_array($grade->subject_id, $subjects))
                     {{-- Hacky assign variable --}}
@@ -78,15 +78,16 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            @if(Sentry::getUser()->isSuperUser())
             <li class="debug">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opcje debugowania <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" >Opcje</a></li>
+                    <li><a href="/logs" >Logi</a></li>
                 </ul>
             </li>
-
+            @endif
             <li class="username">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->email }} <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Sentry::getUser()->email }} <b class="caret"></b></a>
                 <ul class="dropdown-menu"></li>
                     <li><a href="{{ URL::to('/edit/password') }}" >Zmień hasło</a></li>
                 </ul>

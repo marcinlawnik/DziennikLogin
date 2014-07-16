@@ -35,7 +35,7 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('users/login');
+	if ( ! Sentry::check()) return Redirect::guest('users/login');
 });
 
 
@@ -57,9 +57,20 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+	if (Sentry::check()) return Redirect::to('/');
 });
 
+
+/*
+|--------------------------------------------------------------------------
+| Admin Filter
+|--------------------------------------------------------------------------
+*/
+
+Route::filter('admin', function()
+{
+    if (! Sentry::getUser()->isSuperUser()) return Redirect::to('dashboard/index');
+});
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter

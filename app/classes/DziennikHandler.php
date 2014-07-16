@@ -13,6 +13,8 @@ class DziennikHandler
 
     protected $username;
 
+    protected $password;
+
     public $gradePageDom;
 
     /**
@@ -38,8 +40,6 @@ class DziennikHandler
     {
         $this->username = $username;
     }
-
-    protected $password;
 
     function __construct()
     {
@@ -80,6 +80,7 @@ class DziennikHandler
         //Allow the register some time to think, because it's slow as hell
         $request->setOption(CURLOPT_TIMEOUT, 60);
         //Who stole the cookies from the cookie jar?
+        //TODO: make sure one cookie file per request
         $request->setOption(CURLOPT_COOKIEJAR, storage_path('cookie.txt')); //insert path of storage by laravel
         $request->setOption(CURLOPT_COOKIEFILE, storage_path('cookie.txt')); //insert path of storage by laravel
         Log::debug('Request created'); // array('context' => $request->getInfo())
@@ -152,7 +153,9 @@ class DziennikHandler
     }
 
     /**
-     * Requests grade page for specific user.
+     * Obtains grade page for specific user.
+     *
+     * @return bool
      */
     public function obtainGradePage()
     {
@@ -187,6 +190,14 @@ class DziennikHandler
     {
         return $this->gradePageDom->find('table', 4)->outertext;
     }
+
+    /**
+     * Check if credentials are correct
+     *
+     * @param $username
+     * @param $password
+     * @return bool
+     */
 
     public function checkCredentials($username, $password){
 

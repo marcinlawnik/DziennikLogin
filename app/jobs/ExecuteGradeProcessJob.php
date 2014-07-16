@@ -1,6 +1,6 @@
 <?php
 
-class ExecuteGradeProcessWorker extends GradeProcessWorker
+class ExecuteGradeProcessJob
 {
 
     public $gradePageDom;
@@ -13,9 +13,9 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
     public $currentSubjectId;
 
-    private function createGradePageDom($request){
-        $this->gradePageDom = new Htmldom($this->getGradePage($request));
-    }
+    public $snapshot;
+
+    private $userObject;
 
     /**
      * Returns all cells from grades table for user
@@ -53,7 +53,7 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
         //2. Powinieneś najpierw spróbować pobrać za jednym zamachem wszystkie ID przedmiotów na podstawie ich nazw.
         //Dopiero w następnym kroku utworzyć nowe rekordy w bazie dla nieistniejących jeszcze przedmiotów.
-        //get all subjects from db
+        //Get all subjects from database
         $subjects = Subject::get();
 
         //Create table suitable for us
@@ -105,8 +105,11 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
     private function processGradeCell($cell){
 
         //get all the needed values
-        $gradeAbbreviation = strtoupper(trim(substr($cell->plaintext, 0, 3))); //grade abbreviation (the text from cell)
-        $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT); //grade numerical value (the number from cell)
+        //grade abbreviation (the text from cell)
+        $gradeAbbreviation = strtoupper(trim(substr($cell->plaintext, 0, 3)));
+
+        //grade numerical value (the number from cell)
+        $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT);
         //See if it has +, add a 0,5 then
         //TODO: fix if some teacher puts plus in description
         if (strpos($cell->plaintext, '+') !== FALSE) {
@@ -122,63 +125,29 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
         }
         $gradeGroup = $onMouseOverDom->find('p', '1')->plaintext; //group of grade
         $gradeWeight = trim($onMouseOverDom->find('td', '3')->plaintext); //weight of grade
+
         //free up resources
         $onMouseOverDom->clear();
         unset($onMouseOverDom);
+
         if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {//check if gradeWeight is really a number, if not, then its 1
             $gradeWeight = '1';
         } else {
             $gradeWeight = round($gradeWeight);
         }
 
-        $grade = Grade::where('user_id', '=', $this->currentUserObject->id)
-            ->where('subject_id', '=', $this->currentSubjectId)
-            ->where('abbreviation', '=', $gradeAbbreviation)
-            ->where('value', '=', $gradeValue)
-            ->where('date', '=', $gradeDate)
-            ->where('title' ,'=', $gradeTitle)
-            ->where('weight', '=', $gradeWeight)
-            ->where('group', '=', $gradeGroup)
-            ->where('trimester', '=', $this->currentTrimester)
-            ->get();
-
-        if($grade->isEmpty()){
-            //Grade not in database
-            //Insert
-            $grade = Grade::create(array(
-                'user_id' => $this->currentUserObject->id,
-                'subject_id' => $this->currentSubjectId,
-                'abbreviation' => $gradeAbbreviation,
-                'value' => $gradeValue,
-                'date' => $gradeDate,
-                'title' => $gradeTitle,
-                'weight' => $gradeWeight,
-                'group' => $gradeGroup,
-                'trimester' => $this->currentTrimester,
-            ));
-            //Add status information
-
-            EmailSendStatus::firstOrCreate(array(
-                'user_id' =>$this->currentUserObject->id,
-                'grade_id' => $grade->id,
-                'status' => False,
-            ));
-
-            Log::debug('Inserting grade cell',
-                array(
-                    'subject' => $this->currentSubjectName,
-                    'abbreviation' => $gradeAbbreviation,
-                    'value' => $gradeValue,
-                    'date' => $gradeDate,
-                    'title' => $gradeTitle,
-                    'weight' => $gradeWeight,
-                    'group' => $gradeGroup,
-                    'trimester' => $this->currentTrimester,
-                ));
-        } else {
-            //Grade already inserted
-            Log::debug('Already inserted grade');
-        }
+        Grade::create(array(
+            'user_id' => $this->userObject->id,
+            'snapshot_id' => $this->snapshot->id,
+            'subject_id' => $this->currentSubjectId,
+            'value' => $gradeValue,
+            'weight' => $gradeWeight,
+            'group' => $gradeGroup,
+            'title' => $gradeTitle,
+            'date' => $gradeDate,
+            'abbreviation' => $gradeAbbreviation,
+            'trimester' => $this->currentTrimester,
+        ));
 
     }
 
@@ -217,34 +186,62 @@ class ExecuteGradeProcessWorker extends GradeProcessWorker
 
             } elseif (strcspn($cell->plaintext, '0123456789') != strlen($cell->plaintext)) {
 
-                //grade: has number inside and isnt empty
+                //grade: has number inside and isn't empty
                 $this->processGradeCell($cell);
 
             }
         }
 
     }
+
     //this simply fires
     public function fire($job, $data){
 
         $start_time = microtime(true);
-        Log::debug('Job started_ExecuteGradeProcessWorker', array('start_time' => $start_time));
-        //Below is self-descriptive
-        $request = $this->createRequest();
-        $this->doLoginById($request, $data['user_id']);//$this->doLoginById($request, $data['user_id']);
-        $this->createGradePageDom($request);
-        $this->doLogout($request);
+        Log::debug('Job started_ExecuteGradeProcessJob', array('start_time' => $start_time));
+
+        //Create new handler
+        $dziennikHandler = new DziennikHandler();
+
+        //Find user
+        $this->userObject = User::find($data['user_id']);
+
+        //Pass credentials to handler
+        $dziennikHandler->setUsername($this->userObject->registerusername);
+        $dziennikHandler->setPassword(Crypt::decrypt($this->userObject->registerpassword));
+
+        //Login
+        $dziennikHandler->doLogin();
+
+        //Grab grade page
+        $dziennikHandler->obtainGradePage();
+
+        //Take the Htmldom object of it
+        $this->gradePageDom = $dziennikHandler->getGradePageDom();
+
+        //Logout
+        $dziennikHandler->doLogout();
+
         $this->setCurrentTrimester();
         $this->createSubjectsArray();
+
+        //Create snapshot
+        $this->snapshot = new Snapshot();
+        $this->snapshot->hash = md5($dziennikHandler->getGradeTableRawHtml());
+        $this->snapshot->user_id = $this->userObject->id;
+        $this->snapshot->table_html = $dziennikHandler->getGradeTableRawHtml();
+        $this->snapshot->save();
+
         $this->processGradePage($this->getGradeCells());
+
         //Mark job as done
-        $this->currentUserObject->is_changed = 0;
-        $this->currentUserObject->save();
+        $this->userObject->is_changed = 0;
+        $this->userObject->save();
         //Push new email job for user
         //TODO: Options to get email whenever they want
-        Log::debug('Pushing email send job for user', array('user_id' => $data['user_id']));
+        Log::debug('Pushing Snapshot comparison job for user', array('user_id' => $data['user_id']));
         //$time = Carbon::now()->addMinutes(5);
-        Queue::push('EmailSendGradesWorker', array('user_id' => $data['user_id']), 'emails');
+        Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'grade_process');
         //Some logs
         Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
         //Log::info($table);

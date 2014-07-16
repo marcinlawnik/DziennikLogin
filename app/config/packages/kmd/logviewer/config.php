@@ -2,9 +2,9 @@
 
 return array(
 
-    'base_url'   => 'logviewer',
+    'base_url'   => 'logs',
     'filters'    => array(
-        'global' => array('before' => 'auth'),
+        'global' => array('before' => 'admin'),
         'view'   => array(),
         'delete' => array()
     ),
