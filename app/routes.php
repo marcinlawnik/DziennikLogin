@@ -14,7 +14,7 @@
 // Routing - strona główna
 Route::get('/', function()
 {
-	return View::make('layouts/index');
+    return View::make('layouts/index');
 });
 
 // Routing - strony użytkownika
@@ -46,16 +46,31 @@ Route::group(array('before' => 'auth'), function()
 
     Route::controller('edit', 'EditController');
 
-    Route::get('firejob', function()
-    {
-        Queue::push('CheckIfUserNeedsGradeProcessWorker', array('user_id' => Auth::user()->id), 'grade');
-        return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
-    });
+    Route::group(['prefix' => 'jobs'], function(){
 
-    Route::get('fireemail', function()
-    {
-        Queue::push('EmailSendGradesWorker', array('user_id' => Auth::user()->id), 'emails');
-        return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
+
+        Route::get('check', function()
+        {
+            Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => Sentry::getUser()->id), 'grade_check');
+            return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
+        });
+
+        Route::get('compare/{idFrom?}/{idTo?}', function($idFrom = null, $idTo = null)
+        {
+            Queue::push('CompareGradeSnapshotsJob', array(
+                'user_id' => Sentry::getUser()->id,
+                'id_from' => $idFrom,
+                'id_to' => $idTo), 'grade_process');
+            return Redirect::to('dashboard/index')->with('message', 'Porównanie snapshotów zakolejkowane!');
+        });
+
+        Route::get('email', function()
+        {
+            Queue::push('EmailSendGradesWorker', array('user_id' => Sentry::getUser()->id), 'emails');
+            return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
+        });
+
+
     });
 
     Route::get('time', function()
@@ -64,3 +79,5 @@ Route::group(array('before' => 'auth'), function()
     });
 
 });
+
+//API - Routing
