@@ -59,7 +59,7 @@ class SnapshotComparator
     /**
      * @param $snapshotFrom
      */
-    public function setSnapshotFrom( $snapshotFrom)
+    public function setSnapshotFrom($snapshotFrom)
     {
         $this->snapshotFrom = $snapshotFrom;
     }
@@ -73,6 +73,8 @@ class SnapshotComparator
     }
 
     /**
+     * Used to compare arrays
+     *
      * @param $a
      * @param $b
      * @return int
@@ -82,8 +84,35 @@ class SnapshotComparator
         return strcmp(implode("",$a), implode("",$b));
     }
 
+
     /**
+     * Moves the id from array to key
      *
+     * Used to make comparison possible while retaining data
+     *
+     * @param $array
+     * @return array
+     */
+
+    static private function moveIdFromArrayToKey ($array)
+    {
+        $processedArray = [];
+
+        foreach($array as $item)
+        {
+            $id = $item['id'];
+            unset($item['id']);
+            $processedArray[$id] = $item;
+        }
+
+        return $processedArray;
+
+    }
+
+    /**
+     * Compares changes between snapshots and stores in attributes
+     *
+     * @return void
      */
     public function compare()
     {
@@ -93,49 +122,48 @@ class SnapshotComparator
         $snapshotToGrades =
             $this->snapshotTo
             ->grades()
-            ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
+            ->get(['id', 'subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
 
         if(!is_null($this->snapshotFrom))
         {
-            //dd($this->snapshotFrom);
             $snapshotFromGrades =
                 $this->snapshotFrom
                     ->grades()
-                    ->get(['subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
+                    ->get(['id', 'subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
         } else {
             $snapshotFromGrades = [];
         }
 
+        //Prepare the grades array by moving ID to the key
+        $snapshotFromGrades = self::moveIdFromArrayToKey($snapshotFromGrades);
+        $snapshotToGrades = self::moveIdFromArrayToKey($snapshotToGrades);
 
         //Added grades
         $addedGrades = array_udiff($snapshotToGrades,$snapshotFromGrades, 'self::udiffCompareGradesInArrays');
 
-        //dd($addedGrades);
-
         foreach($addedGrades as $id => $grade){
-            $this->added[] = Grade::find($id+1);
+            $this->added[] = Grade::find($id);
         }
+
         //Deleted grades
         $deletedGrades = array_udiff($snapshotFromGrades, $snapshotToGrades, 'self::udiffCompareGradesInArrays');
 
         foreach($deletedGrades as $id => $grade){
-            $this->deleted[] = Grade::find($id+1);
+            $this->deleted[] = Grade::find($id);
         }
 
     }
 
     /**
+     * Inserts changes into database
      *
+     * @return void
      */
     public function process()
     {
 
-        //dd($this->added);
-
         foreach($this->added as $grade)
         {
-
-            //dd($grade);
             $snapshotChange = new SnapshotChange([
                 'snapshot_id_from' => (is_object($this->snapshotFrom) ? $this->snapshotFrom->id : null),
                 'snapshot_id_to' => $this->snapshotTo->id,
@@ -149,9 +177,6 @@ class SnapshotComparator
 
             $snapshotChange->save();
         }
-
-
-        //dd($this->deleted);
 
         foreach($this->deleted as $grade)
         {

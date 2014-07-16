@@ -55,9 +55,12 @@ Route::group(array('before' => 'auth'), function()
             return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
         });
 
-        Route::get('compare', function()
+        Route::get('compare/{idFrom?}/{idTo?}', function($idFrom = null, $idTo = null)
         {
-            Queue::push('CompareGradeSnapshotsJob', array('user_id' => Sentry::getUser()->id), 'grade_process');
+            Queue::push('CompareGradeSnapshotsJob', array(
+                'user_id' => Sentry::getUser()->id,
+                'id_from' => $idFrom,
+                'id_to' => $idTo), 'grade_process');
             return Redirect::to('dashboard/index')->with('message', 'Porównanie snapshotów zakolejkowane!');
         });
 
