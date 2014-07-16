@@ -1,6 +1,6 @@
 {
-	"name": "marcinlawnik/DziennikLoginWebNew",
-	"description": "DziennikLogin web interface in laravel",
+	"name": "marcinlawnik/DziennikLogin",
+	"description": "An app that notifies about new grades in EKOS register",
 	"license": "unlicense",
 	"require": {
 		"laravel/framework": "4.2.*",
