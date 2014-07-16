@@ -121,8 +121,8 @@ class SnapshotComparator
 
         $snapshotToGrades =
             $this->snapshotTo
-            ->grades()
-            ->get(['id', 'subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
+                ->grades()
+                ->get(['id', 'subject_id', 'value', 'weight', 'group', 'title', 'date', 'abbreviation', 'trimester'])->toArray();
 
         if(!is_null($this->snapshotFrom))
         {
