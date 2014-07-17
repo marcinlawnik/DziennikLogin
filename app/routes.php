@@ -66,7 +66,7 @@ Route::group(array('before' => 'auth'), function()
 
         Route::get('email', function()
         {
-            Queue::push('EmailSendGradesWorker', array('user_id' => Sentry::getUser()->id), 'emails');
+            Queue::push('GradeChangesEmailNotifyJob', array('user_id' => Sentry::getUser()->id), 'emails');
             return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
         });
 
