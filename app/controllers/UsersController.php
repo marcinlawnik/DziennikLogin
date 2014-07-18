@@ -113,14 +113,4 @@ class UsersController extends BaseController {
 
     }
 
-    /**
-     * Show resource of authenticated user.
-     *
-     * @return mixed
-     */
-    public function userDetails()
-    {
-        return $this->auth->user();
-    }
-
 }

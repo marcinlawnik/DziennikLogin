@@ -112,7 +112,9 @@ Route::api(['version' => 'v1', 'protected' => true], function()
 {
 
     # User details for PasswordCredentialsGrant user
-    Route::get('users/details', ['uses' => 'UsersController@userDetails']);
+    Route::get('users/details', function(){
+        return Response::api()->withItem(User::find(ResourceServer::getOwnerId()), new UserTransformer());
+    });
 
     //All subjects
     Route::get('subjects', function(){
