@@ -38,6 +38,10 @@ Route::filter('auth', function()
 	if ( ! Sentry::check()) return Redirect::guest('users/login');
 });
 
+Route::filter('auth.api', function()
+{
+    if ( ! Sentry::check()) return Response::api()->errorUnauthorized();
+});
 
 Route::filter('auth.basic', function()
 {

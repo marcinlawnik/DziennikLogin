@@ -81,9 +81,63 @@ Route::group(array('before' => 'auth'), function()
 });
 
 //API - Routing
+Route::api(['version' => 'v1'], function(){
+    Route::get('/', function(){
+        return Response::json([
+            'data' =>'This api has documentation at dl.lawniczak.me/documentation'
+        ]);
+    });
+});
 
-Route::api(['version' => 'v1'], function()
+Route::api(['version' => 'v1', 'before' => 'auth.api'], function()
 {
-    // Route definitions.
+
+    //All subjects
+    Route::get('subjects', function(){
+        return Response::api()->withCollection(Subject::all(), new SubjectTransformer());
+    });
+
+    //One subject defined by ID
+    Route::get('subjects/{id}', function($id)
+    {
+        if(array_search($id, Subject::all()->modelKeys()) !== false){
+            return Response::api()->withItem(Subject::find($id), new SubjectTransformer());
+        }
+        else
+        {
+            return Response::api()->errorNotFound();
+        }
+
+    })->where('id', '[\d,]+');
+
+    Route::get('snapshots', function(){
+        return Response::api()
+            ->withCollection(
+                User::find(Sentry::getUser()->getId())->snapshots()->orderBy('created_at', 'DESC')->get(),
+                new SnapshotTransformer()
+            );
+    });
+
+    //TODO:Add some hash validation, like in subjects
+    Route::get('snapshots/{hash}', function($hash){
+
+        $snapshot = User::find(Sentry::getUser()->getId())->snapshots()->where('hash', '=', $hash)->get();
+
+        if($snapshot->isEmpty()){
+            return Response::api()->errorNotFound();
+        }
+        else
+        {
+            return Response::api()
+                ->withCollection(
+                   $snapshot,
+                    new SnapshotTransformer()
+                );
+        }
+
+    });
+
+
+
 });
 

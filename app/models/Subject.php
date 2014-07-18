@@ -1,6 +1,6 @@
 <?php
 
-class Subject extends Eloquent {
+class Subject extends Eloquent implements \Dingo\Api\Transformer\TransformableInterface{
     protected $fillable = [];
 
     protected $guarded = array('id');
@@ -30,5 +30,9 @@ class Subject extends Eloquent {
          
     }
 
+    public function getTransformer()
+    {
+        return new SubjectTransformer();
+    }
     //TODO: Create a many-to-many relationship between users and subjects
 }

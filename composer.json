@@ -29,8 +29,7 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
             "app/jobs",
-            "app/classes",
-            "app/api"
+            "app/classes"
 		]
 	},
 	"scripts": {

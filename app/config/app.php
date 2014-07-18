@@ -123,6 +123,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+        //API - conflicts with asset-pipeline
+        'Dingo\Api\ApiServiceProvider',
         //Asset provider
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         //Generator provider
@@ -141,8 +143,6 @@ return array(
         'Liebig\Cron\CronServiceProvider',
         //Sentry
         'Cartalyst\Sentry\SentryServiceProvider',
-        //API
-        'Dingo\Api\ApiServiceProvider',
 	),
 
 	/*
