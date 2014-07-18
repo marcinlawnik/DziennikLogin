@@ -16,7 +16,8 @@
         "xethron/migrations-generator": "dev-master",
         "doctrine/dbal": "v2.4.2",
         "cartalyst/sentry": "2.1.*",
-		"dingo/api": "dev-master#65edf5ab124a4bdc33ca3eed278d39c5010ae679"
+		"dingo/api": "dev-master#65edf5ab124a4bdc33ca3eed278d39c5010ae679",
+        "lucadegasperi/oauth2-server-laravel": "1.0.*"
     },
     "require-dev": {
     },
@@ -29,7 +30,8 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php",
             "app/jobs",
-            "app/classes"
+            "app/classes",
+            "app/transformers"
 		]
 	},
 	"scripts": {
@@ -38,6 +40,7 @@
             "git pull origin master"
         ],
 		"post-install-cmd": [
+            "php artisan migrate --package=\"lucadegasperi/oauth2-server-laravel\"",
             "php artisan asset:publish kmd/logviewer",
             "php artisan ide-helper:generate",
             "php artisan clear-compiled",
@@ -48,6 +51,7 @@
             "php artisan down"
         ],
 		"post-update-cmd": [
+            "php artisan migrate --package=\"lucadegasperi/oauth2-server-laravel\"",
             "php artisan ide-helper:generate",
             "php artisan asset:publish kmd/logviewer",
             "php artisan clear-compiled",

@@ -143,6 +143,8 @@ return array(
         'Liebig\Cron\CronServiceProvider',
         //Sentry
         'Cartalyst\Sentry\SentryServiceProvider',
+        //Oauth2
+        'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 	),
 
 	/*
@@ -173,6 +175,9 @@ return array(
 
         //API
         'API'             => 'Dingo\Api\Facades\API',
+        //Oauth
+        'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
+        'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
 		'Auth'            => 'Illuminate\Support\Facades\Auth',

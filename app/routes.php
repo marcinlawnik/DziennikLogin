@@ -80,7 +80,26 @@ Route::group(array('before' => 'auth'), function()
 
 });
 
+
+
 //API - Routing
+
+
+API::transform('User', 'UserTransformer');
+API::transform('UserGroup', 'UserGroupTransformer');
+
+# OAuth Authentication
+# - These could and should be on a authentication server.
+# - Since the Laravel OAuth2 package handles OAuth requests Dingo is disabled.
+Route::group(['prefix' => 'oauth'], function ()
+{
+
+    # Access token
+    Route::post('token', ['uses' => 'OAuthController@postToken']);
+
+});
+
+//Some info for newcomers
 Route::api(['version' => 'v1'], function(){
     Route::get('/', function(){
         return Response::json([
@@ -89,8 +108,13 @@ Route::api(['version' => 'v1'], function(){
     });
 });
 
-Route::api(['version' => 'v1', 'before' => 'auth.api'], function()
+Route::api(['version' => 'v1', 'protected' => true], function()
 {
+
+    # User details for PasswordCredentialsGrant user
+    Route::get('users/details', function(){
+        return Response::api()->withItem(User::find(ResourceServer::getOwnerId()), new UserTransformer());
+    });
 
     //All subjects
     Route::get('subjects', function(){
@@ -100,14 +124,15 @@ Route::api(['version' => 'v1', 'before' => 'auth.api'], function()
     //One subject defined by ID
     Route::get('subjects/{id}', function($id)
     {
-        if(array_search($id, Subject::all()->modelKeys()) !== false){
-            return Response::api()->withItem(Subject::find($id), new SubjectTransformer());
-        }
-        else
+        try
         {
-            return Response::api()->errorNotFound();
+            $subject = Subject::findOrFail($id);
+            return Response::api()->withItem($subject, new SubjectTransformer());
         }
-
+        catch(ModelNotFoundException $e)
+        {
+            throw new NotFoundHttpException("No subject found with id [$id]");
+        }
     })->where('id', '[\d,]+');
 
     Route::get('snapshots', function(){
@@ -137,7 +162,12 @@ Route::api(['version' => 'v1', 'before' => 'auth.api'], function()
 
     });
 
+});
 
-
+Route::api(['version' => 'v2', 'protected' => true], function()
+{
+    Route::get('test', function(){
+        return Response::api()->errorUnauthorized();
+    });
 });
 

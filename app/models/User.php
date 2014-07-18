@@ -2,8 +2,9 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Cartalyst\Sentry\Users\Eloquent\User as SentryUser;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends SentryUser implements UserInterface, RemindableInterface {
 
     public static $rules = array(
         'email'=>'required|email|unique:users',
@@ -13,6 +14,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'registerpassword'=>'required|alpha_num|confirmed|between:2,50',
         'registerpassword_confirmation' => 'required'
     );
+
+    /**
+     * The Eloquent group model.
+     *
+     * @var string
+     */
+    protected static $groupModel = 'UserGroup';
+
 
 	/**
 	 * The database table used by the model.
@@ -27,6 +36,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('password','registerpassword');
+
+
+    /**
+     * Returns the relationship between users and groups.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(static::$groupModel, static::$userGroupsPivot, 'user_id', 'group_id');
+    }
+
 
     public function grades()
     {
@@ -75,7 +96,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getRememberToken()
 	{
-		return $this->remember_token;
+		return $this->persist_code;
 	}
 
 	/**
@@ -86,7 +107,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function setRememberToken($value)
 	{
-		$this->remember_token = $value;
+        $persistCode = $value ?: $this->getRandomString();
+
+        $this->persist_code = $persistCode;
 	}
 
 	/**
@@ -96,7 +119,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getRememberTokenName()
 	{
-		return 'remember_token';
+		return 'persist_code';
 	}
 
 	/**
