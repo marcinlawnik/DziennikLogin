@@ -76,9 +76,10 @@ return [
     */
 
     'auth' => [
-        'basic' => function ($app) {
-            return new Dingo\Api\Auth\BasicProvider($app['auth']);
-        }
+        'oauth2' => function($app)
+            {
+                return new Dingo\Api\Auth\LeagueOAuth2Provider($app['oauth2.resource-server'], true);
+            },
     ],
 
     /*
@@ -146,6 +147,7 @@ return [
 
     'formats' => [
 
+        //TODO: Customize that format
         'json' => new Dingo\Api\Http\ResponseFormat\JsonResponseFormat
 
     ]
