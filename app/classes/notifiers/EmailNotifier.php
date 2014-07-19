@@ -17,7 +17,9 @@ class EmailNotifier implements NotifierInterface
     }
     public function notify()
     {
-        Mail::send('emails.grades', $this->message, function($message)
+        $data = $this->message;
+        //dd(compact('data'));
+        Mail::send('emails.grades', compact('data'), function($message)
         {
             $message->to($this->recipient)->subject('Oceny z DziennikLogin - ' . date('Y - m - d H:i'));
         });

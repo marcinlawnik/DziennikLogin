@@ -19,15 +19,16 @@ class GradeChangesEmailNotifyJob extends NotifyJob
         $this->recipient = $user->email;
         //Obtain the necessary data
         $manager = new SnapshotChangesManager();
+        $manager->setNotifier($this->notifier);
         $manager->setUser($user);
-        $manager->obtainNewChanges($this->notifier);
+        $manager->obtainNewChanges();
         //Set the message (array of data in this case, templates handled by notifier)
-        $this->message = ['added' => $manager->getAdded(), 'deleted' => $manager->getDeleted()];
-
-        dd($this->message);
+        $this->message = ['added' => $manager->getAddedGrades(), 'deleted' => $manager->getDeletedGrades()];
 
         //Send the notification
         $this->executeNotifying();
+
+        $manager->markChangesAsSent();
 
         Log::debug('Job successful', [
             'time' => microtime(true),

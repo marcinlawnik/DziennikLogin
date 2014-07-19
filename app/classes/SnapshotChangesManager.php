@@ -4,25 +4,39 @@ class SnapshotChangesManager
 {
     private $user;
 
-    private $added;
+    private $addedGrades;
+
+    private $deletedGrades;
+
+    private $snapshotChangesAdded;
+
+    private $snapshotChangesDeleted;
+
+    private $notifier;
 
     /**
-     * @return array
+     * @param mixed $notifier
      */
-    public function getAdded()
+    public function setNotifier($notifier)
     {
-        return $this->added;
+        $this->notifier = strtolower($notifier);
     }
 
     /**
      * @return array
      */
-    public function getDeleted()
+    public function getAddedGrades()
     {
-        return $this->deleted;
+        return $this->addedGrades;
     }
 
-    private $deleted;
+    /**
+     * @return array
+     */
+    public function getDeletedGrades()
+    {
+        return $this->deletedGrades;
+    }
 
     /**
      * @param mixed $user
@@ -32,24 +46,41 @@ class SnapshotChangesManager
         $this->user = $user;
     }
 
-    public function obtainNewChanges($notifier)
+    public function obtainNewChanges()
     {
-        $addedGrades = SnapshotChange::where('user_id', '=', $this->user->id)
-            ->where('is_sent_'.strtolower($notifier), '=', 0)
-            ->where('action', '=', 'add')->get(['id']);
+        $this->snapshotChangesAdded = SnapshotChange::where('user_id', '=', $this->user->id)
+            ->where('is_sent_'.$this->notifier, '=', 0)
+            ->where('action', '=', 'add')->get();
 
-        foreach($addedGrades as $addedGrade)
+        foreach($this->snapshotChangesAdded as $snapshotChangeAdded)
         {
-            $this->added[] = Grade::where('id', '=', $addedGrade->id)->first()->toArray();
+            $this->addedGrades[] = Grade::where('id', '=', $snapshotChangeAdded->grade_id)->first();
         }
 
-        $deletedGrades = SnapshotChange::where('user_id', '=', $this->user->id)
-            ->where('is_sent_'.$notifier, '=', 0)
-            ->where('action', '=', 'delete')->get(['id']);
+        $this->snapshotChangesDeleted = SnapshotChange::where('user_id', '=', $this->user->id)
+            ->where('is_sent_'.$this->notifier, '=', 0)
+            ->where('action', '=', 'delete')->get();
 
-        foreach($deletedGrades as $deletedGrade)
+        foreach($this->snapshotChangesDeleted as $snapshotChangeDeleted)
         {
-            $this->deleted[] = Grade::where('id', '=', $deletedGrade->id)->first()->toArray();
+            $this->deletedGrades[] = Grade::where('id', '=', $snapshotChangeDeleted->grade_id)->first();
+        }
+    }
+
+    public function markChangesAsSent()
+    {
+
+        $notifyFieldName = 'is_sent_'.$this->notifier;
+        foreach($this->snapshotChangesAdded as $snapshotChangeAdded)
+        {
+            $snapshotChangeAdded->{$notifyFieldName} = 1;
+            $snapshotChangeAdded->save();
+        }
+
+        foreach($this->snapshotChangesDeleted as $snapshotChangeDeleted)
+        {
+            $snapshotChangeDeleted->{$notifyFieldName} = 1;
+            $snapshotChangeDeleted->save();
         }
     }
 }
