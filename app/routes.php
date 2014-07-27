@@ -80,17 +80,15 @@ Route::group(array('before' => 'auth'), function()
 
 });
 
-
+Route::get('documentation', function(){
+   return 'LOL NO';
+});
 
 //API - Routing
 
-
-API::transform('User', 'UserTransformer');
-API::transform('UserGroup', 'UserGroupTransformer');
-
-# OAuth Authentication
-# - These could and should be on a authentication server.
-# - Since the Laravel OAuth2 package handles OAuth requests Dingo is disabled.
+// OAuth Authentication
+// - These could and should be on a authentication server.
+// - Since the Laravel OAuth2 package handles OAuth requests Dingo is disabled.
 Route::group(['prefix' => 'oauth'], function ()
 {
 
