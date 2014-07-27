@@ -60,12 +60,6 @@ return array(
 
     'grant_types' => array(
 
-        'authorization_code' => array(
-            'class'            => 'League\OAuth2\Server\Grant\AuthCode',
-            'access_token_ttl' => 3600,
-            'auth_token_ttl'   => 3600,
-        ),
-
         'password' => array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 3600,
@@ -84,11 +78,6 @@ return array(
                         return false;
                     }
                 }),
-
-        'client_credentials' => array(
-            'class'                 => 'League\OAuth2\Server\Grant\ClientCredentials',
-            'access_token_ttl'      => 3600,
-        ),
 
         'refresh_token' => array(
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
