@@ -80,4 +80,93 @@ Route::group(array('before' => 'auth'), function()
 
 });
 
+
+
 //API - Routing
+
+
+API::transform('User', 'UserTransformer');
+API::transform('UserGroup', 'UserGroupTransformer');
+
+# OAuth Authentication
+# - These could and should be on a authentication server.
+# - Since the Laravel OAuth2 package handles OAuth requests Dingo is disabled.
+Route::group(['prefix' => 'oauth'], function ()
+{
+
+    # Access token
+    Route::post('token', ['uses' => 'OAuthController@postToken']);
+
+});
+
+//Some info for newcomers
+Route::api(['version' => 'v1'], function(){
+    Route::get('/', function(){
+        return Response::json([
+            'data' =>'This api has documentation at dl.lawniczak.me/documentation'
+        ]);
+    });
+});
+
+Route::api(['version' => 'v1', 'protected' => true], function()
+{
+
+    # User details for PasswordCredentialsGrant user
+    Route::get('users/details', function(){
+        return Response::api()->withItem(User::find(ResourceServer::getOwnerId()), new UserTransformer());
+    });
+
+    //All subjects
+    Route::get('subjects', function(){
+        return Response::api()->withCollection(Subject::all(), new SubjectTransformer());
+    });
+
+    //One subject defined by ID
+    Route::get('subjects/{id}', function($id)
+    {
+        try
+        {
+            $subject = Subject::findOrFail($id);
+            return Response::api()->withItem($subject, new SubjectTransformer());
+        }
+        catch(ModelNotFoundException $e)
+        {
+            throw new NotFoundHttpException("No subject found with id [$id]");
+        }
+    })->where('id', '[\d,]+');
+
+    Route::get('snapshots', function(){
+        return Response::api()
+            ->withCollection(
+                User::find(Sentry::getUser()->getId())->snapshots()->orderBy('created_at', 'DESC')->get(),
+                new SnapshotTransformer()
+            );
+    });
+
+    //TODO:Add some hash validation, like in subjects
+    Route::get('snapshots/{hash}', function($hash){
+
+        $snapshot = User::find(Sentry::getUser()->getId())->snapshots()->where('hash', '=', $hash)->get();
+
+        if($snapshot->isEmpty()){
+            return Response::api()->errorNotFound();
+        }
+        else
+        {
+            return Response::api()
+                ->withCollection(
+                    $snapshot,
+                    new SnapshotTransformer()
+                );
+        }
+
+    });
+
+});
+
+Route::api(['version' => 'v2', 'protected' => true], function()
+{
+    Route::get('test', function(){
+        return Response::api()->errorUnauthorized();
+    });
+});
