@@ -7,23 +7,20 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user
         //$grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
-        $snapshot = Sentry::getUser()->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
-        $grades = Snapshot::find($snapshot->id)->grades();
+        $snapshot = User::find(Sentry::getUser()->id)->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
+        $grades = Snapshot::find($snapshot->id)->grades()->get();
         $subjects = array();
-
+        $subjectsIds = [];
         foreach($grades as $grade) {
-            if(!in_array($grade->subject_id, $subjects)) {
-                $subjects[]=$grade->subject_id;
+            if(!in_array($grade->subject_id, $subjectsIds)) {
+                $subjectsIds[]=$grade->subject_id;
+                $subjects[]=Subject::find($grade->subject_id);
             }
         }
 
-        $averages = array();
-
-        foreach($subjects as $subject) {
-            $averages[Subject::find($subject)->name]=Subject::calculateAverage($subject);
-        }
-
-        return View::make('grades.index')->withGrades($grades)->withAverages($averages);
+        return View::make('grades.index')
+            ->withGrades($grades)
+            ->withSubjects($subjects);
 
     }
 
