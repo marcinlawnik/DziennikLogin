@@ -160,4 +160,24 @@ Route::api(['version' => 'v1', 'protected' => true], function()
 
     });
 
+    Route::get('snapshots/{hash}/grades', function($hash){
+
+        //$snapshot = User::find(ResourceServer::getOwnerId())->snapshots()->where('hash', '=', $hash)->first();
+        $snapshot = Snapshot::where('hash', '=', $hash)->where('user_id', '=', ResourceServer::getOwnerId())->get();
+        $grades = $snapshot->first()->grades;
+
+        if($snapshot->isEmpty()){
+            return Response::api()->errorNotFound();
+        }
+        else
+        {
+            return Response::api()
+                ->withCollection(
+                    $grades,
+                    new GradeTransformer()
+                );
+        }
+
+    });
+
 });
