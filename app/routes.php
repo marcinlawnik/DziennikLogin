@@ -161,10 +161,3 @@ Route::api(['version' => 'v1', 'protected' => true], function()
     });
 
 });
-
-Route::api(['version' => 'v2', 'protected' => true], function()
-{
-    Route::get('test', function(){
-        return Response::api()->errorUnauthorized();
-    });
-});
