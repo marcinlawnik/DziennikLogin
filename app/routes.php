@@ -161,22 +161,21 @@ Route::api(['version' => 'v1', 'protected' => true], function()
     });
 
     Route::get('snapshots/{hash}/grades', function($hash){
+        try{
+            $snapshot = Snapshot::findByHashOrFail($hash)->where('user_id', '=', ResourceServer::getOwnerId())->get();
+        }
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return Response::api()->errorNotFound("Snapshot $hash not  found");
+        }
 
-        //$snapshot = User::find(ResourceServer::getOwnerId())->snapshots()->where('hash', '=', $hash)->first();
-        $snapshot = Snapshot::where('hash', '=', $hash)->where('user_id', '=', ResourceServer::getOwnerId())->get();
         $grades = $snapshot->first()->grades;
 
-        if($snapshot->isEmpty()){
-            return Response::api()->errorNotFound();
-        }
-        else
-        {
-            return Response::api()
-                ->withCollection(
-                    $grades,
-                    new GradeTransformer()
-                );
-        }
+        return Response::api()
+            ->withCollection(
+                $grades,
+                new GradeTransformer()
+            );
+
 
     });
 

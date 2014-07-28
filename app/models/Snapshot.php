@@ -18,4 +18,14 @@ class Snapshot extends \Eloquent {
         return $query->orderBy('created_at', 'DESC');
     }
 
+    public static function findByHashOrFail(
+        $hash,
+        $columns = array('*')
+    ) {
+        if ( ! is_null($snapshot = static::whereHash($hash)->first($columns))) {
+            return $snapshot;
+        }
+
+        throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+    }
 }
