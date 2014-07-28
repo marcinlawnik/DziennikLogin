@@ -136,7 +136,7 @@ Route::api(['version' => 'v1', 'protected' => true], function()
     Route::get('snapshots', function(){
         return Response::api()
             ->withCollection(
-                User::find(Sentry::getUser()->getId())->snapshots()->orderBy('created_at', 'DESC')->get(),
+                User::find(ResourceServer::getOwnerId())->snapshots()->orderBy('created_at', 'DESC')->get(),
                 new SnapshotTransformer()
             );
     });
@@ -144,7 +144,7 @@ Route::api(['version' => 'v1', 'protected' => true], function()
     //TODO:Add some hash validation, like in subjects
     Route::get('snapshots/{hash}', function($hash){
 
-        $snapshot = User::find(Sentry::getUser()->getId())->snapshots()->where('hash', '=', $hash)->get();
+        $snapshot = User::find(ResourceServer::getOwnerId())->snapshots()->where('hash', '=', $hash)->get();
 
         if($snapshot->isEmpty()){
             return Response::api()->errorNotFound();
