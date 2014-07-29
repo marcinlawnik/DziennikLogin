@@ -79,9 +79,10 @@ Route::group(array('before' => 'auth'), function()
     });
 
 });
-
-Route::get('documentation', function(){
-   return 'LOL NO';
+Route::group(['before' => 'guest'], function(){
+    Route::get('documentation', function(){
+        return 'In progress';
+    });
 });
 
 //API - Routing
@@ -106,7 +107,7 @@ Route::api(['version' => 'v1'], function(){
     });
 });
 
-Route::api(['version' => 'v1', 'protected' => true], function()
+Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], function()
 {
 
     # User details for PasswordCredentialsGrant user
