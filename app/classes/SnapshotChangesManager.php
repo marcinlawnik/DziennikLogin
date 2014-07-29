@@ -52,8 +52,7 @@ class SnapshotChangesManager
             ->where('is_sent_'.$this->notifier, '=', 0)
             ->where('action', '=', 'add')->get();
 
-        foreach($this->snapshotChangesAdded as $snapshotChangeAdded)
-        {
+        foreach ($this->snapshotChangesAdded as $snapshotChangeAdded) {
             $this->addedGrades[] = Grade::where('id', '=', $snapshotChangeAdded->grade_id)->first();
         }
 
@@ -61,8 +60,7 @@ class SnapshotChangesManager
             ->where('is_sent_'.$this->notifier, '=', 0)
             ->where('action', '=', 'delete')->get();
 
-        foreach($this->snapshotChangesDeleted as $snapshotChangeDeleted)
-        {
+        foreach ($this->snapshotChangesDeleted as $snapshotChangeDeleted) {
             $this->deletedGrades[] = Grade::where('id', '=', $snapshotChangeDeleted->grade_id)->first();
         }
     }
@@ -71,14 +69,12 @@ class SnapshotChangesManager
     {
 
         $notifyFieldName = 'is_sent_'.$this->notifier;
-        foreach($this->snapshotChangesAdded as $snapshotChangeAdded)
-        {
+        foreach ($this->snapshotChangesAdded as $snapshotChangeAdded) {
             $snapshotChangeAdded->{$notifyFieldName} = 1;
             $snapshotChangeAdded->save();
         }
 
-        foreach($this->snapshotChangesDeleted as $snapshotChangeDeleted)
-        {
+        foreach ($this->snapshotChangesDeleted as $snapshotChangeDeleted) {
             $snapshotChangeDeleted->{$notifyFieldName} = 1;
             $snapshotChangeDeleted->save();
         }
