@@ -193,6 +193,11 @@ class SnapshotComparator
 
             $snapshotChange->save();
         }
+
+        //Mark snapshot as processed
+        $this->snapshotTo->is_processed = 1;
+        $this->snapshotTo->save();
+
     }
 
 }

@@ -61,8 +61,6 @@ class CompareGradeSnapshotsJob
             $comparator->compare();
             $comparator->process();
 
-            //TODO:mark snapshot as processed
-
             Log::debug('Job successful', [
                 'time' => microtime(true),
                 'execution_time' => microtime(true) - $start_time,
