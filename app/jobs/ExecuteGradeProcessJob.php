@@ -22,23 +22,24 @@ class ExecuteGradeProcessJob
      *
      * @return object
      */
-    public function getGradeCells() {
-
+    public function getGradeCells()
+    {
         $response = $this->gradePageDom->find('table', 4)->find('tr td');
+
         return $response;
 
     }
 
-    private function setCurrentTrimester() {
-
+    private function setCurrentTrimester()
+    {
         //trimester:
         $gradeTrimester = $this->gradePageDom->find('b', 1)->plaintext;
 
-        if (strstr($gradeTrimester,'III ')){
+        if (strstr($gradeTrimester, 'III ')) {
             $this->currentTrimester = 3;
-        } elseif(strstr($gradeTrimester,'II ')) {
+        } elseif (strstr($gradeTrimester, 'II ')) {
             $this->currentTrimester = 2;
-        } elseif(strstr($gradeTrimester,'I ')) {
+        } elseif (strstr($gradeTrimester, 'I ')) {
             $this->currentTrimester = 1;
         } else {
             $this->currentTrimester = 9; //Something is not right ;)
@@ -49,16 +50,16 @@ class ExecuteGradeProcessJob
 
     }
 
-    private function createSubjectsArray(){
-
+    private function createSubjectsArray()
+    {
         //2. Powinieneś najpierw spróbować pobrać za jednym zamachem wszystkie ID przedmiotów na podstawie ich nazw.
         //Dopiero w następnym kroku utworzyć nowe rekordy w bazie dla nieistniejących jeszcze przedmiotów.
         //Get all subjects from database
         $subjects = Subject::get();
 
         //Create table suitable for us
-        if(!$subjects->isEmpty()){
-            foreach($subjects as $subject){
+        if (!$subjects->isEmpty()) {
+            foreach ($subjects as $subject) {
                 $this->subjectsArray[$subject->id] = $subject->name;
             }
         } else {
@@ -68,19 +69,20 @@ class ExecuteGradeProcessJob
 
     }
 
-    private function processSubjectCell($cell){
-
+    private function processSubjectCell($cell)
+    {
         $this->currentSubjectName = trim(str_replace('&nbsp;', '', $cell->plaintext));
-        if(in_array($this->currentSubjectName, $this->subjectsArray)){
+        if (in_array($this->currentSubjectName, $this->subjectsArray)) {
 
             $this->currentSubjectId = Subject::where('name', '=', $this->currentSubjectName)->first()->id;
 
-            Log::debug('Processing subject',
+            Log::debug(
+                'Processing subject',
                 array(
                     'name' => $this->currentSubjectName,
                     'id_from_database' => $this->currentSubjectId,
-                ));
-
+                )
+            );
 
         } else {
 
@@ -92,18 +94,20 @@ class ExecuteGradeProcessJob
 
             $this->createSubjectsArray();
 
-            Log::debug('Processing NEW subject',
+            Log::debug(
+                'Processing NEW subject',
                 array(
                     'name' => $this->currentSubjectName,
                     'id_from_database' => $this->currentSubjectId,
-                ));
+                )
+            );
 
         }
 
     }
 
-    private function processGradeCell($cell){
-
+    private function processGradeCell($cell)
+    {
         //get all the needed values
         //grade abbreviation (the text from cell)
         $gradeAbbreviation = strtoupper(trim(substr($cell->plaintext, 0, 3)));
@@ -112,7 +116,7 @@ class ExecuteGradeProcessJob
         $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT);
         //See if it has +, add a 0,5 then
         //TODO: fix if some teacher puts plus in description
-        if (strpos($cell->plaintext, '+') !== FALSE) {
+        if (strpos($cell->plaintext, '+') !== false) {
             $gradeValue = $gradeValue[0] + 0.5;
         }
         //now we need to dive into the onmouseover attribute
@@ -129,8 +133,8 @@ class ExecuteGradeProcessJob
         //free up resources
         $onMouseOverDom->clear();
         unset($onMouseOverDom);
-
-        if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {//check if gradeWeight is really a number, if not, then its 1
+        //check if gradeWeight is really a number, if not, then its 1
+        if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {
             $gradeWeight = '1';
         } else {
             $gradeWeight = round($gradeWeight);
@@ -151,23 +155,28 @@ class ExecuteGradeProcessJob
 
     }
 
-    private function processAverageCell($cell){
-
+    private function processAverageCell($cell)
+    {
         //do nothing, we don't yet have an use for it
 
         $average = trim($cell->plaintext);
 
-        if($average >= 1.00){
-            Log::debug('Processing new average cell', array('subject' => $this->currentSubjectName, 'average' => $average));
+        if ($average >= 1.00) {
+            Log::debug(
+                'Processing new average cell',
+                array(
+                    'subject' => $this->currentSubjectName,
+                    'average' => $average
+                )
+            );
         } else {
             Log::debug('Processing empty average cell', array('subject' => $this->currentSubjectName));
         }
 
-
     }
 
-    private function processGradePage($cells){
-
+    private function processGradePage($cells)
+    {
         foreach ($cells as $cell) {
 
             //switch depending on the type of the cell: subject name, average or grade cell
@@ -195,8 +204,8 @@ class ExecuteGradeProcessJob
     }
 
     //this simply fires
-    public function fire($job, $data){
-
+    public function fire($job, $data)
+    {
         $start_time = microtime(true);
         Log::debug('Job started_ExecuteGradeProcessJob', array('start_time' => $start_time));
 
@@ -243,7 +252,7 @@ class ExecuteGradeProcessJob
         //$time = Carbon::now()->addMinutes(5);
         Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'grade_process');
         //Some logs
-        Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
+        Log::debug('Job successful', ['time' => microtime(true), 'execution_time' => microtime(true) - $start_time]);
         //Log::info($table);
         $job->delete();
         Log::debug('Job deleted', array('time' => microtime(true)));

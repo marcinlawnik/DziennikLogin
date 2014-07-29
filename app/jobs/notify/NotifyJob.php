@@ -11,7 +11,7 @@ abstract class NotifyJob
     public function executeNotifying()
     {
         $notifierName = $this->notifier.'Notifier';
-        $notifier = new $notifierName;
+        $notifier = new $notifierName();
         $notifier->setMessage($this->message);
         $notifier->setRecipient($this->recipient);
         $notifier->notify();

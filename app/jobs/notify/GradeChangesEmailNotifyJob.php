@@ -3,12 +3,12 @@
 class GradeChangesEmailNotifyJob extends NotifyJob
 {
 
-    function __construct()
+    public function __construct()
     {
         $this->notifier = 'Email';
     }
 
-    public function fire ($job, $data)
+    public function fire($job, $data)
     {
         $start_time = microtime(true);
         Log::debug('Job started_GradeChangesEmailNotifyJob', array('start_time' => $start_time));
