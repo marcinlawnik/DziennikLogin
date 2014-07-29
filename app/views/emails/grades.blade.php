@@ -32,6 +32,11 @@ Tytuł: {{ $grade->abbreviation }} - {{ $grade->title  }}<br><br>
 @endforeach
 </p>
 @endif
+@if(count($data['added']) === 0 && count($data['deleted']) === 0)
+<p>
+Brak nowych zmian.
+</p>
+@endif
 <p>
 Z poważaniem,<br>
 DziennikLogin
