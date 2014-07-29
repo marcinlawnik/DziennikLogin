@@ -20,6 +20,8 @@
         "lucadegasperi/oauth2-server-laravel": "1.0.*"
     },
     "require-dev": {
+        "phpmd/phpmd": "2.0.*",
+        "fabpot/php-cs-fixer": "@stable"
     },
     "autoload": {
         "classmap": [
