@@ -232,7 +232,7 @@ return array(
         'include_tree ' => new Codesleeve\Sprockets\Directives\IncludeTree,
         'stub ' => new Codesleeve\Sprockets\Directives\Stub,
         'depend_on ' => new Codesleeve\Sprockets\Directives\DependOn,
-    ()),
+    ),
 
     /*
 	|--------------------------------------------------------------------------
