@@ -64,18 +64,18 @@ return array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 3600,
             'callback'         => function ($username, $password) {
-                    try {
-                        $user = Sentry::findUserByCredentials(['email' => $username]);
+                try {
+                    $user = Sentry::findUserByCredentials(['email' => $username]);
 
-                        if( ! $user->checkPassword($password))
-
-                            return false;
-
-                        return $user->id;
-                    } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
+                    if (! $user->checkPassword($password)) {
                         return false;
                     }
-                }),
+
+                    return $user->id;
+                } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
+                    return false;
+                }
+            }),
 
         'refresh_token' => array(
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
