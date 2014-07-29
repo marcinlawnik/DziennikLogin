@@ -1,6 +1,7 @@
 <?php
 
-class UserGroupRelation extends \Eloquent {
+class UserGroupRelation extends \Eloquent
+{
     /**
      * The database table used by the model.
      *

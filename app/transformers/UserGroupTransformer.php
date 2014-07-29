@@ -6,7 +6,7 @@ class UserGroupTransformer extends League\Fractal\TransformerAbstract
     /**
      * Turn item into generic array
      *
-     * @param UserGroup $group
+     * @param  UserGroup $group
      * @return array
      */
     public function transform(UserGroup $group)
@@ -19,5 +19,4 @@ class UserGroupTransformer extends League\Fractal\TransformerAbstract
             'updated_at' => $group->updated_at,
         ];
     }
-
 }

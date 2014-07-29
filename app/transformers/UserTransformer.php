@@ -18,7 +18,7 @@ class UserTransformer extends League\Fractal\TransformerAbstract
     /**
      * Turn item into generic array
      *
-     * @param User $user
+     * @param  User  $user
      * @return array
      */
     public function transform(User $user)
@@ -39,14 +39,13 @@ class UserTransformer extends League\Fractal\TransformerAbstract
     /**
      * Embed groups
      *
-     * @param User $user
+     * @param  User                         $user
      * @return \League\Fractal\ItemResource
      */
     public function includeGroups(User $user)
     {
         $groups = $user->groups;
 
-        return $this->collection($groups, new UserGroupTransformer);
+        return $this->collection($groups, new UserGroupTransformer());
     }
-
 }

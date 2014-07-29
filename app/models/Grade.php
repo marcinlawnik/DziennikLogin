@@ -1,7 +1,8 @@
 <?php
 
-class Grade extends Eloquent {
-	protected $fillable = [];
+class Grade extends Eloquent
+{
+    protected $fillable = [];
 
     protected $guarded = array('id');
 
@@ -19,5 +20,4 @@ class Grade extends Eloquent {
     {
         return $this->belongsTo('Snapshot');
     }
-
 }

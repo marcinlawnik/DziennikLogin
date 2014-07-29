@@ -12,8 +12,7 @@
 */
 
 // Routing - strona główna
-Route::get('/', function()
-{
+Route::get('/', function () {
     return View::make('layouts/index');
 });
 
@@ -21,14 +20,12 @@ Route::get('/', function()
 Route::controller('users', 'UsersController');
 
 // Routing - alias do logowania
-Route::get('login', array('as' => 'login', function()
-{
+Route::get('login', array('as' => 'login', function () {
     return Redirect::to('users/login');
 }));
 
 // Routing - alias do wylogowania
-Route::get('logout', array('as' => 'logout', function()
-{
+Route::get('logout', array('as' => 'logout', function () {
     return Redirect::to('users/logout');
 }));
 
@@ -36,8 +33,7 @@ Route::get('logout', array('as' => 'logout', function()
 Route::controller('password', 'RemindersController');
 
 // Routing - zabezpieczone logowaniem
-Route::group(array('before' => 'auth'), function()
-{
+Route::group(array('before' => 'auth'), function () {
     Route::controller('grades', 'GradesController');
 
     Route::controller('subjects', 'SubjectsController');
@@ -46,41 +42,40 @@ Route::group(array('before' => 'auth'), function()
 
     Route::controller('edit', 'EditController');
 
-    Route::group(['prefix' => 'jobs'], function(){
+    Route::group(['prefix' => 'jobs'], function () {
 
 
-        Route::get('check', function()
-        {
+        Route::get('check', function () {
             Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => Sentry::getUser()->id), 'grade_check');
+
             return Redirect::to('dashboard/index')->with('message', 'Pobranie ocen zakolejkowane!');
         });
 
-        Route::get('compare/{idFrom?}/{idTo?}', function($idFrom = null, $idTo = null)
-        {
+        Route::get('compare/{idFrom?}/{idTo?}', function ($idFrom = null, $idTo = null) {
             Queue::push('CompareGradeSnapshotsJob', array(
                 'user_id' => Sentry::getUser()->id,
                 'id_from' => $idFrom,
                 'id_to' => $idTo), 'grade_process');
+
             return Redirect::to('dashboard/index')->with('message', 'Porównanie snapshotów zakolejkowane!');
         });
 
-        Route::get('email', function()
-        {
+        Route::get('email', function () {
             Queue::push('GradeChangesEmailNotifyJob', array('user_id' => Sentry::getUser()->id), 'emails');
+
             return Redirect::to('dashboard/index')->with('message', 'Wysyłanie maila zakolejkowane!');
         });
 
 
     });
 
-    Route::get('time', function()
-    {
+    Route::get('time', function () {
         return Redirect::to('dashboard/index')->with('message', date('H:i:s'));
     });
 
 });
-Route::group(['before' => 'guest'], function(){
-    Route::get('documentation', function(){
+Route::group(['before' => 'guest'], function () {
+    Route::get('documentation', function () {
         return 'In progress';
     });
 });
@@ -90,8 +85,7 @@ Route::group(['before' => 'guest'], function(){
 // OAuth Authentication
 // - These could and should be on a authentication server.
 // - Since the Laravel OAuth2 package handles OAuth requests Dingo is disabled.
-Route::group(['prefix' => 'oauth'], function ()
-{
+Route::group(['prefix' => 'oauth'], function () {
 
     # Access token
     Route::post('token', ['uses' => 'OAuthController@postToken']);
@@ -99,42 +93,38 @@ Route::group(['prefix' => 'oauth'], function ()
 });
 
 //Some info for newcomers
-Route::api(['version' => 'v1'], function(){
-    Route::get('/', function(){
+Route::api(['version' => 'v1'], function () {
+    Route::get('/', function () {
         return Response::json([
             'data' =>'This api has documentation at dl.lawniczak.me/documentation'
         ]);
     });
 });
 
-Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], function()
-{
+Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], function () {
 
     # User details for PasswordCredentialsGrant user
-    Route::get('users/details', function(){
+    Route::get('users/details', function () {
         return Response::api()->withItem(User::find(ResourceServer::getOwnerId()), new UserTransformer());
     });
 
     //All subjects
-    Route::get('subjects', function(){
+    Route::get('subjects', function () {
         return Response::api()->withCollection(Subject::all(), new SubjectTransformer());
     });
 
     //One subject defined by ID
-    Route::get('subjects/{id}', function($id)
-    {
-        try
-        {
+    Route::get('subjects/{id}', function ($id) {
+        try {
             $subject = Subject::findOrFail($id);
+
             return Response::api()->withItem($subject, new SubjectTransformer());
-        }
-        catch(ModelNotFoundException $e)
-        {
+        } catch (ModelNotFoundException $e) {
             throw new NotFoundHttpException("No subject found with id [$id]");
         }
     })->where('id', '[\d,]+');
 
-    Route::get('snapshots', function(){
+    Route::get('snapshots', function () {
         return Response::api()
             ->withCollection(
                 User::find(ResourceServer::getOwnerId())->snapshots()->orderBy('created_at', 'DESC')->get(),
@@ -143,15 +133,13 @@ Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], 
     });
 
     //TODO:Add some hash validation, like in subjects
-    Route::get('snapshots/{hash}', function($hash){
+    Route::get('snapshots/{hash}', function ($hash) {
 
         $snapshot = User::find(ResourceServer::getOwnerId())->snapshots()->where('hash', '=', $hash)->get();
 
-        if($snapshot->isEmpty()){
+        if ($snapshot->isEmpty()) {
             return Response::api()->errorNotFound();
-        }
-        else
-        {
+        } else {
             return Response::api()
                 ->withCollection(
                     $snapshot,
@@ -161,11 +149,10 @@ Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], 
 
     });
 
-    Route::get('snapshots/{hash}/grades', function($hash){
-        try{
+    Route::get('snapshots/{hash}/grades', function ($hash) {
+        try {
             $snapshot = Snapshot::findByHashOrFail($hash)->where('user_id', '=', ResourceServer::getOwnerId())->get();
-        }
-        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return Response::api()->errorNotFound("Snapshot $hash not  found");
         }
 
@@ -176,7 +163,6 @@ Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], 
                 $grades,
                 new GradeTransformer()
             );
-
 
     });
 

@@ -1,7 +1,8 @@
 <?php
 
-class SnapshotChange extends \Eloquent {
-	protected $guarded = ['user_id', 'id'];
+class SnapshotChange extends \Eloquent
+{
+    protected $guarded = ['user_id', 'id'];
 
     public function user()
     {
@@ -12,5 +13,4 @@ class SnapshotChange extends \Eloquent {
     {
         return $this->belongsTo('Grade');
     }
-
 }

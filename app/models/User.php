@@ -4,8 +4,8 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Cartalyst\Sentry\Users\Eloquent\User as SentryUser;
 
-class User extends SentryUser implements UserInterface, RemindableInterface {
-
+class User extends SentryUser implements UserInterface, RemindableInterface
+{
     public static $rules = array(
         'email'=>'required|email|unique:users',
         'password'=>'required|alpha_num|between:8,32|confirmed',
@@ -21,7 +21,6 @@ class User extends SentryUser implements UserInterface, RemindableInterface {
      * @var string
      */
     protected static $groupModel = 'UserGroup';
-
 
     /**
      * The database table used by the model.
@@ -102,7 +101,7 @@ class User extends SentryUser implements UserInterface, RemindableInterface {
     /**
      * Set the token value for the "remember me" session.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return void
      */
     public function setRememberToken($value)
@@ -131,5 +130,4 @@ class User extends SentryUser implements UserInterface, RemindableInterface {
     {
         return $this->email;
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
 
-class Snapshot extends \Eloquent {
-	protected $fillable = [];
+class Snapshot extends \Eloquent
+{
+    protected $fillable = [];
 
     public function user()
     {
@@ -22,10 +23,10 @@ class Snapshot extends \Eloquent {
         $hash,
         $columns = array('*')
     ) {
-        if ( ! is_null($snapshot = static::whereHash($hash)->first($columns))) {
+        if (! is_null($snapshot = static::whereHash($hash)->first($columns))) {
             return $snapshot;
         }
 
-        throw new \Illuminate\Database\Eloquent\ModelNotFoundException;
+        throw new \Illuminate\Database\Eloquent\ModelNotFoundException();
     }
 }

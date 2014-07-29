@@ -1,5 +1,6 @@
 <?php
 
-class Dashboard extends \Eloquent {
-	protected $fillable = [];
+class Dashboard extends \Eloquent
+{
+    protected $fillable = [];
 }
