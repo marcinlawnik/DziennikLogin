@@ -76,14 +76,14 @@ return [
     */
 
     'auth' => [
-        'oauth' => function($app) {
+        'oauth' => function ($app) {
                 $provider = new Dingo\Api\Auth\LeagueOAuth2Provider($app['oauth2.resource-server']);
 
-                $provider->setUserCallback(function($id) {
+                $provider->setUserCallback(function ($id) {
                     return User::find($id);
                 });
 
-                $provider->setClientCallback(function($id) {
+                $provider->setClientCallback(function ($id) {
                     return Client::find($id);
                 });
 
@@ -136,7 +136,7 @@ return [
     */
 
     'transformer' => function ($app) {
-            $fractal = new League\Fractal\Manager;
+            $fractal = new League\Fractal\Manager();
 
             return new Dingo\Api\Transformer\FractalTransformer($fractal);
         },
@@ -161,4 +161,4 @@ return [
 
     ]
 
-];
+]();

@@ -15,7 +15,7 @@ use Codesleeve\AssetPipeline\Filters\EnvironmentFilter;
 
 return array(
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| routing array
 	|--------------------------------------------------------------------------
@@ -24,11 +24,11 @@ return array(
 	| routes for our package
 	|
 	*/
-	'routing' => array(
-		'prefix' => '/assets'
-	),
+    'routing' => array(
+        'prefix' => '/assets'
+    ),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| paths
 	|--------------------------------------------------------------------------
@@ -39,19 +39,19 @@ return array(
 	| (i.e. app/assets/javascripts/application.js) is located
 	|
 	*/
-	'paths' => array(
-		'app/assets/javascripts',
-		'app/assets/stylesheets',
-		'app/assets/images',
-		'lib/assets/javascripts',
-		'lib/assets/stylesheets',
-		'lib/assets/images',
-		'provider/assets/javascripts',
-		'provider/assets/stylesheets',
-		'provider/assets/images'
-	),
+    'paths' => array(
+        'app/assets/javascripts',
+        'app/assets/stylesheets',
+        'app/assets/images',
+        'lib/assets/javascripts',
+        'lib/assets/stylesheets',
+        'lib/assets/images',
+        'provider/assets/javascripts',
+        'provider/assets/stylesheets',
+        'provider/assets/images'
+    ),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| mimes
 	|--------------------------------------------------------------------------
@@ -62,12 +62,12 @@ return array(
 	| download.
 	|
 	*/
-	'mimes' => array(
-	    'javascripts' => array('.js', '.js.coffee', '.coffee', '.html', '.min.js'),
-	    'stylesheets' => array('.css', '.css.less', '.css.sass', '.css.scss', '.less', '.sass', '.scss', '.min.css'),
-	),
+    'mimes' => array(
+        'javascripts' => array('.js', '.js.coffee', '.coffee', '.html', '.min.js'),
+        'stylesheets' => array('.css', '.css.less', '.css.sass', '.css.scss', '.less', '.sass', '.scss', '.min.css'),
+    ),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| filters
 	|--------------------------------------------------------------------------
@@ -77,65 +77,65 @@ return array(
 	| we choose to.
 	|
 	*/
-	'filters' => array(
-		'.min.js' => array(
+    'filters' => array(
+        '.min.js' => array(
 
-		),
-		'.min.css' => array(
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-		),
-		'.js' => array(
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
-		),
-		'.js.coffee' => array(
-			new Codesleeve\AssetPipeline\Filters\CoffeeScript,
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
-		),
-		'.coffee' => array(
-			new Codesleeve\AssetPipeline\Filters\CoffeeScript,
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
-		),
-		'.css' => array(
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.css.less' => array(
-			new Codesleeve\AssetPipeline\Filters\LessphpFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.css.sass' => array(
-			new Codesleeve\AssetPipeline\Filters\SassFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.css.scss' => array(
-			new Assetic\Filter\ScssphpFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.less' => array(
-			new Codesleeve\AssetPipeline\Filters\LessphpFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.sass' => array(
-			new Codesleeve\AssetPipeline\Filters\SassFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.scss' => array(
-			new Assetic\Filter\ScssphpFilter,
-			new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
-		),
-		'.html' => array(
-			new Codesleeve\AssetPipeline\Filters\JST,
-			new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
-		)
-	),
+        ),
+        '.min.css' => array(
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+        ),
+        '.js' => array(
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+        ),
+        '.js.coffee' => array(
+            new Codesleeve\AssetPipeline\Filters\CoffeeScript,
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+        ),
+        '.coffee' => array(
+            new Codesleeve\AssetPipeline\Filters\CoffeeScript,
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+        ),
+        '.css' => array(
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.css.less' => array(
+            new Codesleeve\AssetPipeline\Filters\LessphpFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.css.sass' => array(
+            new Codesleeve\AssetPipeline\Filters\SassFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.css.scss' => array(
+            new Assetic\Filter\ScssphpFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.less' => array(
+            new Codesleeve\AssetPipeline\Filters\LessphpFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.sass' => array(
+            new Codesleeve\AssetPipeline\Filters\SassFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.scss' => array(
+            new Assetic\Filter\ScssphpFilter,
+            new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+        ),
+        '.html' => array(
+            new Codesleeve\AssetPipeline\Filters\JST,
+            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+        )
+    ),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| cache
 	|--------------------------------------------------------------------------
@@ -147,9 +147,9 @@ return array(
 	| command php artisan assets:clean -f somefilename.js -f application.css ...
 	|
 	*/
-	'cache' => 	array('production'),
+    'cache' =>    array('production'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| cache_server
 	|--------------------------------------------------------------------------
@@ -172,9 +172,9 @@ return array(
 	|
 	|
 	*/
-	'cache_server' => new Assetic\Cache\FilesystemCache(App::make('path.storage') . '/cache/asset-pipeline'),
+    'cache_server' => new Assetic\Cache\FilesystemCache(App::make('path.storage') . '/cache/asset-pipeline'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| cache_client
 	|--------------------------------------------------------------------------
@@ -193,9 +193,9 @@ return array(
 	| driver and also uses the AssetCache class to help access files.
 	|
 	*/
-	'cache_client' => new Codesleeve\AssetPipeline\Filters\ClientCacheFilter,
+    'cache_client' => new Codesleeve\AssetPipeline\Filters\ClientCacheFilter,
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| concat
 	|--------------------------------------------------------------------------
@@ -207,9 +207,9 @@ return array(
 	| of minification stuff on each page refresh)
 	|
 	*/
-	'concat' => array('production', 'local'),
+    'concat' => array('production', 'local'),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| directives
 	|--------------------------------------------------------------------------
@@ -221,20 +221,20 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'directives' => array(
-		'require ' => new Codesleeve\Sprockets\Directives\RequireFile,
-		'require_directory ' => new Codesleeve\Sprockets\Directives\RequireDirectory,
-		'require_tree ' => new Codesleeve\Sprockets\Directives\RequireTree,
-		'require_tree_df ' => new Codesleeve\Sprockets\Directives\RequireTreeDf,
-		'require_self' => new Codesleeve\Sprockets\Directives\RequireSelf,
-		'include ' => new Codesleeve\Sprockets\Directives\IncludeFile,
-		'include_directory ' => new Codesleeve\Sprockets\Directives\IncludeDirectory,
-		'include_tree ' => new Codesleeve\Sprockets\Directives\IncludeTree,
-		'stub ' => new Codesleeve\Sprockets\Directives\Stub,
-		'depend_on ' => new Codesleeve\Sprockets\Directives\DependOn,
-	),
+    'directives' => array(
+        'require ' => new Codesleeve\Sprockets\Directives\RequireFile,
+        'require_directory ' => new Codesleeve\Sprockets\Directives\RequireDirectory,
+        'require_tree ' => new Codesleeve\Sprockets\Directives\RequireTree,
+        'require_tree_df ' => new Codesleeve\Sprockets\Directives\RequireTreeDf,
+        'require_self' => new Codesleeve\Sprockets\Directives\RequireSelf,
+        'include ' => new Codesleeve\Sprockets\Directives\IncludeFile,
+        'include_directory ' => new Codesleeve\Sprockets\Directives\IncludeDirectory,
+        'include_tree ' => new Codesleeve\Sprockets\Directives\IncludeTree,
+        'stub ' => new Codesleeve\Sprockets\Directives\Stub,
+        'depend_on ' => new Codesleeve\Sprockets\Directives\DependOn,
+    ()),
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| javascript_include_tag
 	|--------------------------------------------------------------------------
@@ -246,9 +246,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'javascript_include_tag' => new Codesleeve\AssetPipeline\Composers\JavascriptComposer,
+    'javascript_include_tag' => new Codesleeve\AssetPipeline\Composers\JavascriptComposer,
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| stylesheet_link_tag
 	|--------------------------------------------------------------------------
@@ -260,9 +260,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'stylesheet_link_tag' => new Codesleeve\AssetPipeline\Composers\StylesheetComposer,
+    'stylesheet_link_tag' => new Codesleeve\AssetPipeline\Composers\StylesheetComposer,
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| image_tag
 	|--------------------------------------------------------------------------
@@ -274,9 +274,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'image_tag' => new Codesleeve\AssetPipeline\Composers\ImageComposer,
+    'image_tag' => new Codesleeve\AssetPipeline\Composers\ImageComposer,
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| controller_action
 	|--------------------------------------------------------------------------
@@ -289,9 +289,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'controller_action' => '\Codesleeve\AssetPipeline\AssetPipelineController@file',
+    'controller_action' => '\Codesleeve\AssetPipeline\AssetPipelineController@file',
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| sprockets_filter
 	|--------------------------------------------------------------------------
@@ -304,9 +304,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'sprockets_filter' => '\Codesleeve\Sprockets\SprocketsFilter',
+    'sprockets_filter' => '\Codesleeve\Sprockets\SprocketsFilter',
 
-	/*
+    /*
 	|--------------------------------------------------------------------------
 	| sprockets_filter
 	|--------------------------------------------------------------------------
@@ -323,9 +323,9 @@ return array(
 	| what is actually going on here.
 	|
 	*/
-	'sprockets_filters' => array(
-		'javascripts' => array(),
-		'stylesheets' => array(),
-	),
+    'sprockets_filters' => array(
+        'javascripts' => array(),
+        'stylesheets' => array(),
+    ),
 
 );

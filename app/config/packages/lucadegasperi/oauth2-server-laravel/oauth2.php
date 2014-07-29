@@ -13,7 +13,7 @@ return array(
     | https://github.com/php-loep/oauth2-server/wiki/Which-OAuth-2.0-grant-should-I-use%3F
     |
     | Available grant types are:
-    | 
+    |
     | 'grant_types' => array(
     |
     |    'authorization_code' => array(
@@ -29,8 +29,8 @@ return array(
     |        'access_token_ttl' => 604800,
     |
     |        // the code to run in order to verify the user's identity
-    |        'callback'         => function($username, $password){
-    |            
+    |        'callback'         => function ($username, $password) {
+    |
     |            return Auth::validate(array(
     |                'email'    => $username,
     |                'password' => $password,
@@ -53,7 +53,7 @@ return array(
     |        // whether or not to issue a new refresh token when a new access token is issued
     |        'rotate_refresh_tokens' => false,
     |    ),
-    |    
+    |
     | ),
     |
     */
@@ -64,17 +64,15 @@ return array(
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 3600,
             'callback'         => function ($username, $password) {
-                    try
-                    {
+                    try {
                         $user = Sentry::findUserByCredentials(['email' => $username]);
 
                         if( ! $user->checkPassword($password))
+
                             return false;
 
                         return $user->id;
-                    }
-                    catch (\Cartalyst\Sentry\Users\UserNotFoundException $e)
-                    {
+                    } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
                         return false;
                     }
                 }),
