@@ -85,11 +85,12 @@ class GradesDemoSeeder extends Seeder {
             unset($grades[$key]);
         }
 
+        $gradesSnapshot2 = [];
+
         foreach ($grades as $grade) {
             $grade['snapshot_id'] = 2;
+            $gradesSnapshot2[] = $grade;
         }
-
-        $gradesSnapshot2 = $grades;
 
         foreach ($gradesSnapshot2 as $grade) {
             Grade::create(
@@ -124,12 +125,12 @@ class GradesDemoSeeder extends Seeder {
             );
             $i++;
         }
+        $gradesSnapshot3 = [];
 
         foreach ($grades as $grade) {
             $grade['snapshot_id'] = 3;
+            $gradesSnapshot3[] = $grade;
         }
-
-        $gradesSnapshot3 = $grades;
 
         foreach ($gradesSnapshot3 as $grade) {
             Grade::create(
