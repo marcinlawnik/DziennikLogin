@@ -90,6 +90,6 @@ class GradeChartGenerator
         );
 
         /* Build the PNG file and send it to the web browser */
-        $myPicture->Stroke();
+        $myPicture->render($this->fileName);
     }
 }
