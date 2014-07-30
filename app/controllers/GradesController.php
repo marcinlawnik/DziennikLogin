@@ -9,6 +9,9 @@ class GradesController extends \BaseController {
         //$grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
         $snapshot = User::find(Sentry::getUser()->id)->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
         $grades = Snapshot::find($snapshot->id)->grades()->get();
+        if ($grades->isEmpty()) {
+            return Redirect::to('dashboard/index')->with('message', 'Nie posiadasz jeszcze żadnych ocen!');
+        }
         $subjects = array();
         $subjectsIds = [];
         foreach ($grades as $grade) {
