@@ -75,7 +75,7 @@ Route::filter('admin', function () {
 */
 
 Route::filter('csrf', function () {
-    if (Session::token() != Input::get('_token')) {
+    if (csrf_token() != Input::get('_token')) {
         throw new Illuminate\Session\TokenMismatchException();
     }
 });
