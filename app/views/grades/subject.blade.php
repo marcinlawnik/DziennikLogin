@@ -17,7 +17,17 @@
 <div class="row">
 <div class="col-sm-12 col-md-12">
     <div class="well">
-        <h1>{{ $subject }}, średnia {{ $average}}</h1>
+    <div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-info dropdown-toggle" style="margin-right: 5px;" align="right" data-toggle="dropdown">
+                Wykres <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>{{ HTML::image(route('barchart').'/'.$subject->id, '', ['style' => 'margin:5px;']) }}</li>
+            </ul>
+        </div>
+        <h1 style="display: inline-block;">{{ ucwords($subject->name) }}, średnia {{ $average }}</h1>
+
         <table class="table table-striped" id="table_grades">
             <thead>
             <tr>

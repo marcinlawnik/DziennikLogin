@@ -78,7 +78,7 @@ Route::group(array('before' => 'auth'), function () {
 //Charts routes
 
 Route::group(['prefix' => 'charts', 'before' => 'auth'], function () {
-    Route::get('grades/subjects/{id?}', function ($id = null) {
+    Route::get('grades/subjects/{id?}', ['as' => 'barchart', function ($id = null) {
         $user = User::find(Sentry::getUser()->id);
         $snapshot = $user->snapshots()->orderBy('created_at', 'DESC')->first();
         if (is_null($id)) {
@@ -112,11 +112,11 @@ Route::group(['prefix' => 'charts', 'before' => 'auth'], function () {
         }
 
         $chartGenerator = new GradeChartGenerator();
-        $chartGenerator->fileName = storage_path('charts/'.$user->id.'.png');
+        $chartGenerator->fileName = storage_path('charts/'.md5($user->id.$id).'.png');
         $chartGenerator->generateGradeBarChart($gradeArray);
 
         return Response::make(File::get($chartGenerator->fileName), 200, ['content-type' => 'image/png']);
-    });
+    }]);
 });
 
 
