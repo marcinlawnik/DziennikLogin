@@ -1,26 +1,32 @@
 <?php
 
-class DashboardController extends \BaseController {
-
-	/**
+class DashboardController extends \BaseController
+{
+    /**
 	 * Display main page of dashboard
 	 *
 	 * @return View
 	 */
-	public function getIndex()
-	{
+    public function getIndex()
+    {
+        $user = User::find(Sentry::getUser()->id);
 
-        $grades = Grade::where('user_id', '=', Sentry::getUser()->id)->get();
+        $snapshot = $user->snapshots()->orderBy('created_at', 'DESC')->first();
 
-        if($grades->isEmpty() === true){
-            Session::flash('message', 'Nie posiadasz żadnych ocen! Kliknij '.link_to('jobs/check', 'tutaj').', aby uruchomić proces pobierania.');
+        $grades = $snapshot->grades()->orderBy('date', 'DESC')->take(10)->get();
+
+        if ($grades->isEmpty() === true) {
+            Session::flash(
+                'message',
+                'Nie posiadasz żadnych ocen! Kliknij '.
+                link_to('jobs/check', 'tutaj').
+                ', aby uruchomić proces pobierania.'
+            );
         }
 
-        $content = Grade::where('user_id', '=', Sentry::getUser()->id)->orderBy('date', 'DESC')->take(10)->get();
-          
-
+        $content = $grades;
 
         return View::make('dashboard.index')->withContent($content);
 
-	}
+    }
 }
