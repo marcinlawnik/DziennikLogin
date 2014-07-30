@@ -147,7 +147,7 @@ class SubjectsTableSeeder extends Seeder {
         );
 
 
-        foreach($subjects as $subject){
+        foreach ($subjects as $subject) {
             Subject::create($subject);
         }
 
