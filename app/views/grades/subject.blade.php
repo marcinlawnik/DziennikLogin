@@ -27,7 +27,9 @@
             </ul>
         </div>
         <h1 style="display: inline-block;">{{ ucwords($subject->name) }}, średnia {{ $average }}</h1>
-
+        <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+            <span class="glyphicon glyphicon-flash"></span>Tabelę można sortować klikając na nagłówki, np. Ocena, Waga
+        </p>
         <table class="table table-striped" id="table_grades">
             <thead>
             <tr>
@@ -57,9 +59,6 @@
                 <td><span>{{ $value->abbreviation }}</span></td>
                 <td><span>{{ $value->date }}</span></td>
                 <td><span>{{ $value->subject->name  }}</span></td>
-                <td>
-                    <span><a class="btn btn-small btn-success" href="{{ URL::to('grades/show/' . $value->id) }}">Szczegóły</a>
-                </td>
             </tr>
             @endforeach
             </tbody>

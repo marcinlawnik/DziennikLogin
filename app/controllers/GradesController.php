@@ -46,25 +46,4 @@ class GradesController extends \BaseController {
         }
 
     }
-
-    public function getShow($id)
-    {
-        // Show detailed data about chosen grade
-        $validator = Validator::make(
-            array('id' => $id),
-            array('id' => 'required|numeric')
-        );
-        if ($validator->passes()) {
-            $grade = User::find(Sentry::getUser()->id)->grades()->where('id', '=', $id)->first();
-            if ($grade == '') {
-                return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
-            }
-            return View::make('grades.show')->withGrade($grade);
-        } else {
-            return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
-        }
-
-
-    }
-
 }
