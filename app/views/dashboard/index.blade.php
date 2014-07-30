@@ -34,9 +34,6 @@
                 <td><span>{{ $value->abbreviation }}</span></td>
                 <td><span>{{ $value->date }}</span></td>
                 <td><span>{{ $value->subject->name  }}</span></td>
-                <td>
-                    <span><a class="btn btn-small btn-success" href="{{ URL::to('grades/show/' . $value->id) }}">Szczegóły</a>
-                </td>
             </tr>
             @endforeach
             </tbody>
