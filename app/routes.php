@@ -78,10 +78,14 @@ Route::group(array('before' => 'auth'), function () {
 //Charts routes
 
 Route::group(['prefix' => 'charts', 'before' => 'auth'], function () {
-    Route::get('grades', function () {
+    Route::get('grades/subjects/{id?}', function ($id = null) {
         $user = User::find(Sentry::getUser()->id);
         $snapshot = $user->snapshots()->orderBy('created_at', 'DESC')->first();
-        $grades = $snapshot->grades;
+        if (is_null($id)) {
+            $grades = $snapshot->grades;
+        } else {
+            $grades = $snapshot->grades()->where('subject_id', '=', $id)->get();
+        }
 
         $gradeArrayTemplate = [
             '1.00' => 0,

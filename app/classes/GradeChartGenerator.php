@@ -59,7 +59,7 @@ class GradeChartGenerator
         /* Choose a nice font */
         $fontPath = storage_path('fonts/pf_arma_five.ttf');
         $myPicture->setFontProperties(array("FontName" => "$fontPath", "FontSize" => 11));
-        $myPicture->setShadow(true, array("X" => 1, "Y" => 1, "R" => 0, "G" => 0, "B" => 0, "Alpha" => 10));
+        //$myPicture->setShadow(true, array("X" => 1, "Y" => 1, "R" => 0, "G" => 0, "B" => 0, "Alpha" => 10));
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale(array('Mode' => SCALE_MODE_START0));
         /* Create the per bar palette */ //as per http://ideone.com/vWSh6o nope
