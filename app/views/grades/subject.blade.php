@@ -1,6 +1,6 @@
 @include('dashboard.header')
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="//cdn.jsdelivr.net/tablesorter/2.16.3/js/jquery.tablesorter.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/tablesorter/2.16.3/js/jquery.tablesorter.min.js"></script>
 
 @include('includes.messages')
 
