@@ -139,5 +139,4 @@ class GradesDemoSeeder extends Seeder {
 
 
     }
-
 }
