@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0f4261af7b1f75a9c06aef9824899c02",
+    "hash": "798e74ac80b29283fb76b3e1306bee59",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -569,6 +569,34 @@
                 "restful"
             ],
             "time": "2014-06-27 13:33:30"
+        },
+        {
+            "name": "dmelo/pchart",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmelo/pChart.git",
+                "reference": "9ca8849ffbd3810e6be204e59274a07d149e7bcb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmelo/pChart/zipball/9ca8849ffbd3810e6be204e59274a07d149e7bcb",
+                "reference": "9ca8849ffbd3810e6be204e59274a07d149e7bcb",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "./library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "library/"
+            ],
+            "description": "pChart is a PHP library that will help you to create anti-aliased charts or pictures directly from your web server. You can then display the result in the client browser, sent it by mail or insert it into PDFs. pChart provide object oriented coding syntax and is fully in line with the new web standards allowing you to enhance your web2.0 applications.",
+            "homepage": "http://www.pchart.net/",
+            "time": "2014-07-04 19:00:57"
         },
         {
             "name": "doctrine/annotations",
@@ -1392,6 +1420,59 @@
                 "logviewer"
             ],
             "time": "2014-06-04 09:14:11"
+        },
+        {
+            "name": "knplabs/packagist-api",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/packagist-api.git",
+                "reference": "5d46003cfb1aca37efc84e8a0f1e8ba276a8245e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/packagist-api/zipball/5d46003cfb1aca37efc84e8a0f1e8ba276a8245e",
+                "reference": "5d46003cfb1aca37efc84e8a0f1e8ba276a8245e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "~1.0",
+                "guzzle/http": "~3.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpspec/php-diff": "*@dev",
+                "phpspec/phpspec2": "1.0.*@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Packagist\\Api\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "Packagist API client.",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "api",
+                "composer",
+                "packagist"
+            ],
+            "time": "2013-11-22 09:55:31"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -3520,6 +3601,54 @@
             "description": "Symfony Translation Component",
             "homepage": "http://symfony.com",
             "time": "2014-07-15 14:22:44"
+        },
+        {
+            "name": "terion/package-installer",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/terion-name/package-installer.git",
+                "reference": "7ab27e46bac9a3495529eca190178ae031af150b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/terion-name/package-installer/zipball/7ab27e46bac9a3495529eca190178ae031af150b",
+                "reference": "7ab27e46bac9a3495529eca190178ae031af150b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "4.2.*",
+                "illuminate/console": "4.2.*",
+                "illuminate/filesystem": "4.2.*",
+                "illuminate/support": "4.2.*",
+                "knplabs/packagist-api": "1.1",
+                "nesbot/carbon": "1.*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Terion\\PackageInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Volodymyr Terion Kornilov",
+                    "email": "mail@terion.name"
+                }
+            ],
+            "description": "Automatic package installer for Laravel 4",
+            "keywords": [
+                "cli",
+                "laravel",
+                "package",
+                "tool"
+            ],
+            "time": "2014-07-26 10:14:58"
         },
         {
             "name": "way/generators",

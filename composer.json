@@ -17,7 +17,9 @@
         "doctrine/dbal": "v2.4.2",
         "cartalyst/sentry": "2.1.*",
         "dingo/api": "0.*",
-        "lucadegasperi/oauth2-server-laravel": "1.0.*"
+        "lucadegasperi/oauth2-server-laravel": "1.0.*",
+        "terion/package-installer": "~1",
+        "dmelo/pchart": "2.1.4"
     },
     "require-dev": {
         "phpmd/phpmd": "2.0.*",

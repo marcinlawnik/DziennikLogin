@@ -144,6 +144,8 @@ return array(
         'Cartalyst\Sentry\SentryServiceProvider',
         //Oauth2
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
+        //Package installer
+        'Terion\PackageInstaller\PackageInstallerServiceProvider',
     ),
 
     /*
