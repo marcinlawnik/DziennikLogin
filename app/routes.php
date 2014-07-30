@@ -36,8 +36,6 @@ Route::controller('password', 'RemindersController');
 Route::group(array('before' => 'auth'), function () {
     Route::controller('grades', 'GradesController');
 
-    Route::controller('subjects', 'SubjectsController');
-
     Route::controller('dashboard', 'DashboardController');
 
     Route::controller('edit', 'EditController');
