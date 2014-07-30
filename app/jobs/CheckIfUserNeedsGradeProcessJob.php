@@ -3,7 +3,8 @@
 class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
 {
 
-    public function fire($job, $data){
+    public function fire($job, $data)
+    {
         $start_time = microtime(true);
         Log::debug('Job started_CheckIfUserNeedsGradeProcessWorker', array('time' => $start_time));
         $request = $this->createRequest();
@@ -11,8 +12,13 @@ class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
         $table = $this->getGradeTable($request);
         $this->doLogout($request);
         $user = User::find($data['user_id']);
-        if($user->grade_table_hash != md5($table)){
-            Log::debug('User grade page status updated', array('old_hash' => $user->grade_table_hash, 'hash' => md5($table)));
+        if ($user->grade_table_hash != md5($table)) {
+            Log::debug(
+                'User grade page status updated',
+                [
+                    'old_hash' => $user->grade_table_hash,
+                    'hash' => md5($table)]
+            );
             $user->grade_table_hash = md5($table);
             $user->is_changed = 1;
             $user->save();
@@ -24,9 +30,8 @@ class CheckIfUserNeedsGradeProcessWorker extends GradeProcessWorker
             Log::debug('User grade page status not changed', array('user_id' => $user->id, 'hash' => md5($table)));
         }
 
-        Log::debug('Job successful', array('time' => microtime(true), 'execution_time' => microtime(true) - $start_time));
+        Log::debug('Job successful', ['time' => microtime(true), 'execution_time' => microtime(true) - $start_time]);
         $job->delete();
         Log::debug('Job deleted', array('time' => microtime(true)));
     }
-
 }

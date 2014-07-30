@@ -2,9 +2,10 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Cartalyst\Sentry\Users\Eloquent\User as SentryUser;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
-
+class User extends SentryUser implements UserInterface, RemindableInterface
+{
     public static $rules = array(
         'email'=>'required|email|unique:users',
         'password'=>'required|alpha_num|between:8,32|confirmed',
@@ -14,19 +15,38 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'registerpassword_confirmation' => 'required'
     );
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The Eloquent group model.
+     *
+     * @var string
+     */
+    protected static $groupModel = 'UserGroup';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password','registerpassword');
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = array('password','registerpassword');
+
+
+    /**
+     * Returns the relationship between users and groups.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(static::$groupModel, static::$userGroupsPivot, 'user_id', 'group_id');
+    }
+
 
     public function grades()
     {
@@ -48,65 +68,66 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->hasMany('SnapshotChange');
     }
 
-	/**
-	 * Get the unique identifier for the user.
-	 *
-	 * @return mixed
-	 */
-	public function getAuthIdentifier()
-	{
-		return $this->getKey();
-	}
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();
+    }
 
-	/**
-	 * Get the password for the user.
-	 *
-	 * @return string
-	 */
-	public function getAuthPassword()
-	{
-		return $this->password;
-	}
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 
-	/**
-	 * Get the token value for the "remember me" session.
-	 *
-	 * @return string
-	 */
-	public function getRememberToken()
-	{
-		return $this->remember_token;
-	}
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->persist_code;
+    }
 
-	/**
-	 * Set the token value for the "remember me" session.
-	 *
-	 * @param  string  $value
-	 * @return void
-	 */
-	public function setRememberToken($value)
-	{
-		$this->remember_token = $value;
-	}
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        $persistCode = $value ?: $this->getRandomString();
 
-	/**
-	 * Get the column name for the "remember me" token.
-	 *
-	 * @return string
-	 */
-	public function getRememberTokenName()
-	{
-		return 'remember_token';
-	}
+        $this->persist_code = $persistCode;
+    }
 
-	/**
-	 * Get the e-mail address where password reminders are sent.
-	 *
-	 * @return string
-	 */
-	public function getReminderEmail()
-	{
-		return $this->email;
-	}
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return 'persist_code';
+    }
 
+    /**
+     * Get the e-mail address where password reminders are sent.
+     *
+     * @return string
+     */
+    public function getReminderEmail()
+    {
+        return $this->email;
+    }
 }

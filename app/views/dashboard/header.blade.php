@@ -68,7 +68,7 @@
                     @if (!in_array($grade->subject_id, $subjects))
                     {{-- Hacky assign variable --}}
                     @if ($subjects[]=$grade->subject_id) @endif
-                    <li><a href="{{ URL::to('/grades/subject/'."$grade->subject_id") }}">{{Subject::find($grade->subject_id)->name}}</a></li>
+                    <li><a href="{{ URL::to('/grades/subject/'."$grade->subject_id") }}">{{ucfirst(Subject::find($grade->subject_id)->name)}}</a></li>
                     @endif
 
                     @endforeach

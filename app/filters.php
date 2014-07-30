@@ -11,15 +11,12 @@
 |
 */
 
-App::before(function($request)
-{
-	//
+App::before(function ($request) {
+    //
 });
 
-
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -33,15 +30,12 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if ( ! Sentry::check()) return Redirect::guest('users/login');
+Route::filter('auth', function () {
+    if ( ! Sentry::check()) return Redirect::guest('users/login');
 });
 
-
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
 /*
@@ -55,11 +49,9 @@ Route::filter('auth.basic', function()
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Sentry::check()) return Redirect::to('/');
+Route::filter('guest', function () {
+    if (Sentry::check()) return Redirect::to('/');
 });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -67,9 +59,9 @@ Route::filter('guest', function()
 |--------------------------------------------------------------------------
 */
 
-Route::filter('admin', function()
-{
-    if (! Sentry::getUser()->isSuperUser()) return Redirect::to('dashboard/index');
+Route::filter('admin', function () {
+    dd(Sentry::check());
+    if (Sentry::check() || ! Sentry::getUser()->isSuperUser()) return Redirect::to('dashboard/index');
 });
 /*
 |--------------------------------------------------------------------------
@@ -82,10 +74,23 @@ Route::filter('admin', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() != Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException();
+    }
+});
+
+/*
+|--------------------------------------------------------------------------
+| Maintenance per-route Filter
+|--------------------------------------------------------------------------
+*/
+
+Route::filter('maintenance', function () {
+    if (in_array(Route::current()->getPrefix(), Config::get('maintenance.prefixes'))) {
+        return Response::view('maintenance', array() , 503);
+    }
+    if (in_array(Route::current()->getPath(), Config::get('maintenance.routes'))) {
+        return Response::view('maintenance', array() , 503);
+    }
 });

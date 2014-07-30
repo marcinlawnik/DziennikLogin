@@ -20,8 +20,6 @@ class UsersController extends BaseController {
 
         if ($validator->passes()) {
 
-            //TODO: Add email activation
-
             $user = Sentry::register([
                 'email' => Input::get('email'),
                 'password' => Input::get('password'),

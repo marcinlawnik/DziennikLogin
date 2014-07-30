@@ -7,23 +7,20 @@ class GradesController extends \BaseController {
     {
         // Show all grades belonging to user
         //$grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
-        $snapshot = Sentry::getUser()->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
-        $grades = Snapshot::find($snapshot->id)->grades();
+        $snapshot = User::find(Sentry::getUser()->id)->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
+        $grades = Snapshot::find($snapshot->id)->grades()->get();
         $subjects = array();
-
-        foreach($grades as $grade) {
-            if(!in_array($grade->subject_id, $subjects)) {
-                $subjects[]=$grade->subject_id;
+        $subjectsIds = [];
+        foreach ($grades as $grade) {
+            if (!in_array($grade->subject_id, $subjectsIds)) {
+                $subjectsIds[]=$grade->subject_id;
+                $subjects[]=Subject::find($grade->subject_id);
             }
         }
 
-        $averages = array();
-
-        foreach($subjects as $subject) {
-            $averages[Subject::find($subject)->name]=Subject::calculateAverage($subject);
-        }
-
-        return View::make('grades.index')->withGrades($grades)->withAverages($averages);
+        return View::make('grades.index')
+            ->withGrades($grades)
+            ->withSubjects($subjects);
 
     }
 
@@ -39,37 +36,14 @@ class GradesController extends \BaseController {
             ->where('snapshot_id', '=', $snapshot->id)
             ->get();
 
-        if($grades->isEmpty()){
+        if ($grades->isEmpty()) {
             return Redirect::to('grades/index');
         } else {
             return View::make('grades.subject')
                 ->withGrades($grades)
-                ->withSubject(Subject::find($id)->name)
-                ->withAverage(Subject::calculateAverage($id));
+                ->withSubject(Subject::find($id))
+                ->withAverage(GradeCalculator::calculateAverage($grades));
         }
 
     }
-
-    public function getShow($id)
-    {
-        // Show detailed data about chosen grade
-        // TODO:check if grade belongs to user
-        $validator = Validator::make(
-            array('id' => $id),
-            array('id' => 'required|numeric')
-        );
-        if($validator->passes())
-        {
-            $grade = User::find(Sentry::getUser()->id)->grades()->where('id', '=', $id)->first();
-            if($grade == ''){
-                return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
-            }
-            return View::make('grades.show')->withGrade($grade);
-        } else {
-            return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
-        }
-
-
-    }
-
 }

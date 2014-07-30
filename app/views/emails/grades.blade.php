@@ -5,21 +5,38 @@
 <body>
 <p>
 Witaj,<br>
-
-Poniżej znajduja się twoje oceny.<br>
-Oceny uszeregowane są od najwyższej do najniższej.
 </p>
+@if (count($data['added']) > 0)
 <p>
-@foreach($grades as $grade)
+Poniżej znajduja się twoje NOWE dodane do dziennika oceny.<br>
+@foreach($data['added'] as $grade)
 Data: {{ $grade->date  }}<br>
 Ocena: {{ $grade->value  }}<br>
 Waga: {{ $grade->weight  }}<br>
 Przedmiot: {{ $grade->subject->name }}<br>
-Trymestr: {{ $grade->trimester  }}<br>
-Tytuł: {{ $grade->title  }}<br><br>
+Tytuł: {{ $grade->abbreviation }} - {{ $grade->title  }}<br><br>
 
 @endforeach
 </p>
+@endif
+@if (count($data['deleted']) > 0)
+<p>
+Poniższe oceny zostały USUNIĘTE z dziennika:
+@foreach($data['deleted'] as $grade)
+Data: {{ $grade->date  }}<br>
+Ocena: {{ $grade->value  }}<br>
+Waga: {{ $grade->weight  }}<br>
+Przedmiot: {{ $grade->subject->name }}<br>
+Tytuł: {{ $grade->abbreviation }} - {{ $grade->title  }}<br><br>
+
+@endforeach
+</p>
+@endif
+@if(count($data['added']) === 0 && count($data['deleted']) === 0)
+<p>
+Brak nowych zmian.
+</p>
+@endif
 <p>
 Z poważaniem,<br>
 DziennikLogin

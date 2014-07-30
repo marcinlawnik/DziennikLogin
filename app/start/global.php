@@ -63,7 +63,6 @@ App::error(function(Exception $exception, $code)
 |--------------------------------------------------------------------------
 |
 | Here we are handling 404 errors. Currently redirecting to index.
-| TODO:Crete a custom 404 error page
 |
 */
 

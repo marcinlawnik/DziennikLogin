@@ -1,65 +1,73 @@
 {
-	"name": "marcinlawnik/DziennikLogin",
-	"description": "An app that notifies about new grades in EKOS register",
-	"license": "unlicense",
-	"require": {
-		"laravel/framework": "4.2.*",
+    "name": "marcinlawnik/DziennikLogin",
+    "description": "An app that notifies about new grades in EKOS register",
+    "license": "unlicense",
+    "require": {
+        "laravel/framework": "4.2.*",
         "codesleeve/asset-pipeline": "dev-master",
         "way/generators": "2.*",
         "jyggen/curl": "v3.0.1",
         "yangqi/htmldom": "dev-master",
-		"barryvdh/laravel-ide-helper": "1.*",
+        "barryvdh/laravel-ide-helper": "1.*",
         "schickling/backup": "dev-master",
-		"pda/pheanstalk": "dev-master",
+        "pda/pheanstalk": "dev-master",
         "kmd/logviewer": "1.2.*",
         "liebig/cron": "dev-master",
         "xethron/migrations-generator": "dev-master",
         "doctrine/dbal": "v2.4.2",
-        "cartalyst/sentry": "2.1.*"
+        "cartalyst/sentry": "2.1.*",
+        "dingo/api": "0.*",
+        "lucadegasperi/oauth2-server-laravel": "1.0.*",
+        "terion/package-installer": "~1",
+        "dmelo/pchart": "2.1.4"
     },
     "require-dev": {
+        "phpmd/phpmd": "2.0.*",
+        "fabpot/php-cs-fixer": "@stable"
     },
-	"autoload": {
-		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php",
+    "autoload": {
+        "classmap": [
+            "app/commands",
+            "app/controllers",
+            "app/models",
+            "app/database/migrations",
+            "app/database/seeds",
+            "app/tests/TestCase.php",
             "app/jobs",
             "app/classes",
-            "app/api"
-		]
-	},
-	"scripts": {
+            "app/jobs/notify",
+            "app/transformers"
+        ]
+    },
+    "scripts": {
         "pre-install-cmd": [
-            "php artisan down",
-            "git pull origin master"
+            "php artisan down"
         ],
-		"post-install-cmd": [
+        "post-install-cmd": [
+            "php artisan migrate --package=\"lucadegasperi/oauth2-server-laravel\"",
             "php artisan asset:publish kmd/logviewer",
             "php artisan ide-helper:generate",
             "php artisan clear-compiled",
-			"php artisan optimize",
+            "php artisan optimize",
             "php artisan up"
-		],
+        ],
         "pre-update-cmd": [
             "php artisan down"
         ],
-		"post-update-cmd": [
+        "post-update-cmd": [
+            "php artisan migrate --package=\"lucadegasperi/oauth2-server-laravel\"",
             "php artisan ide-helper:generate",
             "php artisan asset:publish kmd/logviewer",
             "php artisan clear-compiled",
-			"php artisan optimize",
+            "php artisan optimize",
             "php artisan up"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "stable"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "stable"
 }
