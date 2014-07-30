@@ -41,12 +41,12 @@
     },
     "scripts": {
         "pre-install-cmd": [
-            "php artisan down"
+            "php artisan down",
+            "git pull origin master"
         ],
         "post-install-cmd": [
             "php artisan migrate --package=\"lucadegasperi/oauth2-server-laravel\"",
             "php artisan asset:publish kmd/logviewer",
-            "php artisan ide-helper:generate",
             "php artisan clear-compiled",
             "php artisan optimize",
             "php artisan up"
