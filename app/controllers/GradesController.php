@@ -42,7 +42,7 @@ class GradesController extends \BaseController {
             return View::make('grades.subject')
                 ->withGrades($grades)
                 ->withSubject(Subject::find($id)->name)
-                ->withAverage(Subject::calculateAverage($id));
+                ->withAverage(GradeCalculator::calculateAverage($grades));
         }
 
     }
