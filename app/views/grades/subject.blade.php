@@ -15,11 +15,15 @@
 
 <div class="container">
 <div class="row">
+    <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+        <span class="glyphicon glyphicon-flash"></span>Możesz wyświetlić wykres wszystkich ocen klikając pomarańczowy przycisk Wykres.
+    </p>
 <div class="col-sm-12 col-md-12">
+
     <div class="well">
     <div>
         <div class="btn-group">
-            <button type="button" class="btn btn-info dropdown-toggle" style="margin-right: 5px;" align="right" data-toggle="dropdown">
+            <button type="button" class="btn btn-warning btn-sm dropdown-toggle" style="margin-right: 5px;" align="right" data-toggle="dropdown">
                 Wykres <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
