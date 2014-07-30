@@ -115,7 +115,6 @@ class ExecuteGradeProcessJob
         //grade numerical value (the number from cell)
         $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT);
         //See if it has +, add a 0,5 then
-        //TODO: fix if some teacher puts plus in description
         if (strpos($cell->plaintext, '+') !== false) {
             $gradeValue = $gradeValue[0] + 0.5;
         }
@@ -247,7 +246,6 @@ class ExecuteGradeProcessJob
         $this->userObject->is_changed = 0;
         $this->userObject->save();
         //Push new email job for user
-        //TODO: Options to get email whenever they want
         Log::debug('Pushing Snapshot comparison job for user', array('user_id' => $data['user_id']));
         //$time = Carbon::now()->addMinutes(5);
         Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'grade_process');

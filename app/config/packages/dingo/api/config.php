@@ -156,7 +156,6 @@ return [
 
     'formats' => [
 
-        //TODO: Customize that format
         'json' => new Dingo\Api\Http\ResponseFormat\JsonResponseFormat
 
     ]

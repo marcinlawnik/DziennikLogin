@@ -169,7 +169,6 @@ Route::api(['version' => 'v1', 'protected' => true, 'before' => 'maintenance'], 
             );
     });
 
-    //TODO:Add some hash validation, like in subjects
     Route::get('snapshots/{hash}', function ($hash) {
 
         $snapshot = User::find(ResourceServer::getOwnerId())->snapshots()->where('hash', '=', $hash)->get();

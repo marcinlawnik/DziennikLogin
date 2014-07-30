@@ -11,8 +11,8 @@ class GradesController extends \BaseController {
         $grades = Snapshot::find($snapshot->id)->grades()->get();
         $subjects = array();
         $subjectsIds = [];
-        foreach($grades as $grade) {
-            if(!in_array($grade->subject_id, $subjectsIds)) {
+        foreach ($grades as $grade) {
+            if (!in_array($grade->subject_id, $subjectsIds)) {
                 $subjectsIds[]=$grade->subject_id;
                 $subjects[]=Subject::find($grade->subject_id);
             }
@@ -36,7 +36,7 @@ class GradesController extends \BaseController {
             ->where('snapshot_id', '=', $snapshot->id)
             ->get();
 
-        if($grades->isEmpty()){
+        if ($grades->isEmpty()) {
             return Redirect::to('grades/index');
         } else {
             return View::make('grades.subject')
@@ -50,15 +50,13 @@ class GradesController extends \BaseController {
     public function getShow($id)
     {
         // Show detailed data about chosen grade
-        // TODO:check if grade belongs to user
         $validator = Validator::make(
             array('id' => $id),
             array('id' => 'required|numeric')
         );
-        if($validator->passes())
-        {
+        if ($validator->passes()) {
             $grade = User::find(Sentry::getUser()->id)->grades()->where('id', '=', $id)->first();
-            if($grade == ''){
+            if ($grade == '') {
                 return Redirect::to('grades')->with('message', Lang::get('messages.gradenotfound'));
             }
             return View::make('grades.show')->withGrade($grade);
