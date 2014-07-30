@@ -9,7 +9,10 @@
 <div class="container">
     <div class="row">
         <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
-            <span class="glyphicon glyphicon-flash"></span>Tabelę można filtrować klikając na Filtruj w prawym górnym rogu, a następnie wpisując szukane dane
+            <span class="glyphicon glyphicon-flash"></span>Tabelę można filtrować klikając na Filtruj w prawym górnym rogu, a następnie wpisując szukane dane.
+        </p>
+        <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+            <span class="glyphicon glyphicon-flash"></span>Możesz wyświetlić wykres wszystkich ocen klikając pomarańczowy przycisk Wykres.
         </p>
         <div class="col-sm-12 col-md-12">
             <div class="well">
@@ -17,7 +20,15 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">Users</h3>
                         <div class="pull-right">
-                            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filtruj</button>
+                            <button class="btn btn-xs btn-default btn-filter"><span class="glyphicon glyphicon-filter"></span> Filtruj</button>
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-xs btn-warning dropdown-toggle" style="margin-right: 5px;" align="right" data-toggle="dropdown">
+                                Wykres <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>{{ HTML::image(route('barchart'), '', ['style' => 'margin:5px;']) }}</li>
+                            </ul>
                         </div>
                     </div>
                     <table class="table table-striped">

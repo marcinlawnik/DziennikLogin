@@ -49,7 +49,7 @@ class GradesDemoSeeder extends Seeder {
             $grades[] = array(
                 'user_id' => 1,
                 'snapshot_id' => 1,
-                'subject_id' => mt_rand(1, 34),
+                'subject_id' => mt_rand(1, 24),
                 'value' => $random_value,
                 'weight' => mt_rand(1, 4),
                 'group' => $random_group,
@@ -114,7 +114,7 @@ class GradesDemoSeeder extends Seeder {
             $grades[] = array(
                 'user_id' => 1,
                 'snapshot_id' => 1,
-                'subject_id' => mt_rand(1, 34),
+                'subject_id' => mt_rand(1, 24),
                 'value' => $random_value,
                 'weight' => mt_rand(1, 4),
                 'group' => $random_group,
