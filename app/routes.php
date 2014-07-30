@@ -83,7 +83,7 @@ Route::group(['prefix' => 'charts', 'before' => 'auth'], function () {
         $snapshot = $user->snapshots()->orderBy('created_at', 'DESC')->first();
         $grades = $snapshot->grades;
 
-        $gradeArray = [
+        $gradeArrayTemplate = [
             '1.00' => 0,
             '1.50' => 0,
             '2.00' => 0,
@@ -97,15 +97,21 @@ Route::group(['prefix' => 'charts', 'before' => 'auth'], function () {
             '6.00' => 0,
         ];
 
+        $gradeArray = $gradeArrayTemplate;
+
         foreach ($grades as $grade) {
             $gradeArray[$grade->value] = $gradeArray[$grade->value] + $grade->weight;
         }
 
+        if ($gradeArrayTemplate === $gradeArray) {
+            return Response::make(File::get(storage_path('charts/empty.png')), 200, ['content-type' => 'image/png']);
+        }
+
         $chartGenerator = new GradeChartGenerator();
-        $chartGenerator->fileName = storage_path('charts/test.png');
+        $chartGenerator->fileName = storage_path('charts/'.$user->id.'.png');
         $chartGenerator->generateGradeBarChart($gradeArray);
 
-        //return Response::download(storage_path('charts/test.png'));
+        return Response::make(File::get($chartGenerator->fileName), 200, ['content-type' => 'image/png']);
     });
 });
 
