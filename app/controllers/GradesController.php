@@ -8,10 +8,10 @@ class GradesController extends \BaseController {
         // Show all grades belonging to user
         //$grades = Grade::with('subject')->where('user_id', '=', Sentry::getUser()->id)->get();
         $snapshot = User::find(Sentry::getUser()->id)->snapshots()->orderBy('created_at', 'DESC')->first(['id']);
-        $grades = Snapshot::find($snapshot->id)->grades()->get();
-        if ($grades->isEmpty()) {
+        if (is_null($snapshot)) {
             return Redirect::to('dashboard/index')->with('message', 'Nie posiadasz jeszcze żadnych ocen!');
         }
+        $grades = Snapshot::find($snapshot->id)->grades()->get();
         $subjects = array();
         $subjectsIds = [];
         foreach ($grades as $grade) {
