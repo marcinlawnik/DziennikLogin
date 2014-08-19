@@ -1,22 +1,24 @@
 <?php
 
-class UsersController extends BaseController {
-
-    public function __construct() {
+class UsersController extends BaseController
+{
+    public function __construct()
+    {
         $this->beforeFilter('csrf', array('on'=>'post'));
     }
 
-    public function getRegister() {
+    public function getRegister()
+    {
         return View::make('users.register');
     }
 
-    public function postCreate() {
+    public function postCreate()
+    {
         $validator = Validator::make(Input::all(), User::$rules);
 
 //        $registerPasswordChecker = new GradeProcessWorker();
 //
 //        $registerPasswordCheckResult = $registerPasswordChecker->checkCredentials(Input::get('registerusername'), Input::get('registerpassword'));
-
 
         if ($validator->passes()) {
 
@@ -28,7 +30,7 @@ class UsersController extends BaseController {
                 'job_is_active' => 1,
                 'job_interval' => 15
             ], true);
-            //if($registerPasswordCheckResult === true){
+            //if ($registerPasswordCheckResult === true) {
 //                $user = new User;
 //                $user->email = ;
 //                $user->password = Hash::make();
@@ -46,64 +48,58 @@ class UsersController extends BaseController {
                 //return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
             //}
         } else {
-            return Redirect::to('users/register')->with('message', 'Wystąpiły błędy:')->withErrors($validator)->withInput();
+            return Redirect::to('users/register')
+                ->with('message', 'Wystąpiły błędy:')
+                ->withErrors($validator)
+                ->withInput();
         }
     }
 
-    public function getLogin() {
-        if (Sentry::check()){
+    public function getLogin()
+    {
+        if (Sentry::check()) {
             return Redirect::action('DashboardController@getIndex')->with('message', 'Już jesteś zalogowany!');
         } else {
             return View::make('users.login');
         }
     }
 
-    public function postSignin() {
-        try
-        {
+    public function postSignin()
+    {
+        try {
             if (Sentry::authenticate(['email'=>Input::get('email'), 'password'=>Input::get('password')])) {
                 Log::debug('User logged in', ['email' => Input::get('email')]);
+
                 return Redirect::action('DashboardController@getIndex')->with('message', 'Zalogowano!');
             } else {
                 Log::debug('User failed to login', ['email' => Input::get('email')]);
             }
-        }
-        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
             return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
-        }
-        catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
             return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
-        }
-        catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
             return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
-        }
-        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
             return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!')->withInput();
-        }
-        catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
-        {
+        } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
             return Redirect::to('users/login')->with('error', 'Konto nie zostało aktywowane!')->withInput();
         }
 
         // The following is only required if the throttling is enabled
-        catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
-        {
+        catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
             return Redirect::to('users/login')->with('error', 'Email i/lub hasło niepoprawne!');
-        }
-        catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
-        {
+        } catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
             return Redirect::to('users/login')->with('error', 'Użytkownik zbanowany!');
         }
 
     }
 
-    public function getLogout() {
-        if(Sentry::check()){
+    public function getLogout()
+    {
+        if (Sentry::check()) {
             Sentry::logout();
+
             return Redirect::to('/')->with('message', 'Wylogowano poprawnie!');
         } else {
             return Redirect::to('users/login')->with('message', 'Zaloguj się!');
