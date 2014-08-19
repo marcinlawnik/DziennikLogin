@@ -99,7 +99,7 @@ class UsersController extends BaseController
     {
         if (Sentry::check()) {
             Sentry::logout();
-
+            Log::debug('User logged out', ['email' => Input::get('email')]);
             return Redirect::to('/')->with('message', 'Wylogowano poprawnie!');
         } else {
             return Redirect::to('users/login')->with('message', 'Zaloguj się!');
