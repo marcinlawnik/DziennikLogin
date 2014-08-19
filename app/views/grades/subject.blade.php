@@ -18,8 +18,10 @@
     <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
         <span class="glyphicon glyphicon-flash"></span>Możesz wyświetlić wykres wszystkich ocen klikając pomarańczowy przycisk Wykres.
     </p>
+    <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+        <span class="glyphicon glyphicon-flash"></span>Tabelę można sortować klikając na nagłówki, np. Ocena, Waga
+    </p>
 <div class="col-sm-12 col-md-12">
-
     <div class="well">
     <div>
         <div class="btn-group">
@@ -31,9 +33,6 @@
             </ul>
         </div>
         <h1 style="display: inline-block;">{{ ucwords($subject->name) }}, średnia {{ $average }}</h1>
-        <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
-            <span class="glyphicon glyphicon-flash"></span>Tabelę można sortować klikając na nagłówki, np. Ocena, Waga
-        </p>
         <table class="table table-striped" id="table_grades">
             <thead>
             <tr>
