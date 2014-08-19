@@ -13,6 +13,10 @@ class DashboardController extends \BaseController
 
         $snapshot = $user->snapshots()->orderBy('created_at', 'DESC')->first();
 
+        if (is_null($snapshot)) {
+            return View::make('dashboard.index');
+        }
+
         $grades = $snapshot->grades()->orderBy('date', 'DESC')->take(10)->get();
 
         if ($grades->isEmpty() === true) {
@@ -24,9 +28,7 @@ class DashboardController extends \BaseController
             );
         }
 
-        $content = $grades;
-
-        return View::make('dashboard.index')->withContent($content);
+        return View::make('dashboard.index')->withContent($grades);
 
     }
 }
