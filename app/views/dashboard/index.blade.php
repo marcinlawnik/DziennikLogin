@@ -25,7 +25,7 @@
             </thead>
 
             <tbody>
-            @if(count($content) >= 1)
+            @if(isset($content) && count($content) >= 1)
                 @foreach($content as $key => $value)
                 <tr>
                     <td><span>{{ $value->value }}</span></td>
