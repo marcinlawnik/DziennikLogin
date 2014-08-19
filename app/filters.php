@@ -60,8 +60,7 @@ Route::filter('guest', function () {
 */
 
 Route::filter('admin', function () {
-    dd(Sentry::check());
-    if (Sentry::check() || ! Sentry::getUser()->isSuperUser()) {
+    if (! Sentry::check() || ! Sentry::getUser()->isSuperUser()) {
         return Redirect::to('dashboard/index');
     }
 });
