@@ -2,7 +2,7 @@
 
 class Snapshot extends \Eloquent
 {
-    protected $fillable = [];
+    protected $guarded = ['id'];
 
     public function user()
     {

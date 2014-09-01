@@ -13,7 +13,7 @@ class DemoSeeder extends Seeder {
 
         $this->call('UsersDemoSeeder');
         $this->call('GroupsDemoSeeder');
-        $this->call('SubjectsTableSeeder');
+        $this->call('SubjectsDemoSeeder');
         $this->call('OAuthDemoSeeder');
         $this->call('GradesDemoSeeder');
 

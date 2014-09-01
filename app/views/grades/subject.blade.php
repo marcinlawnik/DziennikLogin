@@ -16,7 +16,7 @@
 <div class="container">
 <div class="row">
     <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
-        <span class="glyphicon glyphicon-flash"></span>Możesz wyświetlić wykres wszystkich ocen klikając pomarańczowy przycisk Wykres.
+        <span class="glyphicon glyphicon-flash"></span>Możesz wyświetlić wykres wszystkich ocen z tego przedmiotu klikając pomarańczowy przycisk Wykres.
     </p>
     <p class="alert alert-success col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
         <span class="glyphicon glyphicon-flash"></span>Tabelę można sortować klikając na nagłówki, np. Ocena, Waga

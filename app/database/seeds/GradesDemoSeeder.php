@@ -1,143 +1,162 @@
 <?php
 
-class GradesDemoSeeder extends Seeder {
+class GradesDemoSeeder extends Seeder
+{
 
-    public function run()
+
+    public $grades = [];
+
+    public $trimester;
+
+    public $snapshotId;
+
+    public $userId;
+
+    public $values = array(
+    '1',
+    '1.5',
+    '2',
+    '2.5',
+    '3',
+    '3.5',
+    '4',
+    '4.5',
+    '5',
+    '5.5',
+    '6',
+    );
+
+    public $groupsAbbreviations = array(
+    'kartkówki' => 'KKE',
+    'sprawdziany' => 'SPR',
+    'egzaminy próbne' => 'EPR',
+    'kartkówki elementarne' => 'KKE',
+    'dłuższe odpowiedzi ustne' => 'DOU',
+    'skomplikowane zadanie domowe' => 'SZD',
+    'prace klasowe' => 'PK',
+    'Poprawy prac klasowych' => 'PPK',
+
+    );
+
+    public function addRandomGrades($amount = 50)
     {
-        Snapshot::create(
-            [
-                'hash' => md5('testsnapshot1'),
-                'user_id' => 1,
-                'table_html' => '<html>'
-            ]
-        );
-
-
-        $values = array(
-            '1',
-            '1.5',
-            '2',
-            '2.5',
-            '3',
-            '3.5',
-            '4',
-            '4.5',
-            '5',
-            '5.5',
-            '6',
-        );
-
-        $groups_abbreviations = array(
-            'kartkówki' => 'KKE',
-            'sprawdziany' => 'SPR',
-            'egzaminy próbne' => 'EPR',
-            'kartkówki elementarne' => 'KKE',
-            'dłuższe odpowiedzi ustne' => 'DOU',
-            'skomplikowane zadanie domowe' => 'SZD',
-            'prace klasowe' => 'PK',
-            'Poprawy prac klasowych' => 'PPK',
-
-        );
-        // Seed database with 50 random grades belonging to user_id == 1
-        $i=0;
-        $grades = array();
-        while ($i<=50) {
-            $random_value = $values[array_rand($values)];
-            $random_group = array_rand($groups_abbreviations);
-            $random_abbrev = $groups_abbreviations[$random_group];
-            $random_date = date("Y-m-d", rand(1378159200, 1404684000));
-            $grades[] = array(
-                'user_id' => 1,
-                'snapshot_id' => 1,
+        //Add random grades to array
+        $i=1;
+        while ($i<=$amount) {
+            $randomValue = $this->values[array_rand($this->values)];
+            $randomGroup = array_rand($this->groupsAbbreviations);
+            $randomAbbrev = $this->groupsAbbreviations[$randomGroup];
+            $randomDate = date("Y-m-d", rand(1378159200, 1404684000));
+            $this->grades[] = array(
+                'user_id' => $this->userId,
+                'snapshot_id' => $this->snapshotId,
                 'subject_id' => mt_rand(1, 24),
-                'value' => $random_value,
+                'value' => $randomValue,
                 'weight' => mt_rand(1, 4),
-                'group' => $random_group,
-                'title' => 'ocena z '.$random_abbrev,
-                'date' => $random_date,
-                'abbreviation' => $random_abbrev,
-                'trimester' => 1,
+                'group' => $randomGroup,
+                'title' => 'Ocena z '.$randomAbbrev,
+                'date' => $randomDate,
+                'abbreviation' => $randomAbbrev,
+                'trimester' => $this->trimester,
             );
             $i++;
         }
+    }
 
-        $gradesSnapshot1 = $grades;
-
-        foreach ($gradesSnapshot1 as $grade) {
+    public function putGradesToDatabase()
+    {
+        $this->updateSnapshotId();
+        $this->updateTrimester();
+        foreach ($this->grades as $grade) {
             Grade::create(
                 $grade
             );
         }
+    }
 
-        Snapshot::create(
-            [
-                'hash' => md5('testsnapshot2'),
-                'user_id' => 1,
-                'table_html' => '<html2>'
-            ]
-        );
-
-        // Suppose you need to delete 4 items.
-        $keys = array_rand($grades, 2);
+    public function deleteRandomGrades($amount = 2)
+    {
+        // Suppose you need to delete 2 items.
+        $keys = array_rand($this->grades, $amount);
 
         // Loop through the generated keys
         foreach ($keys as $key) {
-            unset($grades[$key]);
+            unset($this->grades[$key]);
         }
+    }
 
-        $gradesSnapshot2 = [];
-
-        foreach ($grades as $grade) {
-            $grade['snapshot_id'] = 2;
-            $gradesSnapshot2[] = $grade;
+    public function updateSnapshotId()
+    {
+        foreach ($this->grades as $grade) {
+            $grade['snapshot_id'] = $this->snapshotId;
+            $this->grades[] = $grade;
         }
+    }
 
-        foreach ($gradesSnapshot2 as $grade) {
-            Grade::create(
-                $grade
-            );
+    public function updateTrimester()
+    {
+        foreach ($this->grades as $grade) {
+            $grade['trimester'] = $this->trimester;
+            $this->grades[] = $grade;
         }
+    }
 
-        Snapshot::create(
+    public function createSnapshot()
+    {
+        $snapshot = Snapshot::create(
             [
-                'hash' => md5('testsnapshot3'),
-                'user_id' => 1,
-                'table_html' => '<html3>'
+                'hash' => md5('testsnapshot'.$this->snapshotId),
+                'user_id' => $this->userId,
+                'table_html' => '<html'.$this->snapshotId.'>'
             ]
         );
+        $this->snapshotId = $snapshot->id;
+    }
 
-        while ($i<=3) {
-            $random_value = $values[array_rand($values)];
-            $random_group = array_rand($groups_abbreviations);
-            $random_abbrev = $groups_abbreviations[$random_group];
-            $random_date = date("Y-m-d", rand(1378159200, 1404684000));
-            $grades[] = array(
-                'user_id' => 1,
-                'snapshot_id' => 1,
-                'subject_id' => mt_rand(1, 24),
-                'value' => $random_value,
-                'weight' => mt_rand(1, 4),
-                'group' => $random_group,
-                'title' => 'ocena z '.$random_abbrev,
-                'date' => $random_date,
-                'abbreviation' => $random_abbrev,
-                'trimester' => 1,
-            );
-            $i++;
+    public function run()
+    {
+
+        $trimesters = [
+            '1',
+            '1',
+            '2',
+            '2',
+            '2',
+            '3',
+            '3',
+            '3',
+            '3',
+            '3'
+        ];
+
+        $users = [
+            '1',
+            '2'
+        ];
+
+        foreach ($users as $user) {
+            $this->userId = $user;
+            $i=0;
+            while ($i <= 9) {
+                $this->createSnapshot();
+                $this->trimester = $trimesters[$i];
+                if ($i === 0) {
+                    $this->addRandomGrades(50);
+                    $this->putGradesToDatabase();
+                } else {
+                    $rand = mt_rand(0, 100);
+                    if ($rand > 50) {
+                        //add
+                        $this->addRandomGrades();
+                    } else {
+                        //delete
+                        $this->deleteRandomGrades();
+                    }
+                    $this->putGradesToDatabase();
+                }
+
+                $i++;
+            }
         }
-        $gradesSnapshot3 = [];
-
-        foreach ($grades as $grade) {
-            $grade['snapshot_id'] = 3;
-            $gradesSnapshot3[] = $grade;
-        }
-
-        foreach ($gradesSnapshot3 as $grade) {
-            Grade::create(
-                $grade
-            );
-        }
-
-
     }
 }
