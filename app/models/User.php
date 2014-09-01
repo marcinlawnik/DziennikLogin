@@ -12,7 +12,8 @@ class User extends SentryUser implements UserInterface, RemindableInterface
         'password_confirmation'=>'required|alpha_num|between:8,32',
         'registerusername'=>'required|between:2,50|unique:users',
         'registerpassword'=>'required|alpha_num|confirmed|between:2,50',
-        'registerpassword_confirmation' => 'required'
+        'registerpassword_confirmation' => 'required',
+        'betacode' => 'required|alpha_num|between:6,50'
     );
 
     /**
