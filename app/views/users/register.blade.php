@@ -7,13 +7,20 @@
 <div class="container-fluid">
 @include('includes.disclaimer')
 @include('includes.messages')
+
+<p class="alert alert-warning col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+    <span class="glyphicon glyphicon-flash"></span>Jeżeli nie posiadasz kodu do rejestracji, napisz na <a href="mailto://marcin@lawniczak.me">marcin@lawniczak.me</a>
+</p>
+
+@foreach($errors->all() as $error)
+<p class="alert alert-danger col-sm-12" style="margin-left:2%;margin-right:2%; width:96%">
+    <span class="glyphicon glyphicon-warning-sign"></span>{{ $error }}</a>
+</p>
+@endforeach
+
 {{ Form::open(array('url'=>'users/create', 'class'=>'form-signup')) }}
 
-<ul>
-    @foreach($errors->all() as $error)
-    <li>{{ $error }}</li>
-    @endforeach
-</ul>
+
 <div id="legend">
     <legend class="">Rejestracja do bety</legend>
 </div>
@@ -67,6 +74,15 @@
                         <div>
                                 {{ Form::password('registerpassword_confirmation', array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
                             <p class="help-block">Proszę potwierdź hasło do logowania w Dzienniku Elektronicznym szkoły.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Password -->
+                        <label for="betaCode" class="control-label">Podaj kod beta do rejestracji</label>
+                        <div>
+                                {{ Form::text('betacode', null, array('class'=>'form-control input-xlarge', 'placeholder'=>'')) }}
+                            <p class="help-block">Podaj kod do rejestracji, który otrzymałeś/aś.</p>
                         </div>
                     </div>
 

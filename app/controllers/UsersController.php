@@ -16,40 +16,42 @@ class UsersController extends BaseController
     {
         $validator = Validator::make(Input::all(), User::$rules);
 
-//        $registerPasswordChecker = new GradeProcessWorker();
-//
-//        $registerPasswordCheckResult = $registerPasswordChecker->checkCredentials(Input::get('registerusername'), Input::get('registerpassword'));
-
         if ($validator->passes()) {
 
-            $user = Sentry::register([
-                'email' => Input::get('email'),
-                'password' => Input::get('password'),
-                'registerusername' => Input::get('registerusername'),
-                'registerpassword' => Crypt::encrypt(Input::get('registerpassword')),
-                'job_is_active' => 1,
-                'job_interval' => 15
-            ], true);
-            //if ($registerPasswordCheckResult === true) {
-//                $user = new User;
-//                $user->email = ;
-//                $user->password = Hash::make();
-//                $user->registerusername = );
-//                $user->registerpassword = ;
-//                //Setting the defults
-//                $user->job_is_active = 1;
-//                $user->job_interval = 15;
-//                $user->save();
+            if (BetaCode::where('beta_code', '=', Input::get('betacode'))->where('available', '=', true)->first()) {
+
+                $user = Sentry::register([
+                    'email' => Input::get('email'),
+                    'password' => Input::get('password'),
+                    'registerusername' => Input::get('registerusername'),
+                    'registerpassword' => Crypt::encrypt(Input::get('registerpassword')),
+                    'job_is_active' => 1,
+                    'job_interval' => 15
+                ], true);
 
                 Log::info('New user registered', ['user_id' => $user->getId()]);
 
+                //Mark beta code as used
+                $code = BetaCode::where('beta_code', '=', Input::get('betacode'))->first();
+
+                $code->available = 0;
+                $code->activated_at = Carbon::now();
+                $code->user_id = $user->getId();
+
+                $code->save();
+
                 return Redirect::to('users/login')->with('message', 'Zarejestrowano poprawnie!');
-            //} else {
-                //return Redirect::to('users/register')->with('error', 'Dane dostępowe do dziennika nie są poprawne!')->withInput();
-            //}
+
+            } else {
+
+                return Redirect::to('users/register')
+                    ->with('error_bang', 'Kod do bety niepoprawny!')
+                    ->withInput();
+
+            }
+
         } else {
             return Redirect::to('users/register')
-                ->with('message', 'Wystąpiły błędy:')
                 ->withErrors($validator)
                 ->withInput();
         }
