@@ -53,7 +53,7 @@ Route::group(array('before' => 'auth'), function () {
             Queue::push('CompareGradeSnapshotsJob', array(
                 'user_id' => Sentry::getUser()->id,
                 'id_from' => $idFrom,
-                'id_to' => $idTo), 'grade_process');
+                'id_to' => $idTo), 'snapshots');
 
             return Redirect::to('dashboard/index')->with('message', 'Porównanie snapshotów zakolejkowane!');
         });

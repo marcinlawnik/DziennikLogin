@@ -12,7 +12,7 @@ class CompareGradeSnapshotsJob
         $user = User::find($data['user_id']);
 
         //If the parameters are empty
-        if ($data['id_from'] === null && $data['id_to'] === null) {
+        if (!isset($data['id_from']) && !isset($data['id_to'])) {
             //obtain snapshots by querying database
             if ($user->snapshots()->orderBy('created_at', 'DESC')->get()->count() === 0) {
                 throw new Exception('SnapshotTo does not exist');
@@ -67,6 +67,8 @@ class CompareGradeSnapshotsJob
 
             $comparator->compare();
             $comparator->process();
+
+            Queue::push('GradeChangesEmailNotifyJob', array('user_id' => $data['user_id']), 'emails');
 
             Log::debug('Job successful', [
                 'time' => microtime(true),
