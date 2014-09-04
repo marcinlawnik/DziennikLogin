@@ -10,7 +10,7 @@
         "yangqi/htmldom": "dev-master",
         "barryvdh/laravel-ide-helper": "1.*",
         "schickling/backup": "dev-master",
-        "pda/pheanstalk": "dev-master",
+        "pda/pheanstalk": "~2.0",
         "kmd/logviewer": "1.2.*",
         "liebig/cron": "dev-master",
         "xethron/migrations-generator": "dev-master",
