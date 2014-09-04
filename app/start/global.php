@@ -123,7 +123,7 @@ Event::listen('cron.collectJobs', function () {
             $ids = array();
 
             foreach ($users as $user) {
-                Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => $user->id), 'grade');
+                Queue::push('CheckIfUserNeedsGradeProcessJob', array('user_id' => $user->id), 'grade_check');
                 $counter++;
                 $ids[] = $user->id;
             }

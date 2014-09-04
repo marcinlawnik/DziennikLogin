@@ -6,7 +6,7 @@ class SetupSeeder extends Seeder
     {
         Sentry::register([
             'email' => 'admin@admin.pl',
-            'password' => 'test',
+            'password' => 'testtest',
             'registerusername' => 'test',
             'registerpassword' => Crypt::encrypt('test'),
             'job_is_active' => 0,

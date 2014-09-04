@@ -248,7 +248,7 @@ class ExecuteGradeProcessJob
         //Push new email job for user
         Log::debug('Pushing Snapshot comparison job for user', array('user_id' => $data['user_id']));
         //$time = Carbon::now()->addMinutes(5);
-        Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'grade_process');
+        Queue::push('CompareGradeSnapshotsJob', array('user_id' => $data['user_id']), 'snapshots');
         //Some logs
         Log::debug('Job successful', ['time' => microtime(true), 'execution_time' => microtime(true) - $start_time]);
         //Log::info($table);
